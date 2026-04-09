@@ -2,79 +2,74 @@ import { useState, useEffect, useRef } from 'react';
 import Header from './Header';
 import Footer from './Footer';
 
-// ─── Asian Paints T20 World Cup Pre-Match Palette ─────────────────────────────
-// Deep Navy #081120 · Vivid Teal #00C4B4 · Electric Cyan #00E5FF
-// Coral Burst #FF5733 · Amber Gold #FFB800 · Soft White #F0F6FF
-// ─────────────────────────────────────────────────────────────────────────────
-
 const features = [
   {
     icon: (
-      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="22" height="22">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="24" height="24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.6} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
       </svg>
     ),
     title: 'Secure Exam Environment',
     description: 'AI-powered proctoring, tab-switch detection, and browser lockdown ensure exam integrity at every step.',
-    accent: '#00C4B4',
+    accent: '#f97316',
   },
   {
     icon: (
-      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="22" height="22">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="24" height="24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.6} d="M13 10V3L4 14h7v7l9-11h-7z" />
       </svg>
     ),
     title: 'Instant Results',
     description: 'Automatic grading and real-time score calculation provide immediate, actionable feedback to students.',
-    accent: '#FF5733',
+    accent: '#f97316',
   },
   {
     icon: (
-      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="22" height="22">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="24" height="24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.6} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
       </svg>
     ),
     title: 'Deep Analytics',
     description: 'Institutional-level reporting with AI-powered insights into student performance trends and outcomes.',
-    accent: '#FFB800',
+    accent: '#f97316',
   },
   {
     icon: (
-      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="22" height="22">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="24" height="24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.6} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
       </svg>
     ),
     title: 'Smart Question Bank',
     description: 'AI-generated questions from any PDF. Organize by subject, topic, and difficulty level automatically.',
-    accent: '#00E5FF',
+    accent: '#f97316',
   },
   {
     icon: (
-      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="22" height="22">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="24" height="24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.6} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
       </svg>
     ),
     title: 'Flexible Scheduling',
     description: 'Schedule in advance, set custom time windows, and manage multiple concurrent exam sessions effortlessly.',
-    accent: '#00C4B4',
+    accent: '#f97316',
   },
   {
     icon: (
-      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="22" height="22">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="24" height="24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.6} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
       </svg>
     ),
     title: 'Multi-tenant Platform',
     description: 'Support unlimited institutions and organizations from a single, unified, role-based dashboard.',
-    accent: '#FF5733',
+    accent: '#f97316',
   },
 ];
 
 const steps = [
-  { number: '01', title: 'Create Account', description: 'Sign up in seconds. Set your role as student, teacher, or admin.', color: '#00C4B4' },
-  { number: '02', title: 'Build Your Exam', description: 'Create questions, configure AI proctoring and schedule the exam.', color: '#FFB800' },
-  { number: '03', title: 'Invite Students', description: 'Share exam links or import your entire student roster via CSV.', color: '#FF5733' },
-  { number: '04', title: 'Monitor & Analyze', description: 'Watch live attempts and gain deep insights from analytics.', color: '#00E5FF' },
+  { number: '01', title: 'Create Account', description: 'Sign up in seconds. Set your role as student, teacher, or admin.', color: '#f97316' },
+  { number: '02', title: 'Build Your Exam', description: 'Create questions, configure AI proctoring and schedule the exam.', color: '#f97316' },
+  { number: '03', title: 'Invite Students', description: 'Share exam links or import your entire student roster via CSV.', color: '#f97316' },
+  { number: '04', title: 'Monitor & Analyze', description: 'Watch live attempts and gain deep insights from analytics.', color: '#f97316' },
 ];
 
 const testimonials = [
@@ -82,22 +77,22 @@ const testimonials = [
     name: 'Dr. Priya Sharma',
     role: 'Director of Examinations, Delhi University',
     avatar: 'PS',
-    content: 'ExamSaaS transformed our online examination process. The AI proctoring gave us complete confidence in result integrity.',
-    color: '#00C4B4',
+    content: 'ExamSpot transformed our online examination process. The AI proctoring gave us complete confidence in result integrity.',
+    color: '#f97316',
   },
   {
     name: 'Prof. Rajesh Kumar',
     role: 'Head of CS Department, IIT Roorkee',
     avatar: 'RK',
     content: 'The question bank and analytics are exceptional. We now identify student weaknesses and adapt teaching in real time.',
-    color: '#FFB800',
+    color: '#f97316',
   },
   {
     name: 'Anita Desai',
     role: 'Principal, Sunrise Public School',
     avatar: 'AD',
-    content: 'Setting up exams used to take days. With ExamSaaS we launch a full exam in under an hour. Truly a game changer.',
-    color: '#FF5733',
+    content: 'Setting up exams used to take days. With ExamSpot we launch a full exam in under an hour. Truly a game changer.',
+    color: '#f97316',
   },
 ];
 
@@ -139,271 +134,284 @@ export default function Home() {
   }, []);
 
   return (
-    <div style={{ fontFamily: "'Sora', 'DM Sans', sans-serif", background: '#081120', minHeight: '100vh', color: '#fff' }}>
+    <div style={{ fontFamily: "'Inter', sans-serif", color: '#1f2937', display: 'flex', flexDirection: 'column', minHeight: '100vh', position: 'relative' }}>
+      <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundImage: 'url(https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1920&q=80)', backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', zIndex: 0, pointerEvents: 'none' }} />
+      <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(17,24,39,0.85)', zIndex: 0, pointerEvents: 'none' }} />
+      <div style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800;900&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-        @keyframes shimmer { 0%{background-position:-200% center} 100%{background-position:200% center} }
+        @keyframes pulse-glow { 0%,100%{box-shadow:0 0 0 0 rgba(249,115,22,0.4)} 50%{box-shadow:0 0 0 8px rgba(249,115,22,0)} }
         @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
-        @keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
-        @keyframes pulse-glow { 0%,100%{box-shadow:0 0 0 0 rgba(0,196,180,0.4)} 50%{box-shadow:0 0 0 8px rgba(0,196,180,0)} }
-        @keyframes scan { 0%{transform:translateY(-100%)} 100%{transform:translateY(100vh)} }
 
-        .shimmer-text {
-          background: linear-gradient(90deg, #00C4B4, #00E5FF, #FFB800, #FF5733, #00C4B4);
-          background-size: 300% auto;
-          -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-          animation: shimmer 5s linear infinite;
+        .container { max-width: 800px; margin: 0 auto; padding: 0 24px; }
+        .container-wide { max-width: 1200px; margin: 0 auto; padding: 0 48px; }
+        
+        .section { padding: 80px 0; }
+        .section-sm { padding: 60px 0; }
+        
+        .text-center { text-align: center; }
+        .text-orange { color: #f97316; }
+        .text-orange-shadow { color: #f97316; text-shadow: 0 0 30px rgba(249,115,22,0.3); }
+        .text-dark { color: #1f2937; }
+        .text-muted { color: #6b7280; }
+        .text-lg { font-size: 18px; line-height: 1.7; }
+        
+        .title-hero { font-size: clamp(40px, 7vw, 72px); font-weight: 800; letter-spacing: -3px; line-height: 1.05; margin-bottom: 24px; color: #ffffff; }
+        .title-section { font-size: clamp(28px, 4vw, 48px); font-weight: 700; letter-spacing: -1px; margin-bottom: 16px; color: #ffffff; }
+        .title-card { font-size: 20px; font-weight: 600; margin-bottom: 12px; color: #ffffff; }
+        
+        .subtitle { font-size: 20px; color: rgba(255,255,255,0.85); line-height: 1.7; max-width: 600px; }
+        
+        .btn-primary { background: #f97316; color: #ffffff; font-weight: 600; padding: 16px 36px; border-radius: 14px; border: none; cursor: pointer; transition: all 0.3s; font-size: 16px; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; }
+        .btn-primary:hover { background: #ea580c; transform: translateY(-3px); box-shadow: 0 12px 40px rgba(249,115,22,0.4); }
+        .btn-secondary { background: transparent; color: #ffffff; font-weight: 600; padding: 16px 36px; border-radius: 14px; border: 2px solid rgba(255,255,255,0.4); cursor: pointer; transition: all 0.3s; font-size: 16px; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; }
+        .btn-secondary:hover { border-color: #f97316; color: #f97316; background: rgba(249,115,22,0.1); }
+        
+        .card { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12); border-radius: 24px; padding: 40px 32px; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); text-align: center; backdrop-filter: blur(10px); }
+        .card:hover { transform: translateY(-8px); background: rgba(255,255,255,0.15); border-color: rgba(249,115,22,0.5); box-shadow: 0 20px 60px rgba(0,0,0,0.3), 0 0 40px rgba(249,115,22,0.15); }
+        .card-icon { width: 64px; height: 64px; border-radius: 18px; background: linear-gradient(135deg, #f97316, #ea580c); display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; color: #fff; box-shadow: 0 8px 30px rgba(249,115,22,0.3); }
+        .card-desc { color: rgba(255,255,255,0.7); font-size: 15px; line-height: 1.7; }
+        
+        .step-card { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12); border-radius: 20px; padding: 32px 28px; text-align: center; transition: all 0.4s; cursor: pointer; position: relative; overflow: hidden; }
+        .step-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #f97316, #ea580c); transform: scaleX(0); transition: transform 0.3s; }
+        .step-card:hover::before, .step-card.active::before { transform: scaleX(1); }
+        .step-card:hover, .step-card.active { background: rgba(255,255,255,0.15); border-color: rgba(249,115,22,0.4); transform: translateY(-4px); }
+        .step-number { font-size: 42px; font-weight: 800; color: rgba(255,255,255,0.2); margin-bottom: 16px; transition: color 0.3s; }
+        .step-card.active .step-number { color: #f97316; }
+        .step-title { font-size: 18px; font-weight: 600; margin-bottom: 10px; color: #ffffff; }
+        .step-desc { font-size: 14px; color: rgba(255,255,255,0.65); line-height: 1.6; }
+        
+        .stat-box { text-align: center; padding: 40px 24px; position: relative; }
+        .stat-box::after { content: ''; position: absolute; right: 0; top: 50%; transform: translateY(-50%); height: 60%; width: 1px; background: linear-gradient(transparent, rgba(255,255,255,0.2), transparent); }
+        .stat-box:last-child::after { display: none; }
+        .stat-value { font-size: 56px; font-weight: 800; color: #f97316; letter-spacing: -2px; margin-bottom: 12px; text-shadow: 0 0 40px rgba(249,115,22,0.4); }
+        .stat-label { font-size: 15px; color: rgba(255,255,255,0.75); font-weight: 500; }
+        
+        .testimonial-card { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12); border-radius: 24px; padding: 40px; text-align: left; transition: all 0.4s; position: relative; }
+        .testimonial-card::before { content: '"'; position: absolute; top: 20px; right: 30px; font-size: 100px; color: rgba(249,115,22,0.15); font-family: Georgia, serif; line-height: 1; }
+        .testimonial-card:hover { background: rgba(255,255,255,0.12); transform: translateY(-4px); }
+        .testimonial-avatar { width: 56px; height: 56px; border-radius: 16px; background: linear-gradient(135deg, #f97316, #ea580c); display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 18px; margin-bottom: 20px; box-shadow: 0 4px 20px rgba(249,115,22,0.3); }
+        .testimonial-content { font-size: 16px; line-height: 1.8; color: rgba(255,255,255,0.85); margin-bottom: 24px; }
+        .testimonial-name { font-size: 16px; font-weight: 600; color: #ffffff; margin-bottom: 4px; }
+        .testimonial-role { font-size: 13px; color: rgba(255,255,255,0.6); }
+        
+        .badge { display: inline-block; padding: 8px 20px; border-radius: 30px; font-size: 13px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; background: rgba(249,115,22,0.2); color: #f97316; border: 1px solid rgba(249,115,22,0.3); margin-bottom: 24px; }
+        
+        .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+        .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+        .grid-auto { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 28px; }
+        
+        .divider { height: 1px; background: linear-gradient(90deg, transparent, rgba(249,115,22,0.3), transparent); max-width: 80%; }
+        
+        .cta-box { padding: 64px; background: rgba(249,115,22,0.95); border-radius: 32px; border: none; position: relative; overflow: hidden; }
+        .cta-box::before { content: ''; position: absolute; top: -50%; right: -20%; width: 400px; height: 400px; background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%); border-radius: 50%; }
+        
+        @media (max-width: 1024px) {
+          .container-wide { padding: 0 32px; }
+          .grid-4 { grid-template-columns: repeat(2, 1fr); }
         }
-        .orb { position: absolute; border-radius: 50%; filter: blur(90px); pointer-events: none; }
-        .sdivider { height: 1px; background: linear-gradient(90deg,transparent,rgba(0,196,180,0.25),rgba(255,184,0,0.2),transparent); }
-        .fcard {
-          background: rgba(255,255,255,0.035);
-          border: 1px solid rgba(255,255,255,0.07);
-          border-radius: 20px; padding: 28px;
-          transition: all 0.3s; position: relative; overflow: hidden;
-        }
-        .fcard::before {
-          content:''; position:absolute; top:0;left:0;right:0;height:2px;
-          background:var(--ac,#00C4B4); transform:scaleX(0); transition:transform 0.3s;
-        }
-        .fcard:hover::before { transform:scaleX(1); }
-        .fcard:hover { background:rgba(255,255,255,0.06); transform:translateY(-5px); border-color:rgba(255,255,255,0.12); }
-        .tcard { background:rgba(255,255,255,0.035); border:1px solid rgba(255,255,255,0.07); border-radius:20px; padding:28px; transition:all 0.3s; }
-        .tcard:hover { transform:translateY(-5px); background:rgba(255,255,255,0.06); }
-        .stat-c { background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.07); border-radius:18px; padding:30px 20px; text-align:center; transition:all 0.3s; }
-        .stat-c:hover { background:rgba(0,196,180,0.08); border-color:rgba(0,196,180,0.25); }
-        .btn-p { background:linear-gradient(135deg,#00C4B4,#00E5FF); color:#081120; font-weight:700; border:none; cursor:pointer; transition:all 0.3s; text-decoration:none; display:inline-flex; align-items:center; gap:8px; font-family:inherit; }
-        .btn-p:hover { transform:translateY(-2px); box-shadow:0 12px 40px rgba(0,196,180,0.45); }
-        .btn-o { background:transparent; color:#fff; font-weight:600; border:1.5px solid rgba(255,255,255,0.2); cursor:pointer; transition:all 0.3s; text-decoration:none; display:inline-flex; align-items:center; gap:8px; font-family:inherit; }
-        .btn-o:hover { border-color:#00C4B4; background:rgba(0,196,180,0.09); color:#00C4B4; }
-        .badge { display:inline-block; padding:4px 14px; border-radius:20px; font-size:12px; font-weight:700; letter-spacing:1px; text-transform:uppercase; }
-        .badge-teal { background:rgba(0,196,180,0.12); color:#00C4B4; border:1px solid rgba(0,196,180,0.25); }
-        .badge-gold { background:rgba(255,184,0,0.12); color:#FFB800; border:1px solid rgba(255,184,0,0.25); }
-        .badge-coral { background:rgba(255,87,51,0.12); color:#FF5733; border:1px solid rgba(255,87,51,0.25); }
-        .badge-cyan { background:rgba(0,229,255,0.12); color:#00E5FF; border:1px solid rgba(0,229,255,0.25); }
-        .grid-bg {
-          position:absolute;inset:0;opacity:0.035;
-          background-image:linear-gradient(rgba(0,196,180,1) 1px,transparent 1px),linear-gradient(90deg,rgba(0,196,180,1) 1px,transparent 1px);
-          background-size:56px 56px;
-          mask-image:radial-gradient(ellipse at center,black 20%,transparent 75%);
-        }
-        @media(max-width:768px) {
-          .hero-ctas { flex-direction:column !important; align-items:center; }
-          .steps-grid { grid-template-columns:1fr 1fr !important; }
+        
+        @media (max-width: 768px) {
+          .container-wide { padding: 0 20px; }
+          .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+          .grid-auto { grid-template-columns: 1fr; }
+          .section { padding: 60px 0; }
+          .section-sm { padding: 48px 0; }
+          .title-hero { letter-spacing: -1px; }
+          .cta-box { padding: 40px 24px; }
+          .stat-box::after { display: none; }
+          .stat-value { font-size: 42px; }
         }
       `}</style>
 
       <Header />
 
-      {/* ─── HERO ─── */}
-      <section style={{ position: 'relative', overflow: 'hidden', paddingTop: '130px', paddingBottom: '100px', minHeight: '100vh', display: 'flex', alignItems: 'center' }}>
-        <div className="orb" style={{ width: 700, height: 500, top: -180, right: -120, background: 'radial-gradient(circle,rgba(0,196,180,0.16) 0%,transparent 70%)' }} />
-        <div className="orb" style={{ width: 550, height: 450, bottom: -150, left: -120, background: 'radial-gradient(circle,rgba(255,87,51,0.12) 0%,transparent 70%)' }} />
-        <div className="orb" style={{ width: 400, height: 400, top: '45%', left: '42%', background: 'radial-gradient(circle,rgba(255,184,0,0.07) 0%,transparent 70%)' }} />
-        <div className="grid-bg" />
-
-        {/* Pre-match scan line effect */}
-        <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: 'linear-gradient(90deg,transparent,rgba(0,196,180,0.6),transparent)', animation: 'scan 6s linear infinite', opacity: 0.4, zIndex: 1 }} />
-
-        <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 24px', width: '100%', position: 'relative', zIndex: 2 }}>
-          <div style={{ textAlign: 'center', maxWidth: 860, margin: '0 auto' }}>
-
-            {/* Live badge */}
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '5px 14px', borderRadius: 100, background: 'rgba(0,196,180,0.1)', border: '1px solid rgba(0,196,180,0.28)', marginBottom: 28 }}>
-              <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#00C4B4', display: 'inline-block', animation: 'pulse-glow 2s ease-out infinite' }} />
-              <span style={{ color: '#00C4B4', fontSize: 12.5, fontWeight: 600, letterSpacing: 0.2 }}>Now serving 500+ institutions across India</span>
+      <main style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+        {/* ─── HERO ─── */}
+        <section style={{ position: 'relative', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+          <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundImage: 'url(https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1920&q=80)', backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }} />
+          <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, background: 'linear-gradient(135deg, rgba(17,24,39,0.9) 0%, rgba(0,0,0,0.7) 100%)', zIndex: 1 }} />
+          <div style={{ position: 'absolute', top: '20%', right: '10%', width: '300px', height: '300px', background: 'radial-gradient(circle, rgba(249,115,22,0.15) 0%, transparent 70%)', borderRadius: '50%', zIndex: 1 }} />
+          <div style={{ position: 'absolute', bottom: '20%', left: '5%', width: '200px', height: '200px', background: 'radial-gradient(circle, rgba(249,115,22,0.1) 0%, transparent 70%)', borderRadius: '50%', zIndex: 1 }} />
+          <div className="container" style={{ position: 'relative', zIndex: 2, textAlign: 'center', padding: '100px 24px' }}>
+            <div style={{ marginBottom: 32, animation: 'float 3s ease-in-out infinite' }}>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: 12, padding: '12px 28px', borderRadius: 50, background: 'rgba(249,115,22,0.15)', border: '1px solid rgba(249,115,22,0.3)', backdropFilter: 'blur(10px)' }}>
+                <span style={{ width: 10, height: 10, borderRadius: '50%', background: '#f97316', boxShadow: '0 0 20px rgba(249,115,22,0.8)', animation: 'pulse-glow 2s infinite' }} />
+                <span style={{ fontSize: 14, fontWeight: 600, color: '#ffffff', letterSpacing: 0.5 }}>Now serving 500+ institutions across India</span>
+              </div>
             </div>
-
-            <h1 style={{ fontSize: 'clamp(40px,7vw,80px)', fontWeight: 900, lineHeight: 1.06, letterSpacing: '-2.5px', marginBottom: 24, color: '#F0F6FF' }}>
-              The Modern Exam<br />
-              <span className="shimmer-text">Platform for India</span>
+            
+            <h1 className="title-hero">
+              The Modern<br />
+              <span style={{ color: '#f97316', position: 'relative' }}>Exam Platform
+                <span style={{ position: 'absolute', bottom: '-8px', left: 0, right: 0, height: 4, background: 'linear-gradient(90deg, transparent, #f97316, transparent)', borderRadius: 2 }} />
+              </span>
+              <br />for India
             </h1>
-
-            <p style={{ fontSize: 'clamp(15px,2vw,19px)', color: 'rgba(240,246,255,0.58)', lineHeight: 1.75, maxWidth: 580, margin: '0 auto 44px' }}>
+            
+            <p className="subtitle" style={{ textAlign: 'center', marginBottom: 48 }}>
               Conduct secure, scalable online examinations with AI-powered proctoring,
               instant results, and deep analytics — trusted by universities, colleges & schools.
             </p>
-
-            <div className="hero-ctas" style={{ display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap', marginBottom: 72 }}>
-              <a href="/register" className="btn-p" style={{ padding: '14px 32px', borderRadius: 14, fontSize: 16 }}>
+            
+            <div style={{ display: 'flex', gap: 20, justifyContent: 'center', flexWrap: 'wrap' }}>
+              <a href="/register" className="btn-primary">
                 Start Free Trial
-                <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
+                <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
               </a>
-              <a href="/about" className="btn-o" style={{ padding: '14px 32px', borderRadius: 14, fontSize: 16 }}>Learn More</a>
+              <a href="/about" className="btn-secondary">Watch Demo</a>
             </div>
-
-            {/* Dashboard preview */}
-            <div style={{ background: 'linear-gradient(135deg,rgba(255,255,255,0.07),rgba(255,255,255,0.02))', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 26, padding: 3, boxShadow: '0 40px 100px rgba(0,0,0,0.7), 0 0 0 1px rgba(0,196,180,0.08)' }}>
-              <div style={{ background: 'rgba(12,24,44,0.98)', borderRadius: '22px 22px 0 0', padding: '11px 16px', display: 'flex', alignItems: 'center', gap: 12, borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-                <div style={{ display: 'flex', gap: 6 }}>
-                  {['#FF5F57', '#FEBC2E', '#28C840'].map(c => <div key={c} style={{ width: 11, height: 11, borderRadius: '50%', background: c }} />)}
-                </div>
-                <div style={{ flex: 1, background: 'rgba(255,255,255,0.05)', borderRadius: 7, padding: '4px 12px', color: 'rgba(255,255,255,0.3)', fontSize: 11.5, textAlign: 'center' }}>examsaas.com/dashboard</div>
+            
+            <div style={{ marginTop: 60, display: 'flex', gap: 48, justifyContent: 'center', flexWrap: 'wrap' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                <svg width="20" height="20" fill="none" stroke="#f97316" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+                <span style={{ color: 'rgba(255,255,255,0.8)', fontSize: 14 }}>AI-Powered Proctoring</span>
               </div>
-              <div style={{ background: '#0C1830', borderRadius: '0 0 22px 22px', padding: 20 }}>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 12, marginBottom: 14 }}>
-                  {[{ label: 'Active Exams', value: '24', color: '#00C4B4' }, { label: 'Students', value: '1,847', color: '#FFB800' }, { label: 'Avg Score', value: '78%', color: '#FF5733' }].map(s => (
-                    <div key={s.label} style={{ background: 'rgba(255,255,255,0.04)', border: `1px solid ${s.color}28`, borderRadius: 12, padding: '13px 14px' }}>
-                      <div style={{ color: s.color, fontSize: 22, fontWeight: 800 }}>{s.value}</div>
-                      <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: 11, marginTop: 2 }}>{s.label}</div>
-                    </div>
-                  ))}
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                <svg width="20" height="20" fill="none" stroke="#f97316" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+                <span style={{ color: 'rgba(255,255,255,0.8)', fontSize: 14 }}>Bank-Level Security</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                <svg width="20" height="20" fill="none" stroke="#f97316" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+                <span style={{ color: 'rgba(255,255,255,0.8)', fontSize: 14 }}>24/7 Support</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div className="divider" />
+
+        {/* ─── STATS ─── */}
+        <section style={{ padding: '48px 0', background: 'rgba(17,24,39,0.7)' }}>
+          <div className="container-wide">
+            <div className="grid-4">
+              <div className="stat-box">
+                <div className="stat-value"><Counter target="500+" /></div>
+                <div className="stat-label" style={{ color: 'rgba(255,255,255,0.8)' }}>Institutions</div>
+              </div>
+              <div className="stat-box">
+                <div className="stat-value"><Counter target="2000+" /></div>
+                <div className="stat-label" style={{ color: 'rgba(255,255,255,0.8)' }}>Exams Conducted</div>
+              </div>
+              <div className="stat-box">
+                <div className="stat-value"><Counter target="99%" /></div>
+                <div className="stat-label" style={{ color: 'rgba(255,255,255,0.8)' }}>Uptime SLA</div>
+              </div>
+              <div className="stat-box">
+                <div className="stat-value"><Counter target="10000+" /></div>
+                <div className="stat-label" style={{ color: 'rgba(255,255,255,0.8)' }}>Students Served</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div className="divider" />
+
+        {/* ─── FEATURES ─── */}
+        <section style={{ padding: '64px 0', background: 'rgba(17,24,39,0.75)' }}>
+          <div className="container-wide">
+            <div style={{ marginBottom: 40 }}>
+              <h2 className="title-section" style={{ textAlign: 'left', marginBottom: 8, color: '#ffffff' }}>Everything You Need</h2>
+              <p style={{ fontSize: 18, color: 'rgba(255,255,255,0.8)', lineHeight: 1.7, textAlign: 'left' }}>From secure proctoring to instant results — a complete examination ecosystem.</p>
+            </div>
+            
+            <div className="grid-3">
+              {features.map(f => (
+                <div key={f.title} className="card" style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.15)' }}>
+                  <div className="card-icon">{f.icon}</div>
+                  <h3 className="title-card" style={{ color: '#ffffff' }}>{f.title}</h3>
+                  <p className="card-desc" style={{ color: 'rgba(255,255,255,0.7)' }}>{f.description}</p>
                 </div>
-                <div style={{ background: 'rgba(255,255,255,0.025)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 12, padding: '13px 15px' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 11 }}>
-                    <span style={{ color: 'rgba(255,255,255,0.65)', fontSize: 11.5, fontWeight: 600 }}>Recent Exams</span>
-                    <span style={{ color: '#00C4B4', fontSize: 11 }}>View all →</span>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <div className="divider" />
+
+        {/* ─── HOW IT WORKS ─── */}
+        <section style={{ padding: '64px 0', background: 'rgba(17,24,39,0.7)' }}>
+          <div className="container-wide">
+            <div style={{ marginBottom: 40 }}>
+              <h2 className="title-section" style={{ textAlign: 'left', marginBottom: 8, color: '#ffffff' }}>Launch in Minutes</h2>
+              <p style={{ fontSize: 18, color: 'rgba(255,255,255,0.8)', lineHeight: 1.7, textAlign: 'left' }}>Get started in four simple steps.</p>
+            </div>
+            
+            <div className="grid-4">
+              {steps.map((step, i) => (
+                <div key={step.number} className={`step-card ${activeStep === i ? 'active' : ''}`} style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.15)' }}>
+                  <div className="step-number">{step.number}</div>
+                  <h3 className="step-title" style={{ color: '#ffffff' }}>{step.title}</h3>
+                  <p className="step-desc" style={{ color: 'rgba(255,255,255,0.7)' }}>{step.description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <div className="divider" />
+
+        {/* ─── TESTIMONIALS ─── */}
+        <section style={{ padding: '64px 0', background: 'rgba(17,24,39,0.75)' }}>
+          <div className="container-wide">
+            <div style={{ marginBottom: 40 }}>
+              <h2 className="title-section" style={{ textAlign: 'left', marginBottom: 8, color: '#ffffff' }}>Trusted by Educators</h2>
+              <p style={{ fontSize: 18, color: 'rgba(255,255,255,0.8)', lineHeight: 1.7, textAlign: 'left' }}>See what institutions across India are saying.</p>
+            </div>
+            
+            <div className="grid-3">
+              {testimonials.map(t => (
+                <div key={t.name} className="testimonial-card" style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.15)' }}>
+                  <div className="testimonial-avatar">{t.avatar}</div>
+                  <p className="testimonial-content" style={{ color: 'rgba(255,255,255,0.85)' }}>"{t.content}"</p>
+                  <div className="testimonial-name" style={{ color: '#ffffff' }}>{t.name}</div>
+                  <div className="testimonial-role" style={{ color: 'rgba(255,255,255,0.6)' }}>{t.role}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ─── CTA ─── */}
+        <div className="container-wide" style={{ padding: '80px 48px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 60, alignItems: 'center', background: 'linear-gradient(135deg, rgba(249,115,22,0.95) 0%, #ea580c 100%)', borderRadius: 32, padding: '60px', position: 'relative', overflow: 'hidden' }}>
+            <div style={{ position: 'absolute', top: '-50%', right: '-10%', width: '400px', height: '400px', background: 'radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%)', borderRadius: '50%' }} />
+            <div style={{ position: 'relative', zIndex: 1 }}>
+              <span style={{ display: 'inline-block', padding: '8px 20px', borderRadius: 30, fontSize: 13, fontWeight: 600, letterSpacing: 1, textTransform: 'uppercase', background: 'rgba(255,255,255,0.2)', color: '#ffffff', marginBottom: 24 }}>Get Started Today</span>
+              <h2 style={{ fontSize: 'clamp(28px, 4vw, 42px)', fontWeight: 700, color: '#ffffff', letterSpacing: '-1px', marginBottom: 16 }}>Ready to Transform Your Examinations?</h2>
+              <p style={{ fontSize: 18, color: 'rgba(255,255,255,0.9)', lineHeight: 1.7, marginBottom: 32 }}>Join 500+ educational institutions that trust ExamSpot. Start free — no credit card required.</p>
+              <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
+                <a href="/register" style={{ background: '#ffffff', color: '#f97316', fontWeight: 600, padding: '16px 36px', borderRadius: 14, fontSize: 16, textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 10, boxShadow: '0 4px 20px rgba(0,0,0,0.15)' }}>
+                  Get Started Free
+                  <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
+                </a>
+                <a href="/about" style={{ background: 'transparent', color: '#ffffff', fontWeight: 600, padding: '16px 36px', borderRadius: 14, border: '2px solid rgba(255,255,255,0.4)', fontSize: 16, textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 10 }}>
+                  Learn More
+                </a>
+              </div>
+            </div>
+            <div style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', gap: 20 }}>
+              {[['No credit card required', 'Start your 14-day free trial today'], ['Instant setup', 'Up and running in minutes'], ['24/7 Support', 'Always here when you need us']].map(([title, desc]) => (
+                <div key={title} style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '20px 24px', background: 'rgba(255,255,255,0.15)', borderRadius: 16, backdropFilter: 'blur(10px)' }}>
+                  <div style={{ width: 48, height: 48, borderRadius: 12, background: 'rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <svg width="24" height="24" fill="none" stroke="#fff" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
                   </div>
-                  {[{ exam: 'Data Structures Midterm', score: '92%', dot: '#00C4B4' }, { exam: 'Mathematics Quiz', score: '85%', dot: '#FFB800' }, { exam: 'Physics Final', score: '71%', dot: '#FF5733' }].map((item, i) => (
-                    <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '7px 0', borderBottom: i < 2 ? '1px solid rgba(255,255,255,0.05)' : 'none' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                        <div style={{ width: 5, height: 5, borderRadius: '50%', background: item.dot }} />
-                        <span style={{ color: 'rgba(255,255,255,0.55)', fontSize: 12 }}>{item.exam}</span>
-                      </div>
-                      <span style={{ color: item.dot, fontSize: 12, fontWeight: 700 }}>{item.score}</span>
-                    </div>
-                  ))}
+                  <div>
+                    <div style={{ fontSize: 16, fontWeight: 600, color: '#ffffff', marginBottom: 4 }}>{title}</div>
+                    <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.75)' }}>{desc}</div>
+                  </div>
                 </div>
-              </div>
+              ))}
             </div>
           </div>
         </div>
-      </section>
-
-      <div className="sdivider" />
-
-      {/* ─── STATS ─── */}
-      <section style={{ padding: '80px 24px', maxWidth: 1200, margin: '0 auto' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(200px,1fr))', gap: 16 }}>
-          {[
-            { value: '500+', label: 'Institutions', color: '#00C4B4' },
-            { value: '2000+', label: 'Exams Conducted (000s)', color: '#FFB800' },
-            { value: '99%', label: 'Uptime SLA', color: '#FF5733' },
-            { value: '10000+', label: 'Students Served (000s)', color: '#00E5FF' },
-          ].map(stat => (
-            <div key={stat.label} className="stat-c">
-              <div style={{ fontSize: 44, fontWeight: 900, color: stat.color, letterSpacing: '-1px', lineHeight: 1 }}>
-                <Counter target={stat.value} />
-              </div>
-              <div style={{ color: 'rgba(240,246,255,0.45)', fontSize: 12.5, marginTop: 6, fontWeight: 500 }}>{stat.label}</div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <div className="sdivider" />
-
-      {/* ─── FEATURES ─── */}
-      <section style={{ padding: '100px 24px', maxWidth: 1200, margin: '0 auto' }}>
-        <div style={{ textAlign: 'center', marginBottom: 60 }}>
-          <span className="badge badge-teal" style={{ marginBottom: 16 }}>Features</span>
-          <h2 style={{ fontSize: 'clamp(28px,4vw,50px)', fontWeight: 800, letterSpacing: '-1px', lineHeight: 1.1, marginBottom: 14 }}>
-            Everything You Need for<br /><span style={{ color: '#00C4B4' }}>Modern Examinations</span>
-          </h2>
-          <p style={{ color: 'rgba(240,246,255,0.5)', fontSize: 17, maxWidth: 500, margin: '0 auto', lineHeight: 1.7 }}>From secure proctoring to instant results — a complete examination ecosystem.</p>
-        </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(320px,1fr))', gap: 20 }}>
-          {features.map(f => (
-            <div key={f.title} className="fcard" style={{ '--ac': f.accent }}>
-              <div style={{ width: 46, height: 46, borderRadius: 13, background: `${f.accent}18`, border: `1px solid ${f.accent}38`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: f.accent, marginBottom: 18 }}>{f.icon}</div>
-              <h3 style={{ fontSize: 16.5, fontWeight: 700, marginBottom: 8, color: '#F0F6FF' }}>{f.title}</h3>
-              <p style={{ color: 'rgba(240,246,255,0.5)', fontSize: 14, lineHeight: 1.7 }}>{f.description}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <div className="sdivider" />
-
-      {/* ─── HOW IT WORKS ─── */}
-      <section style={{ padding: '100px 24px', background: 'rgba(255,255,255,0.015)' }}>
-        <div style={{ maxWidth: 1000, margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: 60 }}>
-            <span className="badge badge-gold" style={{ marginBottom: 16 }}>How It Works</span>
-            <h2 style={{ fontSize: 'clamp(28px,4vw,50px)', fontWeight: 800, letterSpacing: '-1px' }}>
-              Launch Your First Exam<br /><span style={{ color: '#FFB800' }}>in Minutes</span>
-            </h2>
-          </div>
-          <div className="steps-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 18, marginBottom: 36 }}>
-            {steps.map((step, i) => (
-              <div key={step.number} onClick={() => setActiveStep(i)} style={{ background: activeStep === i ? `${step.color}14` : 'rgba(255,255,255,0.03)', border: `1px solid ${activeStep === i ? step.color + '48' : 'rgba(255,255,255,0.07)'}`, borderRadius: 20, padding: '24px 18px', cursor: 'pointer', transition: 'all 0.3s', transform: activeStep === i ? 'translateY(-5px)' : 'none', boxShadow: activeStep === i ? `0 12px 40px ${step.color}22` : 'none' }}>
-                <div style={{ fontSize: 38, fontWeight: 900, color: activeStep === i ? step.color : 'rgba(255,255,255,0.09)', marginBottom: 10, lineHeight: 1 }}>{step.number}</div>
-                <h3 style={{ fontSize: 15, fontWeight: 700, marginBottom: 7, color: '#F0F6FF' }}>{step.title}</h3>
-                <p style={{ color: 'rgba(240,246,255,0.45)', fontSize: 12.5, lineHeight: 1.65 }}>{step.description}</p>
-              </div>
-            ))}
-          </div>
-          <div style={{ display: 'flex', gap: 8, justifyContent: 'center' }}>
-            {steps.map((step, i) => (
-              <button key={i} onClick={() => setActiveStep(i)} style={{ border: 'none', cursor: 'pointer', height: 8, borderRadius: 4, transition: 'all 0.3s', width: activeStep === i ? 28 : 8, background: activeStep === i ? step.color : 'rgba(255,255,255,0.18)' }} />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <div className="sdivider" />
-
-      {/* ─── TESTIMONIALS ─── */}
-      <section style={{ padding: '100px 24px', maxWidth: 1200, margin: '0 auto' }}>
-        <div style={{ textAlign: 'center', marginBottom: 56 }}>
-          <span className="badge badge-coral" style={{ marginBottom: 16 }}>Testimonials</span>
-          <h2 style={{ fontSize: 'clamp(28px,4vw,50px)', fontWeight: 800, letterSpacing: '-1px' }}>
-            Trusted by Educators<br /><span style={{ color: '#FF5733' }}>Across India</span>
-          </h2>
-        </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(300px,1fr))', gap: 20 }}>
-          {testimonials.map(t => (
-            <div key={t.name} className="tcard">
-              <div style={{ display: 'flex', gap: 3, marginBottom: 16 }}>
-                {[...Array(5)].map((_, i) => (
-                  <svg key={i} width="15" height="15" fill="#FFB800" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
-                ))}
-              </div>
-              <p style={{ color: 'rgba(240,246,255,0.68)', fontSize: 14.5, lineHeight: 1.78, marginBottom: 24, fontStyle: 'italic' }}>"{t.content}"</p>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                <div style={{ width: 42, height: 42, borderRadius: 12, background: `linear-gradient(135deg,${t.color},${t.color}80)`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#081120', fontWeight: 800, fontSize: 13 }}>{t.avatar}</div>
-                <div>
-                  <div style={{ fontWeight: 700, fontSize: 14, color: '#F0F6FF' }}>{t.name}</div>
-                  <div style={{ color: 'rgba(240,246,255,0.38)', fontSize: 12, marginTop: 2 }}>{t.role}</div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <div className="sdivider" />
-
-      {/* ─── CTA ─── */}
-      <section style={{ padding: '100px 24px', position: 'relative', overflow: 'hidden' }}>
-        <div className="orb" style={{ width: 600, height: 400, top: '50%', left: '50%', transform: 'translate(-50%,-50%)', background: 'radial-gradient(circle,rgba(0,196,180,0.1) 0%,transparent 70%)' }} />
-        <div style={{ maxWidth: 720, margin: '0 auto', textAlign: 'center', position: 'relative' }}>
-          <span className="badge badge-cyan" style={{ marginBottom: 20 }}>Get Started Today</span>
-          <h2 style={{ fontSize: 'clamp(30px,5vw,58px)', fontWeight: 900, letterSpacing: '-1.5px', lineHeight: 1.08, marginBottom: 20 }}>
-            Ready to Transform<br /><span className="shimmer-text">Your Examinations?</span>
-          </h2>
-          <p style={{ color: 'rgba(240,246,255,0.55)', fontSize: 17, lineHeight: 1.7, maxWidth: 460, margin: '0 auto 40px' }}>Join 500+ educational institutions that trust ExamSaaS. Start free — no credit card required.</p>
-          <div style={{ display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap', marginBottom: 44 }}>
-            <a href="/register" className="btn-p" style={{ padding: '15px 36px', borderRadius: 14, fontSize: 16 }}>
-              Get Started Free
-              <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-            </a>
-            <a href="/about" className="btn-o" style={{ padding: '15px 36px', borderRadius: 14, fontSize: 16 }}>Learn More</a>
-          </div>
-          <div style={{ display: 'flex', gap: 28, justifyContent: 'center', flexWrap: 'wrap' }}>
-            {['No credit card', '14-day free trial', '99.9% uptime', '24/7 support'].map(item => (
-              <div key={item} style={{ display: 'flex', alignItems: 'center', gap: 6, color: 'rgba(240,246,255,0.38)', fontSize: 12.5 }}>
-                <svg width="13" height="13" fill="none" stroke="#00C4B4" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
-                {item}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      </main>
 
       <Footer />
+      </div>
     </div>
   );
 }

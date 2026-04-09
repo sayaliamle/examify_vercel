@@ -29,7 +29,7 @@ const milestones = [
 
 export default function About() {
   return (
-    <div style={{ fontFamily: "'Sora','DM Sans',sans-serif", background: '#081120', minHeight: '100vh', color: '#F0F6FF' }}>
+    <div style={{ fontFamily: "'Sora','DM Sans',sans-serif", background: 'transparent', minHeight: '100vh', color: '#F0F6FF' }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800;900&family=DM+Sans:wght@300;400;500;600&display=swap');
         *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
@@ -53,12 +53,31 @@ export default function About() {
         .grid-bg{position:absolute;inset:0;opacity:0.03;background-image:linear-gradient(rgba(0,196,180,1) 1px,transparent 1px),linear-gradient(90deg,rgba(0,196,180,1) 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse at center,black 20%,transparent 75%);}
         .milestone{display:flex;gap:20px;align-items:flex-start;padding:22px 0;border-bottom:1px solid rgba(255,255,255,0.06);}
         .milestone:last-child{border-bottom:none;}
+        .section-header { text-align: center; margin-bottom: 56px; }
+        .section-title { font-size: clamp(32px, 4vw, 48px); font-weight: 800; letter-spacing: -1px; margin-bottom: 16px; color: #F0F6FF; }
+        .section-subtitle { font-size: 18px; color: rgba(240,246,255,0.6); line-height: 1.7; max-width: 600px; margin: 0 auto; text-align: center; }
+        .text-orange-shadow { color: #f97316; text-shadow: 2px 2px 8px rgba(239,68,68,0.5), 0 0 20px rgba(239,68,68,0.3); }
+        .grid-4col { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+        .grid-2col { display: grid; grid-template-columns: repeat(2, 1fr); gap: 56px; align-items: start; }
+        .grid-auto { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+        @media(max-width: 1024px) {
+          .grid-4col { grid-template-columns: repeat(2, 1fr); }
+          .grid-2col { grid-template-columns: 1fr; gap: 40px; }
+        }
+        @media(max-width: 768px) {
+          .section-title { font-size: 28px; }
+          .section-subtitle { font-size: 16px; }
+          .section-header { margin-bottom: 36px; }
+          .grid-4col, .grid-auto, .grid-2col { grid-template-columns: 1fr !important; }
+        }
       `}</style>
 
       <Header />
 
       {/* ─── HERO ─── */}
       <section style={{ position: 'relative', overflow: 'hidden', padding: '140px 24px 100px', textAlign: 'center' }}>
+        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundImage: 'url(https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=1920&q=80)', backgroundSize: 'cover', backgroundPosition: 'center', zIndex: -1 }} />
+        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'linear-gradient(135deg, rgba(8,17,32,0.92) 0%, rgba(15,23,42,0.88) 50%, rgba(8,17,32,0.85) 100%)', zIndex: -1 }} />
         <div className="orb" style={{ width: 700, height: 500, top: -200, right: -100, background: 'radial-gradient(circle,rgba(0,196,180,0.15) 0%,transparent 70%)' }} />
         <div className="orb" style={{ width: 550, height: 450, bottom: -120, left: -100, background: 'radial-gradient(circle,rgba(255,87,51,0.11) 0%,transparent 70%)' }} />
         <div className="grid-bg" />
@@ -133,13 +152,13 @@ export default function About() {
       {/* ─── VALUES ─── */}
       <section style={{ padding: '88px 24px', background: 'rgba(255,255,255,0.018)' }}>
         <div style={{ maxWidth: 1160, margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: 52 }}>
-            <span className="badge badge-gold" style={{ marginBottom: 16 }}>Our Values</span>
-            <h2 style={{ fontSize: 'clamp(28px,4vw,48px)', fontWeight: 800, letterSpacing: '-1px', lineHeight: 1.1 }}>
+          <div className="section-header">
+            <span className="badge badge-gold" style={{ marginBottom: 16, display: 'inline-block' }}>Our Values</span>
+            <h2 className="section-title">
               What <span style={{ color: '#FFB800' }}>Drives</span> Us Every Day
             </h2>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(260px,1fr))', gap: 20 }}>
+          <div className="grid-auto">
             {values.map(v => (
               <div key={v.title} className="vcard" style={{ borderTop: `2px solid ${v.color}38` }}>
                 <div style={{ fontSize: 28, marginBottom: 16 }}>{v.icon}</div>
@@ -156,13 +175,13 @@ export default function About() {
       {/* ─── TEAM ─── */}
       <section style={{ padding: '88px 24px' }}>
         <div style={{ maxWidth: 1160, margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: 52 }}>
-            <span className="badge badge-coral" style={{ marginBottom: 16 }}>Our Team</span>
-            <h2 style={{ fontSize: 'clamp(28px,4vw,48px)', fontWeight: 800, letterSpacing: '-1px', lineHeight: 1.1 }}>
+          <div className="section-header">
+            <span className="badge badge-coral" style={{ marginBottom: 16, display: 'inline-block' }}>Our Team</span>
+            <h2 className="section-title">
               Meet the People Behind <span style={{ color: '#FF5733' }}>ExamSaaS</span>
             </h2>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(220px,1fr))', gap: 20 }}>
+          <div className="grid-4col">
             {team.map(member => (
               <div key={member.name} className="tcard">
                 <div style={{ width: 66, height: 66, borderRadius: 18, margin: '0 auto 18px', background: `linear-gradient(135deg,${member.color},${member.color}70)`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#081120', fontWeight: 800, fontSize: 19, boxShadow: `0 8px 32px ${member.color}28` }}>
@@ -181,27 +200,31 @@ export default function About() {
 
       {/* ─── STATS ─── */}
       <section style={{ padding: '64px 24px', background: 'rgba(255,255,255,0.018)' }}>
-        <div style={{ maxWidth: 1160, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(180px,1fr))', gap: 16 }}>
-          {[
-            { value: '2022', label: 'Founded', color: '#00C4B4' },
-            { value: '40+', label: 'Team Members', color: '#FFB800' },
-            { value: 'Delhi NCR', label: 'Headquarters', color: '#FF5733' },
-            { value: '24/7', label: 'Support', color: '#00E5FF' },
-          ].map(stat => (
-            <div key={stat.label} style={{ background: `${stat.color}0C`, border: `1px solid ${stat.color}22`, borderRadius: 16, padding: '26px 16px', textAlign: 'center' }}>
-              <div style={{ fontSize: 30, fontWeight: 900, color: stat.color, letterSpacing: '-0.5px' }}>{stat.value}</div>
-              <div style={{ color: 'rgba(240,246,255,0.42)', fontSize: 12.5, marginTop: 5 }}>{stat.label}</div>
-            </div>
-          ))}
+        <div style={{ maxWidth: 1160, margin: '0 auto' }}>
+          <div className="grid-4col">
+            {[
+              { value: '2022', label: 'Founded', color: '#00C4B4' },
+              { value: '40+', label: 'Team Members', color: '#FFB800' },
+              { value: 'Delhi NCR', label: 'Headquarters', color: '#FF5733' },
+              { value: '24/7', label: 'Support', color: '#00E5FF' },
+            ].map(stat => (
+              <div key={stat.label} style={{ background: `${stat.color}0C`, border: `1px solid ${stat.color}22`, borderRadius: 16, padding: '26px 16px', textAlign: 'center' }}>
+                <div style={{ fontSize: 30, fontWeight: 900, color: stat.color, letterSpacing: '-0.5px' }}>{stat.value}</div>
+                <div style={{ color: 'rgba(240,246,255,0.42)', fontSize: 12.5, marginTop: 5 }}>{stat.label}</div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
       {/* ─── CTA ─── */}
-      <section style={{ padding: '88px 24px', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
+      <section style={{ padding: '88px 24px', position: 'relative', overflow: 'hidden' }}>
         <div className="orb" style={{ width: 600, height: 350, top: '50%', left: '50%', transform: 'translate(-50%,-50%)', background: 'radial-gradient(circle,rgba(0,196,180,0.1) 0%,transparent 70%)' }} />
-        <div style={{ position: 'relative', maxWidth: 560, margin: '0 auto' }}>
-          <h2 style={{ fontSize: 'clamp(28px,4vw,48px)', fontWeight: 900, letterSpacing: '-1px', marginBottom: 14 }}>Want to Partner With Us?</h2>
-          <p style={{ color: 'rgba(240,246,255,0.55)', marginBottom: 34, fontSize: 16, lineHeight: 1.75 }}>Institution, integration partner, or investor — we would love to hear from you.</p>
+        <div style={{ maxWidth: 560, margin: '0 auto', position: 'relative' }}>
+          <div className="section-header">
+            <h2 className="section-title">Want to Partner With Us?</h2>
+            <p className="section-subtitle" style={{ fontSize: 16 }}>Institution, integration partner, or investor — we would love to hear from you.</p>
+          </div>
           <div style={{ display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap' }}>
             <a href="/register" className="btn-p" style={{ padding: '14px 32px', borderRadius: 14, fontSize: 16 }}>Get Started</a>
             <a href="mailto:hello@examsaas.com" className="btn-o" style={{ padding: '14px 32px', borderRadius: 14, fontSize: 16 }}>Contact Us</a>

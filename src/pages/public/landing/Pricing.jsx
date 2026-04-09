@@ -85,7 +85,7 @@ export default function Pricing() {
   const [billing, setBilling] = useState('monthly');
 
   return (
-    <div style={{ fontFamily: "'Sora','DM Sans',sans-serif", background: '#081120', minHeight: '100vh', color: '#F0F6FF' }}>
+    <div style={{ fontFamily: "'Sora','DM Sans',sans-serif", background: 'transparent', minHeight: '100vh', color: '#F0F6FF' }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800;900&family=DM+Sans:wght@300;400;500;600&display=swap');
         *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
@@ -116,12 +116,30 @@ export default function Pricing() {
         .billing-btn.active{background:rgba(0,196,180,0.18);color:#00C4B4;border:1px solid rgba(0,196,180,0.3);}
         .billing-btn.inactive{background:transparent;color:rgba(240,246,255,0.45);}
         .grid-bg{position:absolute;inset:0;opacity:0.028;background-image:linear-gradient(rgba(0,196,180,1) 1px,transparent 1px),linear-gradient(90deg,rgba(0,196,180,1) 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse at center,black 20%,transparent 75%);}
+        .section-header { text-align: center; margin-bottom: 56px; }
+        .section-title { font-size: clamp(32px, 4vw, 48px); font-weight: 800; letter-spacing: -1px; margin-bottom: 16px; color: #F0F6FF; }
+        .section-subtitle { font-size: 18px; color: rgba(240,246,255,0.6); line-height: 1.7; max-width: 600px; margin: 0 auto; text-align: center; }
+        .text-orange-shadow { color: #f97316; text-shadow: 2px 2px 8px rgba(239,68,68,0.5), 0 0 20px rgba(239,68,68,0.3); }
+        .grid-3col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+        .grid-auto { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+        @media(max-width: 1024px) {
+          .grid-3col { grid-template-columns: 1fr; }
+          .grid-auto { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media(max-width: 768px) {
+          .section-title { font-size: 28px; }
+          .section-subtitle { font-size: 16px; }
+          .section-header { margin-bottom: 36px; }
+          .grid-3col, .grid-auto { grid-template-columns: 1fr !important; }
+        }
       `}</style>
 
       <Header />
 
       {/* ─── HERO ─── */}
       <section style={{ position: 'relative', overflow: 'hidden', padding: '140px 24px 80px', textAlign: 'center' }}>
+        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundImage: 'url(https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1920&q=80)', backgroundSize: 'cover', backgroundPosition: 'center', zIndex: -1 }} />
+        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'linear-gradient(135deg, rgba(8,17,32,0.92) 0%, rgba(15,23,42,0.88) 50%, rgba(8,17,32,0.85) 100%)', zIndex: -1 }} />
         <div className="orb" style={{ width: 700, height: 450, top: -150, left: '50%', transform: 'translateX(-50%)', background: 'radial-gradient(circle,rgba(255,184,0,0.1) 0%,transparent 70%)' }} />
         <div className="orb" style={{ width: 400, height: 400, bottom: -80, right: -60, background: 'radial-gradient(circle,rgba(0,196,180,0.08) 0%,transparent 70%)' }} />
         <div className="grid-bg" />
@@ -147,29 +165,34 @@ export default function Pricing() {
 
       {/* ─── PLANS ─── */}
       <section style={{ padding: '20px 24px 80px' }}>
-        <div style={{ maxWidth: 1160, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(300px,1fr))', gap: 20 }}>
-          {plans.map(plan => {
-            const annualPrice = plan.price === '₹999' ? '₹799' : plan.price;
-            const displayPrice = billing === 'annual' ? annualPrice : plan.price;
-            return (
-              <div key={plan.name} className="plan-card" style={{ position: 'relative', background: plan.popular ? `linear-gradient(145deg,${plan.accent}16,${plan.accent}06)` : 'rgba(255,255,255,0.035)', border: `1px solid ${plan.popular ? plan.accent + '45' : 'rgba(255,255,255,0.08)'}`, boxShadow: plan.popular ? `0 24px 64px ${plan.accent}18` : 'none', transform: plan.popular ? 'scale(1.025)' : undefined }}>
-                {plan.popular && (
-                  <div style={{ position: 'absolute', top: -14, left: '50%', transform: 'translateX(-50%)', background: plan.accent, color: '#081120', fontSize: 10.5, fontWeight: 800, padding: '4px 16px', borderRadius: 20, letterSpacing: '0.6px', whiteSpace: 'nowrap' }}>
-                    MOST POPULAR
-                  </div>
-                )}
+        <div style={{ maxWidth: 1160, margin: '0 auto' }}>
+          <div className="section-header">
+            <h2 className="section-title">Choose Your Plan</h2>
+            <p className="section-subtitle">Start free, scale as you grow. No hidden fees.</p>
+          </div>
+          <div className="grid-auto">
+            {plans.map(plan => {
+              const annualPrice = plan.price === '₹999' ? '₹799' : plan.price;
+              const displayPrice = billing === 'annual' ? annualPrice : plan.price;
+              return (
+                <div key={plan.name} className="plan-card" style={{ position: 'relative', background: plan.popular ? `linear-gradient(145deg,${plan.accent}16,${plan.accent}06)` : 'rgba(255,255,255,0.035)', border: `1px solid ${plan.popular ? plan.accent + '45' : 'rgba(255,255,255,0.08)'}`, boxShadow: plan.popular ? `0 24px 64px ${plan.accent}18` : 'none', transform: plan.popular ? 'scale(1.025)' : undefined }}>
+                  {plan.popular && (
+                    <div style={{ position: 'absolute', top: -14, left: '50%', transform: 'translateX(-50%)', background: plan.accent, color: '#081120', fontSize: 10.5, fontWeight: 800, padding: '4px 16px', borderRadius: 20, letterSpacing: '0.6px', whiteSpace: 'nowrap' }}>
+                      MOST POPULAR
+                    </div>
+                  )}
 
-                <div style={{ marginBottom: 28 }}>
-                  <div style={{ width: 40, height: 40, borderRadius: 12, background: `${plan.accent}20`, border: `1px solid ${plan.accent}30`, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
-                    <div style={{ width: 12, height: 12, borderRadius: '50%', background: plan.accent, boxShadow: `0 0 12px ${plan.accent}80` }} />
-                  </div>
-                  <h3 style={{ fontSize: 20, fontWeight: 800, marginBottom: 8, color: '#F0F6FF' }}>{plan.name}</h3>
-                  <div style={{ display: 'flex', alignItems: 'baseline', gap: 6, marginBottom: 8 }}>
-                    <span style={{ fontSize: 44, fontWeight: 900, color: plan.accent, letterSpacing: '-2px', lineHeight: 1 }}>{displayPrice}</span>
-                    <span style={{ color: 'rgba(240,246,255,0.38)', fontSize: 13.5 }}>/ {plan.period}</span>
-                  </div>
-                  {billing === 'annual' && plan.price === '₹999' && (
-                    <div style={{ fontSize: 12, color: 'rgba(240,246,255,0.4)', marginBottom: 4 }}>
+                  <div style={{ marginBottom: 28 }}>
+                    <div style={{ width: 40, height: 40, borderRadius: 12, background: `${plan.accent}20`, border: `1px solid ${plan.accent}30`, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
+                      <div style={{ width: 12, height: 12, borderRadius: '50%', background: plan.accent, boxShadow: `0 0 12px ${plan.accent}80` }} />
+                    </div>
+                    <h3 style={{ fontSize: 20, fontWeight: 800, marginBottom: 8, color: '#F0F6FF' }}>{plan.name}</h3>
+                    <div style={{ display: 'flex', alignItems: 'baseline', gap: 6, marginBottom: 8 }}>
+                      <span style={{ fontSize: 44, fontWeight: 900, color: plan.accent, letterSpacing: '-2px', lineHeight: 1 }}>{displayPrice}</span>
+                      <span style={{ color: 'rgba(240,246,255,0.38)', fontSize: 13.5 }}>/ {plan.period}</span>
+                    </div>
+                    {billing === 'annual' && plan.price === '₹999' && (
+                      <div style={{ fontSize: 12, color: 'rgba(240,246,255,0.4)', marginBottom: 4 }}>
                       <span style={{ textDecoration: 'line-through', marginRight: 6 }}>₹999/mo</span>
                       <span style={{ color: '#00C4B4' }}>Save ₹2,400/year</span>
                     </div>
@@ -195,6 +218,7 @@ export default function Pricing() {
             );
           })}
         </div>
+        </div>
       </section>
 
       <div className="sdivider" />
@@ -202,9 +226,9 @@ export default function Pricing() {
       {/* ─── COMPARISON TABLE ─── */}
       <section style={{ padding: '80px 24px' }}>
         <div style={{ maxWidth: 900, margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: 44 }}>
-            <span className="badge badge-cyan" style={{ marginBottom: 16 }}>Compare Plans</span>
-            <h2 style={{ fontSize: 'clamp(24px,3.5vw,40px)', fontWeight: 800, letterSpacing: '-0.5px' }}>Feature Comparison</h2>
+          <div className="section-header">
+            <span className="badge badge-cyan" style={{ marginBottom: 16, display: 'inline-block' }}>Compare Plans</span>
+            <h2 className="section-title">Feature Comparison</h2>
           </div>
           <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 20, overflow: 'hidden' }}>
             <table className="comp-table">
@@ -241,10 +265,10 @@ export default function Pricing() {
       {/* ─── FAQ ─── */}
       <section style={{ padding: '80px 24px', background: 'rgba(255,255,255,0.018)' }}>
         <div style={{ maxWidth: 720, margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: 48 }}>
-            <span className="badge badge-coral" style={{ marginBottom: 16 }}>FAQ</span>
-            <h2 style={{ fontSize: 'clamp(24px,3.5vw,40px)', fontWeight: 800, letterSpacing: '-0.5px', marginBottom: 10 }}>Frequently Asked Questions</h2>
-            <p style={{ color: 'rgba(240,246,255,0.45)', fontSize: 16 }}>Everything you need to know about our pricing.</p>
+          <div className="section-header">
+            <span className="badge badge-coral" style={{ marginBottom: 16, display: 'inline-block' }}>FAQ</span>
+            <h2 className="section-title">Frequently Asked Questions</h2>
+            <p className="section-subtitle" style={{ fontSize: 16 }}>Everything you need to know about our pricing.</p>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
             {faqs.map((faq, i) => (
@@ -267,11 +291,13 @@ export default function Pricing() {
       </section>
 
       {/* ─── CTA ─── */}
-      <section style={{ padding: '88px 24px', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
+      <section style={{ padding: '88px 24px', position: 'relative', overflow: 'hidden' }}>
         <div className="orb" style={{ width: 600, height: 350, top: '50%', left: '50%', transform: 'translate(-50%,-50%)', background: 'radial-gradient(circle,rgba(0,196,180,0.1) 0%,transparent 70%)' }} />
-        <div style={{ position: 'relative' }}>
-          <h2 style={{ fontSize: 'clamp(28px,4vw,48px)', fontWeight: 900, letterSpacing: '-1px', marginBottom: 14 }}>Still Have Questions?</h2>
-          <p style={{ color: 'rgba(240,246,255,0.55)', marginBottom: 34, fontSize: 17, lineHeight: 1.7 }}>Our team is here to help. We'll get back to you within 24 hours.</p>
+        <div style={{ maxWidth: 560, margin: '0 auto', position: 'relative' }}>
+          <div className="section-header">
+            <h2 className="section-title">Still Have Questions?</h2>
+            <p className="section-subtitle">Our team is here to help. We'll get back to you within 24 hours.</p>
+          </div>
           <div style={{ display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap' }}>
             <a href="/register" className="btn-p" style={{ padding: '14px 32px', borderRadius: 14, fontSize: 16 }}>Start Free Trial</a>
             <a href="mailto:hello@examsaas.com" className="btn-o" style={{ padding: '14px 32px', borderRadius: 14, fontSize: 16 }}>Talk to Sales</a>

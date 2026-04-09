@@ -32,9 +32,9 @@ export default function Footer() {
         <>
             <style>{`
         .ap-footer {
-          font-family: 'Sora', 'DM Sans', sans-serif;
+          font-family: 'Inter', sans-serif;
           background: #060E1C;
-          border-top: 1px solid rgba(0,196,180,0.1);
+          border-top: 1px solid rgba(249,115,22,0.1);
           padding: 72px 32px 32px;
           position: relative;
           overflow: hidden;
@@ -43,12 +43,12 @@ export default function Footer() {
           content: '';
           position: absolute; top: 0; left: 50%; transform: translateX(-50%);
           width: 600px; height: 1px;
-          background: linear-gradient(90deg, transparent, #00C4B4, #FFB800, #FF5733, #00E5FF, transparent);
+          background: linear-gradient(90deg, transparent, #f97316, #ea580c, transparent);
         }
         .ap-footer-glow {
           position: absolute; top: -120px; left: 50%; transform: translateX(-50%);
           width: 800px; height: 300px; border-radius: 50%;
-          background: radial-gradient(ellipse, rgba(0,196,180,0.05) 0%, transparent 70%);
+          background: radial-gradient(ellipse, rgba(249,115,22,0.05) 0%, transparent 70%);
           pointer-events: none;
         }
         .ap-footer-inner {
@@ -65,16 +65,9 @@ export default function Footer() {
           display: flex; align-items: center; gap: 10px;
           text-decoration: none; margin-bottom: 16px;
         }
-        .ap-footer-logo-icon {
-          width: 36px; height: 36px; border-radius: 10px;
-          background: linear-gradient(135deg, #00C4B4, #00E5FF);
-          display: flex; align-items: center; justify-content: center;
-          box-shadow: 0 0 16px rgba(0,196,180,0.3);
-        }
         .ap-footer-logo-text {
           font-size: 17px; font-weight: 800; color: #fff; letter-spacing: -0.3px;
         }
-        .ap-footer-logo-text span { color: #00C4B4; }
         .ap-footer-tagline {
           color: rgba(255,255,255,0.45);
           font-size: 13.5px; line-height: 1.75;
@@ -93,9 +86,9 @@ export default function Footer() {
           text-decoration: none;
         }
         .ap-social-btn:hover {
-          background: rgba(0,196,180,0.12);
-          border-color: rgba(0,196,180,0.3);
-          color: #00C4B4;
+          background: rgba(249,115,22,0.12);
+          border-color: rgba(249,115,22,0.3);
+          color: #f97316;
           transform: translateY(-2px);
         }
         .ap-footer-col h4 {
@@ -114,7 +107,7 @@ export default function Footer() {
           transition: color 0.2s;
           display: block;
         }
-        .ap-footer-col ul li a:hover { color: #00C4B4; }
+        .ap-footer-col ul li a:hover { color: #f97316; }
         .ap-footer-divider {
           height: 1px;
           background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);
@@ -136,7 +129,7 @@ export default function Footer() {
           font-size: 11px; font-weight: 700; letter-spacing: 0.3px;
           border: 1px solid;
         }
-        .ap-badge-teal { color: #00C4B4; border-color: rgba(0,196,180,0.25); background: rgba(0,196,180,0.07); }
+        .ap-badge-orange { color: #f97316; border-color: rgba(249,115,22,0.25); background: rgba(249,115,22,0.07); }
         .ap-badge-gold { color: #FFB800; border-color: rgba(255,184,0,0.25); background: rgba(255,184,0,0.07); }
         .ap-badge-coral { color: #FF5733; border-color: rgba(255,87,51,0.25); background: rgba(255,87,51,0.07); }
         @media (max-width: 900px) {
@@ -155,12 +148,12 @@ export default function Footer() {
                         {/* Brand */}
                         <div className="ap-footer-brand">
                             <a href="/" className="ap-footer-logo">
-                                <div className="ap-footer-logo-icon">
-                                    <svg width="18" height="18" fill="none" stroke="#081120" strokeWidth="2.3" viewBox="0 0 24 24">
+                                <div style={{ width: 36, height: 36, borderRadius: 10, background: 'linear-gradient(135deg, #f97316, #ea580c)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 0 16px rgba(249,115,22,0.4)' }}>
+                                    <svg width="18" height="18" fill="none" stroke="#fff" strokeWidth="2.3" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
                                     </svg>
                                 </div>
-                                <span className="ap-footer-logo-text">Exam<span>SaaS</span></span>
+                                <span className="ap-footer-logo-text">Exam<span style={{ color: '#f97316' }}>Spot</span></span>
                             </a>
                             <p className="ap-footer-tagline">
                                 India's most trusted examination platform for universities, colleges, and schools.
@@ -204,10 +197,10 @@ export default function Footer() {
 
                     <div className="ap-footer-bottom">
                         <p className="ap-footer-copy">
-                            © {year} ExamSaaS Technologies Pvt. Ltd. All rights reserved. Made with love in India.
+                            © {year} ExamSpot Technologies Pvt. Ltd. All rights reserved. Made with love in India.
                         </p>
                         <div className="ap-footer-badges">
-                            <span className="ap-badge ap-badge-teal">GDPR Compliant</span>
+                            <span className="ap-badge ap-badge-orange">GDPR Compliant</span>
                             <span className="ap-badge ap-badge-gold">ISO 27001</span>
                             <span className="ap-badge ap-badge-coral">99.9% Uptime</span>
                         </div>

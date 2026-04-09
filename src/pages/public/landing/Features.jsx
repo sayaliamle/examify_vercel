@@ -82,7 +82,7 @@ const stack = [
 
 export default function Features() {
   return (
-    <div style={{ fontFamily: "'Sora','DM Sans',sans-serif", background: '#081120', minHeight: '100vh', color: '#F0F6FF' }}>
+    <div style={{ fontFamily: "'Sora','DM Sans',sans-serif", background: 'transparent', minHeight: '100vh', color: '#F0F6FF' }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800;900&family=DM+Sans:wght@300;400;500;600&display=swap');
         *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
@@ -105,12 +105,29 @@ export default function Features() {
         .grid-bg{position:absolute;inset:0;opacity:0.03;background-image:linear-gradient(rgba(0,196,180,1) 1px,transparent 1px),linear-gradient(90deg,rgba(0,196,180,1) 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse at center,black 20%,transparent 75%);}
         .stack-card{border-radius:16px;padding:26px 18px;text-align:center;transition:all 0.3s;}
         .stack-card:hover{transform:translateY(-4px);}
+        .section-header { text-align: center; margin-bottom: 56px; }
+        .section-title { font-size: clamp(32px, 4vw, 48px); font-weight: 800; letter-spacing: -1px; margin-bottom: 16px; color: #F0F6FF; }
+        .section-subtitle { font-size: 18px; color: rgba(240,246,255,0.6); line-height: 1.7; max-width: 600px; margin: 0 auto; text-align: center; }
+        .text-orange-shadow { color: #f97316; text-shadow: 2px 2px 8px rgba(239,68,68,0.5), 0 0 20px rgba(239,68,68,0.3); }
+        .grid-4col { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+        .grid-auto { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
+        @media(max-width: 1024px) {
+          .grid-4col { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media(max-width: 768px) {
+          .section-title { font-size: 28px; }
+          .section-subtitle { font-size: 16px; }
+          .section-header { margin-bottom: 36px; }
+          .grid-4col, .grid-auto { grid-template-columns: 1fr !important; }
+        }
       `}</style>
 
       <Header />
 
       {/* ─── HERO ─── */}
       <section style={{ position: 'relative', overflow: 'hidden', padding: '140px 24px 100px', textAlign: 'center' }}>
+        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundImage: 'url(https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=1920&q=80)', backgroundSize: 'cover', backgroundPosition: 'center', zIndex: -1 }} />
+        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'linear-gradient(135deg, rgba(8,17,32,0.90) 0%, rgba(15,23,42,0.85) 50%, rgba(8,17,32,0.88) 100%)', zIndex: -1 }} />
         <div className="orb" style={{ width: 700, height: 450, top: -150, right: -100, background: 'radial-gradient(circle,rgba(0,196,180,0.14) 0%,transparent 70%)' }} />
         <div className="orb" style={{ width: 500, height: 400, bottom: -100, left: -100, background: 'radial-gradient(circle,rgba(255,184,0,0.09) 0%,transparent 70%)' }} />
         <div className="grid-bg" />
@@ -143,7 +160,7 @@ export default function Features() {
               <span className={`badge ${group.badge}`}>{group.features.length} Features</span>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(260px,1fr))', gap: 18 }}>
+            <div className="grid-auto">
               {group.features.map(f => (
                 <div key={f.title} className="fcard" style={{ '--ac': group.accent }}>
                   <div style={{ width: 34, height: 34, borderRadius: 10, background: `${group.accent}18`, border: `1px solid ${group.accent}30`, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 14 }}>
@@ -162,13 +179,15 @@ export default function Features() {
 
       {/* ─── TECH STACK ─── */}
       <section style={{ padding: '88px 24px' }}>
-        <div style={{ maxWidth: 900, margin: '0 auto', textAlign: 'center' }}>
-          <span className="badge badge-cyan" style={{ marginBottom: 18 }}>Infrastructure</span>
-          <h2 style={{ fontSize: 'clamp(26px,4vw,44px)', fontWeight: 800, marginBottom: 12, letterSpacing: '-0.5px' }}>
-            Built With <span className="shimmer-text">Best-in-Class</span>
-          </h2>
-          <p style={{ color: 'rgba(240,246,255,0.48)', marginBottom: 48, fontSize: 16, lineHeight: 1.7 }}>Powered by enterprise-grade infrastructure for reliability, security, and performance at scale.</p>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(180px,1fr))', gap: 16 }}>
+        <div style={{ maxWidth: 900, margin: '0 auto' }}>
+          <div className="section-header">
+            <span className="badge badge-cyan" style={{ marginBottom: 18, display: 'inline-block' }}>Infrastructure</span>
+            <h2 className="section-title">
+              Built With <span className="shimmer-text">Best-in-Class</span>
+            </h2>
+            <p className="section-subtitle">Powered by enterprise-grade infrastructure for reliability, security, and performance at scale.</p>
+          </div>
+          <div className="grid-4col">
             {stack.map(item => (
               <div key={item.name} className="stack-card" style={{ background: `${item.color}0E`, border: `1px solid ${item.color}28` }}>
                 <div style={{ width: 40, height: 40, borderRadius: 12, background: `${item.color}20`, border: `1px solid ${item.color}35`, display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 14px' }}>
@@ -183,15 +202,19 @@ export default function Features() {
       </section>
 
       {/* ─── CTA ─── */}
-      <section style={{ padding: '88px 24px', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
+      <section style={{ padding: '88px 24px', position: 'relative', overflow: 'hidden' }}>
         <div className="orb" style={{ width: 600, height: 350, top: '50%', left: '50%', transform: 'translate(-50%,-50%)', background: 'radial-gradient(circle,rgba(0,196,180,0.1) 0%,transparent 70%)' }} />
-        <div style={{ position: 'relative' }}>
-          <h2 style={{ fontSize: 'clamp(28px,4vw,48px)', fontWeight: 900, letterSpacing: '-1px', marginBottom: 14 }}>Ready to Experience It?</h2>
-          <p style={{ color: 'rgba(240,246,255,0.55)', marginBottom: 34, fontSize: 17, lineHeight: 1.7 }}>Start your free trial today. No credit card required.</p>
-          <a href="/register" className="btn-p" style={{ padding: '14px 36px', borderRadius: 14, fontSize: 16 }}>
-            Get Started Free
-            <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-          </a>
+        <div style={{ maxWidth: 560, margin: '0 auto', position: 'relative' }}>
+          <div className="section-header">
+            <h2 className="section-title">Ready to Experience It?</h2>
+            <p className="section-subtitle">Start your free trial today. No credit card required.</p>
+          </div>
+          <div style={{ textAlign: 'center' }}>
+            <a href="/register" className="btn-p" style={{ padding: '14px 36px', borderRadius: 14, fontSize: 16 }}>
+              Get Started Free
+              <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
+            </a>
+          </div>
         </div>
       </section>
 

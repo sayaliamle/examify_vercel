@@ -143,7 +143,9 @@ export default function Home() {
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
         @keyframes pulse-glow { 0%,100%{box-shadow:0 0 0 0 rgba(249,115,22,0.4)} 50%{box-shadow:0 0 0 8px rgba(249,115,22,0)} }
-        @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+        @keyframes marquee { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+        @keyframes fadeInUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes scaleIn { from{opacity:0;transform:scale(0.9)} to{opacity:1;transform:scale(1)} }
 
         .container { max-width: 800px; margin: 0 auto; padding: 0 24px; }
         .container-wide { max-width: 1200px; margin: 0 auto; padding: 0 48px; }
@@ -158,56 +160,60 @@ export default function Home() {
         .text-muted { color: #6b7280; }
         .text-lg { font-size: 18px; line-height: 1.7; }
         
-        .title-hero { font-size: clamp(40px, 7vw, 72px); font-weight: 800; letter-spacing: -3px; line-height: 1.05; margin-bottom: 24px; color: #ffffff; }
-        .title-section { font-size: clamp(28px, 4vw, 48px); font-weight: 700; letter-spacing: -1px; margin-bottom: 16px; color: #ffffff; }
-        .title-card { font-size: 20px; font-weight: 600; margin-bottom: 12px; color: #ffffff; }
+        .marquee-container { overflow: hidden; white-space: nowrap; width: 100%; }
+        .marquee-content { display: inline-flex; animation: marquee 25s linear infinite; }
+        .marquee-item { display: inline-flex; align-items: center; gap: 12px; padding: 0 32px; font-size: 14px; font-weight: 500; color: rgba(255,255,255,0.8); letter-spacing: 0.5px; }
+        .marquee-item .dot { width: 6px; height: 6px; border-radius: 50%; background: #f97316; flex-shrink: 0; }
         
-        .subtitle { font-size: 20px; color: rgba(255,255,255,0.85); line-height: 1.7; max-width: 600px; }
+        .hero-content { max-width: 750px; margin: 0 auto; text-align: center; }
+        .hero-badge { display: inline-flex; align-items: center; gap: 10px; padding: 10px 24px; border-radius: 50px; background: 'rgba(249,115,22,0.15)'; border: '1px solid rgba(249,115,22,0.3)'; font-size: 14px; font-weight: 600; color: '#ffffff'; margin-bottom: 32px; animation: fadeInUp 0.8s ease forwards; }
+        .hero-title { font-size: clamp(42px, 7vw, 72px); font-weight: 800; letter-spacing: -2px; line-height: 1.1; margin-bottom: 24px; color: #ffffff; animation: fadeInUp 0.8s ease forwards 0.2s; opacity: 0; }
+        .hero-title .highlight { color: #f97316; }
+        .hero-subtitle { font-size: clamp(16px, 2vw, 20px); color: rgba(255,255,255,0.7); line-height: 1.7; margin-bottom: 40px; animation: fadeInUp 0.8s ease forwards 0.4s; opacity: 0; }
+        .hero-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; animation: fadeInUp 0.8s ease forwards 0.6s; opacity: 0; }
         
-        .btn-primary { background: #f97316; color: #ffffff; font-weight: 600; padding: 16px 36px; border-radius: 14px; border: none; cursor: pointer; transition: all 0.3s; font-size: 16px; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; }
-        .btn-primary:hover { background: #ea580c; transform: translateY(-3px); box-shadow: 0 12px 40px rgba(249,115,22,0.4); }
-        .btn-secondary { background: transparent; color: #ffffff; font-weight: 600; padding: 16px 36px; border-radius: 14px; border: 2px solid rgba(255,255,255,0.4); cursor: pointer; transition: all 0.3s; font-size: 16px; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; }
+        .btn-primary { background: #f97316; color: #ffffff; font-weight: 600; padding: 14px 32px; border-radius: 12px; border: none; cursor: pointer; transition: all 0.3s; font-size: 15px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; }
+        .btn-primary:hover { background: #ea580c; transform: translateY(-2px); box-shadow: 0 8px 30px rgba(249,115,22,0.4); }
+        .btn-secondary { background: transparent; color: #ffffff; font-weight: 600; padding: 14px 32px; border-radius: 12px; border: 2px solid rgba(255,255,255,0.3); cursor: pointer; transition: all 0.3s; font-size: 15px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; }
         .btn-secondary:hover { border-color: #f97316; color: #f97316; background: rgba(249,115,22,0.1); }
         
-        .card { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12); border-radius: 24px; padding: 40px 32px; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); text-align: center; backdrop-filter: blur(10px); }
-        .card:hover { transform: translateY(-8px); background: rgba(255,255,255,0.15); border-color: rgba(249,115,22,0.5); box-shadow: 0 20px 60px rgba(0,0,0,0.3), 0 0 40px rgba(249,115,22,0.15); }
-        .card-icon { width: 64px; height: 64px; border-radius: 18px; background: linear-gradient(135deg, #f97316, #ea580c); display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; color: #fff; box-shadow: 0 8px 30px rgba(249,115,22,0.3); }
-        .card-desc { color: rgba(255,255,255,0.7); font-size: 15px; line-height: 1.7; }
+        .title-section { font-size: clamp(28px, 4vw, 40px); font-weight: 700; letter-spacing: -1px; margin-bottom: 12px; color: #ffffff; }
+        .title-card { font-size: 18px; font-weight: 600; margin-bottom: 10px; color: #ffffff; }
+        .subtitle { font-size: 17px; color: rgba(255,255,255,0.7); line-height: 1.6; max-width: 600px; }
         
-        .step-card { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12); border-radius: 20px; padding: 32px 28px; text-align: center; transition: all 0.4s; cursor: pointer; position: relative; overflow: hidden; }
-        .step-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #f97316, #ea580c); transform: scaleX(0); transition: transform 0.3s; }
-        .step-card:hover::before, .step-card.active::before { transform: scaleX(1); }
-        .step-card:hover, .step-card.active { background: rgba(255,255,255,0.15); border-color: rgba(249,115,22,0.4); transform: translateY(-4px); }
-        .step-number { font-size: 42px; font-weight: 800; color: rgba(255,255,255,0.2); margin-bottom: 16px; transition: color 0.3s; }
+        .card { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 32px 28px; transition: all 0.3s; text-align: center; backdrop-filter: blur(10px); }
+        .card:hover { transform: translateY(-6px); background: rgba(255,255,255,0.1); border-color: rgba(249,115,22,0.4); box-shadow: 0 16px 48px rgba(0,0,0,0.2); }
+        .card-icon { width: 56px; height: 56px; border-radius: 14px; background: linear-gradient(135deg, #f97316, #ea580c); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; color: #fff; }
+        .card-desc { color: rgba(255,255,255,0.65); font-size: 14px; line-height: 1.6; }
+        
+        .step-card { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 28px 24px; text-align: center; transition: all 0.3s; cursor: pointer; }
+        .step-card:hover, .step-card.active { background: rgba(255,255,255,0.1); border-color: rgba(249,115,22,0.4); }
+        .step-number { font-size: 36px; font-weight: 800; color: rgba(255,255,255,0.15); margin-bottom: 12px; }
         .step-card.active .step-number { color: #f97316; }
-        .step-title { font-size: 18px; font-weight: 600; margin-bottom: 10px; color: #ffffff; }
-        .step-desc { font-size: 14px; color: rgba(255,255,255,0.65); line-height: 1.6; }
+        .step-title { font-size: 16px; font-weight: 600; margin-bottom: 8px; color: #ffffff; }
+        .step-desc { font-size: 13px; color: rgba(255,255,255,0.6); line-height: 1.5; }
         
-        .stat-box { text-align: center; padding: 40px 24px; position: relative; }
-        .stat-box::after { content: ''; position: absolute; right: 0; top: 50%; transform: translateY(-50%); height: 60%; width: 1px; background: linear-gradient(transparent, rgba(255,255,255,0.2), transparent); }
-        .stat-box:last-child::after { display: none; }
-        .stat-value { font-size: 56px; font-weight: 800; color: #f97316; letter-spacing: -2px; margin-bottom: 12px; text-shadow: 0 0 40px rgba(249,115,22,0.4); }
-        .stat-label { font-size: 15px; color: rgba(255,255,255,0.75); font-weight: 500; }
+        .stat-box { text-align: center; padding: 32px 20px; }
+        .stat-value { font-size: 48px; font-weight: 800; color: #f97316; letter-spacing: -2px; margin-bottom: 8px; }
+        .stat-label { font-size: 14px; color: rgba(255,255,255,0.7); font-weight: 500; }
         
-        .testimonial-card { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12); border-radius: 24px; padding: 40px; text-align: left; transition: all 0.4s; position: relative; }
-        .testimonial-card::before { content: '"'; position: absolute; top: 20px; right: 30px; font-size: 100px; color: rgba(249,115,22,0.15); font-family: Georgia, serif; line-height: 1; }
-        .testimonial-card:hover { background: rgba(255,255,255,0.12); transform: translateY(-4px); }
-        .testimonial-avatar { width: 56px; height: 56px; border-radius: 16px; background: linear-gradient(135deg, #f97316, #ea580c); display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 18px; margin-bottom: 20px; box-shadow: 0 4px 20px rgba(249,115,22,0.3); }
-        .testimonial-content { font-size: 16px; line-height: 1.8; color: rgba(255,255,255,0.85); margin-bottom: 24px; }
-        .testimonial-name { font-size: 16px; font-weight: 600; color: #ffffff; margin-bottom: 4px; }
-        .testimonial-role { font-size: 13px; color: rgba(255,255,255,0.6); }
+        .testimonial-card { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 32px; transition: all 0.3s; }
+        .testimonial-card:hover { background: rgba(255,255,255,0.1); }
+        .testimonial-avatar { width: 52px; height: 52px; border-radius: 14px; background: linear-gradient(135deg, #f97316, #ea580c); display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 16px; margin-bottom: 16px; }
+        .testimonial-content { font-size: 15px; line-height: 1.7; color: rgba(255,255,255,0.8); margin-bottom: 20px; }
+        .testimonial-name { font-size: 15px; font-weight: 600; color: #ffffff; margin-bottom: 4px; }
+        .testimonial-role { font-size: 13px; color: rgba(255,255,255,0.5); }
         
-        .badge { display: inline-block; padding: 8px 20px; border-radius: 30px; font-size: 13px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; background: rgba(249,115,22,0.2); color: #f97316; border: 1px solid rgba(249,115,22,0.3); margin-bottom: 24px; }
+        .badge { display: inline-block; padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; background: rgba(249,115,22,0.2); color: #f97316; }
         
-        .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px; }
-        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
-        .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
-        .grid-auto { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 28px; }
+        .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+        .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+        .grid-auto { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
         
-        .divider { height: 1px; background: linear-gradient(90deg, transparent, rgba(249,115,22,0.3), transparent); max-width: 80%; }
+        .divider { height: 1px; background: linear-gradient(90deg, transparent, rgba(249,115,22,0.2), transparent); max-width: 60%; margin: 0 auto; }
         
-        .cta-box { padding: 64px; background: rgba(249,115,22,0.95); border-radius: 32px; border: none; position: relative; overflow: hidden; }
-        .cta-box::before { content: ''; position: absolute; top: -50%; right: -20%; width: 400px; height: 400px; background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%); border-radius: 50%; }
+        .cta-box { padding: 60px; background: linear-gradient(135deg, #f97316, #ea580c); border-radius: 24px; position: relative; overflow: hidden; }
         
         @media (max-width: 1024px) {
           .container-wide { padding: 0 32px; }
@@ -219,11 +225,9 @@ export default function Home() {
           .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
           .grid-auto { grid-template-columns: 1fr; }
           .section { padding: 60px 0; }
-          .section-sm { padding: 48px 0; }
-          .title-hero { letter-spacing: -1px; }
+          .section-sm { padding: 40px 0; }
           .cta-box { padding: 40px 24px; }
-          .stat-box::after { display: none; }
-          .stat-value { font-size: 42px; }
+          .stat-value { font-size: 40px; }
         }
       `}</style>
 
@@ -232,51 +236,49 @@ export default function Home() {
       <main style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
         {/* ─── HERO ─── */}
         <section style={{ position: 'relative', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
-          <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundImage: 'url(https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1920&q=80)', backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }} />
-          <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, background: 'linear-gradient(135deg, rgba(17,24,39,0.9) 0%, rgba(0,0,0,0.7) 100%)', zIndex: 1 }} />
-          <div style={{ position: 'absolute', top: '20%', right: '10%', width: '300px', height: '300px', background: 'radial-gradient(circle, rgba(249,115,22,0.15) 0%, transparent 70%)', borderRadius: '50%', zIndex: 1 }} />
-          <div style={{ position: 'absolute', bottom: '20%', left: '5%', width: '200px', height: '200px', background: 'radial-gradient(circle, rgba(249,115,22,0.1) 0%, transparent 70%)', borderRadius: '50%', zIndex: 1 }} />
-          <div className="container" style={{ position: 'relative', zIndex: 2, textAlign: 'center', padding: '100px 24px' }}>
-            <div style={{ marginBottom: 32, animation: 'float 3s ease-in-out infinite' }}>
-              <div style={{ display: 'inline-flex', alignItems: 'center', gap: 12, padding: '12px 28px', borderRadius: 50, background: 'rgba(249,115,22,0.15)', border: '1px solid rgba(249,115,22,0.3)', backdropFilter: 'blur(10px)' }}>
-                <span style={{ width: 10, height: 10, borderRadius: '50%', background: '#f97316', boxShadow: '0 0 20px rgba(249,115,22,0.8)', animation: 'pulse-glow 2s infinite' }} />
-                <span style={{ fontSize: 14, fontWeight: 600, color: '#ffffff', letterSpacing: 0.5 }}>Now serving 500+ institutions across India</span>
-              </div>
+          <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundImage: 'url(https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1920&q=80)', backgroundSize: 'cover', backgroundPosition: 'center' }} />
+          <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, background: 'linear-gradient(135deg, rgba(17,24,39,0.85) 0%, rgba(0,0,0,0.75) 100%)', zIndex: 1 }} />
+          
+          <div className="container hero-content" style={{ position: 'relative', zIndex: 2, padding: '120px 24px 80px' }}>
+            <div className="hero-badge">
+              <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#f97316' }} />
+              Now serving 500+ institutions across India
             </div>
             
-            <h1 className="title-hero">
-              The Modern<br />
-              <span style={{ color: '#f97316', position: 'relative' }}>Exam Platform
-                <span style={{ position: 'absolute', bottom: '-8px', left: 0, right: 0, height: 4, background: 'linear-gradient(90deg, transparent, #f97316, transparent)', borderRadius: 2 }} />
-              </span>
-              <br />for India
+            <h1 className="hero-title">
+              The Modern <span className="highlight">Exam</span><br />
+              Platform for <span className="highlight">India</span>
             </h1>
             
-            <p className="subtitle" style={{ textAlign: 'center', marginBottom: 48 }}>
+            <p className="hero-subtitle">
               Conduct secure, scalable online examinations with AI-powered proctoring,
               instant results, and deep analytics — trusted by universities, colleges & schools.
             </p>
             
-            <div style={{ display: 'flex', gap: 20, justifyContent: 'center', flexWrap: 'wrap' }}>
+            <div className="hero-buttons">
               <a href="/register" className="btn-primary">
                 Start Free Trial
-                <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
+                <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
               </a>
               <a href="/about" className="btn-secondary">Watch Demo</a>
             </div>
             
-            <div style={{ marginTop: 60, display: 'flex', gap: 48, justifyContent: 'center', flexWrap: 'wrap' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                <svg width="20" height="20" fill="none" stroke="#f97316" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
-                <span style={{ color: 'rgba(255,255,255,0.8)', fontSize: 14 }}>AI-Powered Proctoring</span>
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                <svg width="20" height="20" fill="none" stroke="#f97316" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
-                <span style={{ color: 'rgba(255,255,255,0.8)', fontSize: 14 }}>Bank-Level Security</span>
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                <svg width="20" height="20" fill="none" stroke="#f97316" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
-                <span style={{ color: 'rgba(255,255,255,0.8)', fontSize: 14 }}>24/7 Support</span>
+            <div style={{ marginTop: 60 }}>
+              <div className="marquee-container" style={{ background: 'rgba(249,115,22,0.12)', borderRadius: '14px', padding: '14px 0', border: '1px solid rgba(249,115,22,0.15)' }}>
+                <div className="marquee-content">
+                  {['AI Proctoring', 'Secure Exams', 'Instant Results', 'Smart Analytics', 'Question Bank', 'Flexible', 'Multi-tenant', '24/7 Support'].map((item, i) => (
+                    <span key={i} className="marquee-item">
+                      <span className="dot"></span>
+                      {item}
+                    </span>
+                  ))}
+                  {['AI Proctoring', 'Secure Exams', 'Instant Results', 'Smart Analytics', 'Question Bank', 'Flexible', 'Multi-tenant', '24/7 Support'].map((item, i) => (
+                    <span key={`dup-${i}`} className="marquee-item">
+                      <span className="dot"></span>
+                      {item}
+                    </span>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
@@ -285,24 +287,24 @@ export default function Home() {
         <div className="divider" />
 
         {/* ─── STATS ─── */}
-        <section style={{ padding: '48px 0', background: 'rgba(17,24,39,0.7)' }}>
+        <section style={{ padding: '40px 0', background: 'rgba(17,24,39,0.75)' }}>
           <div className="container-wide">
             <div className="grid-4">
               <div className="stat-box">
                 <div className="stat-value"><Counter target="500+" /></div>
-                <div className="stat-label" style={{ color: 'rgba(255,255,255,0.8)' }}>Institutions</div>
+                <div className="stat-label">Institutions</div>
               </div>
               <div className="stat-box">
                 <div className="stat-value"><Counter target="2000+" /></div>
-                <div className="stat-label" style={{ color: 'rgba(255,255,255,0.8)' }}>Exams Conducted</div>
+                <div className="stat-label">Exams Conducted</div>
               </div>
               <div className="stat-box">
                 <div className="stat-value"><Counter target="99%" /></div>
-                <div className="stat-label" style={{ color: 'rgba(255,255,255,0.8)' }}>Uptime SLA</div>
+                <div className="stat-label">Uptime SLA</div>
               </div>
               <div className="stat-box">
                 <div className="stat-value"><Counter target="10000+" /></div>
-                <div className="stat-label" style={{ color: 'rgba(255,255,255,0.8)' }}>Students Served</div>
+                <div className="stat-label">Students Served</div>
               </div>
             </div>
           </div>
@@ -311,19 +313,19 @@ export default function Home() {
         <div className="divider" />
 
         {/* ─── FEATURES ─── */}
-        <section style={{ padding: '64px 0', background: 'rgba(17,24,39,0.75)' }}>
+        <section style={{ padding: '64px 0', background: 'rgba(17,24,39,0.8)' }}>
           <div className="container-wide">
-            <div style={{ marginBottom: 40 }}>
-              <h2 className="title-section" style={{ textAlign: 'left', marginBottom: 8, color: '#ffffff' }}>Everything You Need</h2>
-              <p style={{ fontSize: 18, color: 'rgba(255,255,255,0.8)', lineHeight: 1.7, textAlign: 'left' }}>From secure proctoring to instant results — a complete examination ecosystem.</p>
+            <div style={{ marginBottom: 48 }}>
+              <h2 className="title-section" style={{ textAlign: 'left', marginBottom: 8 }}>Everything You Need</h2>
+              <p className="subtitle" style={{ textAlign: 'left' }}>From secure proctoring to instant results — a complete examination ecosystem.</p>
             </div>
             
             <div className="grid-3">
               {features.map(f => (
-                <div key={f.title} className="card" style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.15)' }}>
+                <div key={f.title} className="card">
                   <div className="card-icon">{f.icon}</div>
-                  <h3 className="title-card" style={{ color: '#ffffff' }}>{f.title}</h3>
-                  <p className="card-desc" style={{ color: 'rgba(255,255,255,0.7)' }}>{f.description}</p>
+                  <h3 className="title-card">{f.title}</h3>
+                  <p className="card-desc">{f.description}</p>
                 </div>
               ))}
             </div>
@@ -333,19 +335,19 @@ export default function Home() {
         <div className="divider" />
 
         {/* ─── HOW IT WORKS ─── */}
-        <section style={{ padding: '64px 0', background: 'rgba(17,24,39,0.7)' }}>
+        <section style={{ padding: '64px 0', background: 'rgba(17,24,39,0.75)' }}>
           <div className="container-wide">
-            <div style={{ marginBottom: 40 }}>
-              <h2 className="title-section" style={{ textAlign: 'left', marginBottom: 8, color: '#ffffff' }}>Launch in Minutes</h2>
-              <p style={{ fontSize: 18, color: 'rgba(255,255,255,0.8)', lineHeight: 1.7, textAlign: 'left' }}>Get started in four simple steps.</p>
+            <div style={{ marginBottom: 48 }}>
+              <h2 className="title-section" style={{ textAlign: 'left', marginBottom: 8 }}>Launch in Minutes</h2>
+              <p className="subtitle" style={{ textAlign: 'left' }}>Get started in four simple steps.</p>
             </div>
             
             <div className="grid-4">
               {steps.map((step, i) => (
-                <div key={step.number} className={`step-card ${activeStep === i ? 'active' : ''}`} style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.15)' }}>
+                <div key={step.number} className={`step-card ${activeStep === i ? 'active' : ''}`}>
                   <div className="step-number">{step.number}</div>
-                  <h3 className="step-title" style={{ color: '#ffffff' }}>{step.title}</h3>
-                  <p className="step-desc" style={{ color: 'rgba(255,255,255,0.7)' }}>{step.description}</p>
+                  <h3 className="step-title">{step.title}</h3>
+                  <p className="step-desc">{step.description}</p>
                 </div>
               ))}
             </div>
@@ -355,20 +357,20 @@ export default function Home() {
         <div className="divider" />
 
         {/* ─── TESTIMONIALS ─── */}
-        <section style={{ padding: '64px 0', background: 'rgba(17,24,39,0.75)' }}>
+        <section style={{ padding: '64px 0', background: 'rgba(17,24,39,0.8)' }}>
           <div className="container-wide">
-            <div style={{ marginBottom: 40 }}>
-              <h2 className="title-section" style={{ textAlign: 'left', marginBottom: 8, color: '#ffffff' }}>Trusted by Educators</h2>
-              <p style={{ fontSize: 18, color: 'rgba(255,255,255,0.8)', lineHeight: 1.7, textAlign: 'left' }}>See what institutions across India are saying.</p>
+            <div style={{ marginBottom: 48 }}>
+              <h2 className="title-section" style={{ textAlign: 'left', marginBottom: 8 }}>Trusted by Educators</h2>
+              <p className="subtitle" style={{ textAlign: 'left' }}>See what institutions across India are saying.</p>
             </div>
             
             <div className="grid-3">
               {testimonials.map(t => (
-                <div key={t.name} className="testimonial-card" style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.15)' }}>
+                <div key={t.name} className="testimonial-card">
                   <div className="testimonial-avatar">{t.avatar}</div>
-                  <p className="testimonial-content" style={{ color: 'rgba(255,255,255,0.85)' }}>"{t.content}"</p>
-                  <div className="testimonial-name" style={{ color: '#ffffff' }}>{t.name}</div>
-                  <div className="testimonial-role" style={{ color: 'rgba(255,255,255,0.6)' }}>{t.role}</div>
+                  <p className="testimonial-content">"{t.content}"</p>
+                  <div className="testimonial-name">{t.name}</div>
+                  <div className="testimonial-role">{t.role}</div>
                 </div>
               ))}
             </div>
@@ -376,35 +378,21 @@ export default function Home() {
         </section>
 
         {/* ─── CTA ─── */}
-        <div className="container-wide" style={{ padding: '80px 48px' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 60, alignItems: 'center', background: 'linear-gradient(135deg, rgba(249,115,22,0.95) 0%, #ea580c 100%)', borderRadius: 32, padding: '60px', position: 'relative', overflow: 'hidden' }}>
-            <div style={{ position: 'absolute', top: '-50%', right: '-10%', width: '400px', height: '400px', background: 'radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%)', borderRadius: '50%' }} />
-            <div style={{ position: 'relative', zIndex: 1 }}>
-              <span style={{ display: 'inline-block', padding: '8px 20px', borderRadius: 30, fontSize: 13, fontWeight: 600, letterSpacing: 1, textTransform: 'uppercase', background: 'rgba(255,255,255,0.2)', color: '#ffffff', marginBottom: 24 }}>Get Started Today</span>
-              <h2 style={{ fontSize: 'clamp(28px, 4vw, 42px)', fontWeight: 700, color: '#ffffff', letterSpacing: '-1px', marginBottom: 16 }}>Ready to Transform Your Examinations?</h2>
-              <p style={{ fontSize: 18, color: 'rgba(255,255,255,0.9)', lineHeight: 1.7, marginBottom: 32 }}>Join 500+ educational institutions that trust ExamSpot. Start free — no credit card required.</p>
-              <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
-                <a href="/register" style={{ background: '#ffffff', color: '#f97316', fontWeight: 600, padding: '16px 36px', borderRadius: 14, fontSize: 16, textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 10, boxShadow: '0 4px 20px rgba(0,0,0,0.15)' }}>
-                  Get Started Free
-                  <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-                </a>
-                <a href="/about" style={{ background: 'transparent', color: '#ffffff', fontWeight: 600, padding: '16px 36px', borderRadius: 14, border: '2px solid rgba(255,255,255,0.4)', fontSize: 16, textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 10 }}>
-                  Learn More
-                </a>
+        <div className="container-wide" style={{ padding: '80px 0' }}>
+          <div className="cta-box">
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 40, flexWrap: 'wrap' }}>
+              <div style={{ flex: '1', minWidth: '280px' }}>
+                <span className="badge">Get Started Today</span>
+                <h2 className="title-section" style={{ marginBottom: 12, color: '#ffffff' }}>Ready to Transform<br />Your Examinations?</h2>
+                <p className="subtitle" style={{ marginBottom: 0, textAlign: 'left', color: 'rgba(255,255,255,0.85)' }}>Join 500+ educational institutions. Start free — no credit card required.</p>
               </div>
-            </div>
-            <div style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', gap: 20 }}>
-              {[['No credit card required', 'Start your 14-day free trial today'], ['Instant setup', 'Up and running in minutes'], ['24/7 Support', 'Always here when you need us']].map(([title, desc]) => (
-                <div key={title} style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '20px 24px', background: 'rgba(255,255,255,0.15)', borderRadius: 16, backdropFilter: 'blur(10px)' }}>
-                  <div style={{ width: 48, height: 48, borderRadius: 12, background: 'rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <svg width="24" height="24" fill="none" stroke="#fff" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
-                  </div>
-                  <div>
-                    <div style={{ fontSize: 16, fontWeight: 600, color: '#ffffff', marginBottom: 4 }}>{title}</div>
-                    <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.75)' }}>{desc}</div>
-                  </div>
-                </div>
-              ))}
+              <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
+                <a href="/register" className="btn-primary" style={{ background: '#ffffff', color: '#f97316' }}>
+                  Get Started Free
+                  <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
+                </a>
+                <a href="/about" className="btn-secondary" style={{ borderColor: 'rgba(255,255,255,0.4)' }}>Learn More</a>
+              </div>
             </div>
           </div>
         </div>

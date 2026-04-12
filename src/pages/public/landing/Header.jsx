@@ -1,17 +1,40 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 export default function Header() {
     const [scrolled, setScrolled] = useState(false);
     const [menuOpen, setMenuOpen] = useState(false);
-    const [hoveredLink, setHoveredLink] = useState(null);
+    const [visible, setVisible] = useState(true);
+    const lastScrollY = useRef(0);
+    const ticking = useRef(false);
 
     useEffect(() => {
-        const onScroll = () => setScrolled(window.scrollY > 20);
-        window.addEventListener('scroll', onScroll);
-        return () => window.removeEventListener('scroll', onScroll);
-    }, []);
+        const handleScroll = () => {
+            if (!ticking.current) {
+                window.requestAnimationFrame(() => {
+                    const currentScrollY = window.scrollY;
+                    
+                    if (currentScrollY > 80) {
+                        setScrolled(true);
+                        if (currentScrollY > lastScrollY.current) {
+                            setVisible(false);
+                        } else {
+                            setVisible(true);
+                        }
+                    } else {
+                        setScrolled(false);
+                        setVisible(true);
+                    }
+                    
+                    lastScrollY.current = currentScrollY;
+                    ticking.current = false;
+                });
+                ticking.current = true;
+            }
+        };
 
-    const currentPath = typeof window !== 'undefined' ? window.location.pathname : '';
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
 
     const navLinks = [
         { label: 'Home', path: '/' },
@@ -23,300 +46,310 @@ export default function Header() {
     return (
         <>
             <style>{`
-                @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+                @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
                 
-                .ap-nav {
-                    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-                    padding: 0 48px; height: 76px;
-                    display: flex; align-items: center; justify-content: space-between;
-                    font-family: 'Inter', sans-serif;
-                    background: rgba(17, 24, 39, 0.8);
-                    backdrop-filter: blur(20px);
-                    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                .premium-nav {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    z-index: 1000;
+                    height: 80px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    padding: 0 48px;
+                    font-family: 'Plus Jakarta Sans', sans-serif;
                     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
                 }
-                .ap-nav.scrolled {
-                    background: rgba(17, 24, 39, 0.95);
-                    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3), 0 0 40px rgba(249, 115, 22, 0.1);
-                    height: 68px;
-                }
-                .ap-logo {
-                    display: flex; align-items: center; gap: 14px;
-                    text-decoration: none;
-                    flex: 1;
-                    position: relative;
-                }
-                .ap-logo-icon {
-                    width: 44px; height: 44px; border-radius: 12px;
-                    background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
-                    display: flex; align-items: center; justify-content: center;
-                    box-shadow: 0 4px 20px rgba(249, 115, 22, 0.4);
-                    transition: all 0.3s;
-                    position: relative;
-                    overflow: hidden;
-                }
-                .ap-logo-icon::before {
+                
+                .premium-nav::before {
                     content: '';
                     position: absolute;
-                    top: -50%; left: -50%;
-                    width: 200%; height: 200%;
-                    background: linear-gradient(45deg, transparent 40%, rgba(255,255,255,0.3) 50%, transparent 60%);
-                    animation: shine 3s infinite;
+                    inset: 0;
+                    background: rgba(9, 14, 26, 0.8);
+                    backdrop-filter: blur(20px);
+                    -webkit-backdrop-filter: blur(20px);
+                    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+                    opacity: 0;
+                    transition: opacity 0.4s ease;
                 }
-                @keyframes shine {
-                    0% { transform: translateX(-100%) rotate(45deg); }
-                    100% { transform: translateX(100%) rotate(45deg); }
+                
+                .premium-nav.scrolled::before {
+                    opacity: 1;
                 }
-                .ap-logo:hover .ap-logo-icon {
-                    transform: scale(1.05) rotate(3deg);
+                
+                .premium-nav.hidden {
+                    transform: translateY(-100%);
+                }
+                
+                .premium-nav.visible {
+                    transform: translateY(0);
+                }
+                
+                .premium-nav-content {
+                    position: relative;
+                    z-index: 1;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    width: 100%;
+                    max-width: 1200px;
+                    margin: 0 auto;
+                }
+                
+                .premium-nav-logo {
+                    display: flex;
+                    align-items: center;
+                    gap: 14px;
+                    text-decoration: none;
+                }
+                
+                .premium-nav-logo-icon {
+                    width: 44px;
+                    height: 44px;
+                    border-radius: 14px;
+                    background: linear-gradient(135deg, #F97316, #EA580C);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    box-shadow: 0 4px 20px rgba(249, 115, 22, 0.4);
+                    transition: all 0.3s ease;
+                }
+                
+                .premium-nav-logo:hover .premium-nav-logo-icon {
+                    transform: translateY(-2px);
                     box-shadow: 0 8px 30px rgba(249, 115, 22, 0.5);
                 }
-                .ap-logo-text {
-                    font-size: 24px; font-weight: 800; letter-spacing: -1px;
-                    color: #ffffff;
-                    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+                
+                .premium-nav-logo-text {
+                    font-size: 22px;
+                    font-weight: 800;
+                    color: #FFFFFF;
+                    letter-spacing: -0.02em;
                 }
-                .ap-nav-center {
-                    flex: 2;
-                    display: flex; justify-content: center;
+                
+                .premium-nav-logo-text span {
+                    background: linear-gradient(135deg, #F97316, #FB923C);
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                    background-clip: text;
                 }
-                .ap-nav-links {
-                    display: flex; gap: 8px; align-items: center;
-                    list-style: none; margin: 0; padding: 0;
-                }
-                .ap-nav-links a {
-                    color: rgba(255, 255, 255, 0.75);
-                    text-decoration: none;
-                    font-size: 15px; font-weight: 500;
-                    transition: all 0.3s;
-                    position: relative;
-                    padding: 10px 18px;
-                    border-radius: 10px;
-                    overflow: hidden;
-                }
-                .ap-nav-links a::before {
-                    content: '';
-                    position: absolute;
-                    bottom: 6px; left: 50%;
-                    width: 0; height: 2px;
-                    background: linear-gradient(90deg, #f97316, #ea580c);
-                    transform: translateX(-50%);
-                    transition: width 0.3s;
-                    border-radius: 2px;
-                }
-                .ap-nav-links a:hover {
-                    color: #ffffff;
-                    background: rgba(249, 115, 22, 0.1);
-                }
-                .ap-nav-links a:hover::before {
-                    width: 60%;
-                }
-                .ap-nav-links a.active {
-                    color: #f97316;
-                    background: rgba(249, 115, 22, 0.15);
-                }
-                .ap-nav-links a.active::before {
-                    width: 60%;
-                }
-                .ap-nav-actions {
-                    flex: 1;
-                    display: flex; justify-content: flex-end; gap: 12px;
+                
+                .premium-nav-links {
+                    display: flex;
                     align-items: center;
+                    gap: 8px;
                 }
-                .ap-btn-signin {
-                    padding: 10px 24px; border-radius: 12px;
-                    font-size: 15px; font-weight: 600;
+                
+                .premium-nav-link {
+                    padding: 10px 18px;
+                    font-size: 15px;
+                    font-weight: 600;
+                    color: rgba(255, 255, 255, 0.7);
+                    text-decoration: none;
+                    border-radius: 12px;
+                    transition: all 0.3s ease;
+                }
+                
+                .premium-nav-link:hover {
+                    color: #FFFFFF;
+                    background: rgba(255, 255, 255, 0.08);
+                }
+                
+                .premium-nav-actions {
+                    display: flex;
+                    align-items: center;
+                    gap: 12px;
+                }
+                
+                .premium-btn-signin {
+                    padding: 12px 24px;
+                    font-size: 15px;
+                    font-weight: 600;
                     background: transparent;
                     color: rgba(255, 255, 255, 0.85);
-                    border: 1px solid rgba(255, 255, 255, 0.2);
-                    cursor: pointer; text-decoration: none;
-                    font-family: 'Inter', sans-serif;
-                    transition: all 0.3s;
-                    position: relative;
-                    overflow: hidden;
-                }
-                .ap-btn-signin::before {
-                    content: '';
-                    position: absolute;
-                    top: 0; left: -100%;
-                    width: 100%; height: 100%;
-                    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-                    transition: left 0.5s;
-                }
-                .ap-btn-signin:hover {
-                    color: #ffffff;
-                    border-color: rgba(255, 255, 255, 0.4);
-                    background: rgba(255, 255, 255, 0.05);
-                    transform: translateY(-2px);
-                }
-                .ap-btn-signin:hover::before {
-                    left: 100%;
-                }
-                .ap-btn-cta {
-                    padding: 12px 28px; border-radius: 12px;
-                    font-size: 15px; font-weight: 600;
-                    background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
-                    color: #fff; border: none;
-                    cursor: pointer; text-decoration: none;
-                    font-family: 'Inter', sans-serif;
-                    display: inline-flex; align-items: center; gap: 10px;
-                    transition: all 0.3s;
-                    position: relative;
-                    overflow: hidden;
-                    box-shadow: 0 4px 20px rgba(249, 115, 22, 0.3);
-                }
-                .ap-btn-cta::before {
-                    content: '';
-                    position: absolute;
-                    top: 0; left: -100%;
-                    width: 100%; height: 100%;
-                    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-                    transition: left 0.5s;
-                }
-                .ap-btn-cta:hover {
-                    transform: translateY(-3px);
-                    box-shadow: 0 8px 30px rgba(249, 115, 22, 0.4);
-                }
-                .ap-btn-cta:hover::before {
-                    left: 100%;
-                }
-                .ap-btn-cta svg {
-                    transition: transform 0.3s;
-                }
-                .ap-btn-cta:hover svg {
-                    transform: translateX(4px);
-                }
-                .ap-mobile-toggle {
-                    display: none;
-                    width: 44px; height: 44px;
-                    background: rgba(255, 255, 255, 0.1);
                     border: 1px solid rgba(255, 255, 255, 0.15);
                     border-radius: 12px;
+                    cursor: pointer;
+                    text-decoration: none;
+                    font-family: 'Plus Jakarta Sans', sans-serif;
+                    transition: all 0.3s ease;
+                }
+                
+                .premium-btn-signin:hover {
+                    color: #F97316;
+                    border-color: #F97316;
+                    background: rgba(249, 115, 22, 0.1);
+                }
+                
+                .premium-btn-cta {
+                    padding: 14px 28px;
+                    font-size: 15px;
+                    font-weight: 700;
+                    background: linear-gradient(135deg, #F97316, #EA580C);
+                    color: #090E1A;
+                    border: none;
+                    border-radius: 12px;
+                    cursor: pointer;
+                    text-decoration: none;
+                    font-family: 'Plus Jakarta Sans', sans-serif;
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 10px;
+                    transition: all 0.3s ease;
+                    box-shadow: 0 4px 20px rgba(249, 115, 22, 0.3);
+                }
+                
+                .premium-btn-cta:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 8px 30px rgba(249, 115, 22, 0.5);
+                }
+                
+                .premium-btn-cta svg {
+                    transition: transform 0.3s ease;
+                }
+                
+                .premium-btn-cta:hover svg {
+                    transform: translateX(4px);
+                }
+                
+                .premium-mobile-toggle {
+                    display: none;
+                    width: 48px;
+                    height: 48px;
+                    background: rgba(255, 255, 255, 0.08);
+                    border: 1px solid rgba(255, 255, 255, 0.1);
+                    border-radius: 14px;
                     cursor: pointer;
                     align-items: center;
                     justify-content: center;
                     color: #ffffff;
-                    transition: all 0.3s;
+                    transition: all 0.3s ease;
                 }
-                .ap-mobile-toggle:hover {
-                    background: rgba(249, 115, 22, 0.2);
+                
+                .premium-mobile-toggle:hover {
+                    background: rgba(249, 115, 22, 0.15);
                     border-color: rgba(249, 115, 22, 0.3);
                 }
-                .ap-mobile-menu {
+                
+                .premium-mobile-menu {
                     display: none;
                     position: fixed;
-                    top: 76px; left: 0; right: 0;
-                    background: rgba(17, 24, 39, 0.98);
+                    top: 80px;
+                    left: 0;
+                    right: 0;
+                    background: rgba(9, 14, 26, 0.98);
                     backdrop-filter: blur(20px);
+                    -webkit-backdrop-filter: blur(20px);
                     padding: 24px;
                     flex-direction: column;
                     gap: 8px;
-                    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
                     animation: slideDown 0.3s ease;
+                    z-index: 999;
                 }
+                
                 @keyframes slideDown {
-                    from { opacity: 0; transform: translateY(-10px); }
+                    from { opacity: 0; transform: translateY(-20px); }
                     to { opacity: 1; transform: translateY(0); }
                 }
-                .ap-mobile-menu.open { display: flex; }
-                .ap-mobile-menu a {
+                
+                .premium-mobile-menu.open { display: flex; }
+                
+                .premium-mobile-menu a {
                     color: rgba(255, 255, 255, 0.85);
                     text-decoration: none;
-                    font-size: 16px; font-weight: 500;
-                    padding: 14px 18px;
-                    border-radius: 12px;
-                    transition: all 0.3s;
+                    font-size: 17px;
+                    font-weight: 600;
+                    padding: 16px 20px;
+                    border-radius: 14px;
+                    transition: all 0.3s ease;
                     border: 1px solid transparent;
                 }
-                .ap-mobile-menu a:hover {
+                
+                .premium-mobile-menu a:hover {
                     background: rgba(249, 115, 22, 0.15);
-                    border-color: rgba(249, 115, 22, 0.3);
-                    color: #f97316;
+                    border-color: rgba(249, 115, 22, 0.2);
+                    color: #F97316;
                 }
-                .ap-mobile-menu .ap-mobile-actions {
+                
+                .premium-mobile-actions {
                     display: flex;
                     flex-direction: column;
                     gap: 12px;
                     margin-top: 16px;
-                    padding-top: 16px;
-                    border-top: 1px solid rgba(255, 255, 255, 0.1);
+                    padding-top: 20px;
+                    border-top: 1px solid rgba(255, 255, 255, 0.08);
                 }
-                .ap-mobile-menu .ap-btn-signin {
-                    text-align: center;
+                
+                .premium-mobile-actions .premium-btn-signin,
+                .premium-mobile-actions .premium-btn-cta {
                     width: 100%;
-                }
-                .ap-mobile-menu .ap-btn-cta {
-                    text-align: center;
                     justify-content: center;
                 }
                 
                 @media (max-width: 900px) {
-                    .ap-desktop-nav { display: none !important; }
-                    .ap-mobile-toggle { display: flex !important; }
-                    .ap-nav { padding: 0 20px; height: 68px; }
-                    .ap-logo-text { font-size: 20px; }
+                    .premium-nav { padding: 0 20px; height: 72px; }
+                    .premium-mobile-toggle { display: flex; }
+                    .premium-nav-links { display: none; }
+                    .premium-nav-actions { display: none; }
+                    .premium-mobile-menu { top: 72px; }
                 }
             `}</style>
 
-            <nav className={`ap-nav ${scrolled ? 'scrolled' : ''}`}>
-                <a href="/" className="ap-logo">
-                    <div className="ap-logo-icon">
-                        <svg width="24" height="24" fill="none" stroke="#fff" strokeWidth="2.5" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
-                        </svg>
-                    </div>
-                    <span className="ap-logo-text">Exam<span style={{ color: '#f97316' }}>Spot</span></span>
-                </a>
-
-                <div className="ap-nav-center">
-                    <ul className="ap-nav-links ap-desktop-nav">
-                        {navLinks.map(({ label, path }) => (
-                            <li key={label}>
-                                <a 
-                                    href={path} 
-                                    className={currentPath === path ? 'active' : ''}
-                                    onMouseEnter={() => setHoveredLink(label)}
-                                    onMouseLeave={() => setHoveredLink(null)}
-                                >
-                                    {label}
-                                </a>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-
-                <div className="ap-nav-actions ap-desktop-nav">
-                    <a href="/login" className="ap-btn-signin">Sign In</a>
-                    <a href="/register" className="ap-btn-cta">
-                        Get Started
-                        <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                        </svg>
+            <nav className={`premium-nav ${scrolled ? 'scrolled' : ''} ${visible ? 'visible' : 'hidden'}`}>
+                <div className="premium-nav-content">
+                    <a href="/" className="premium-nav-logo">
+                        <div className="premium-nav-logo-icon">
+                            <svg width="22" height="22" fill="none" stroke="#ffffff" strokeWidth="2.5" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                            </svg>
+                        </div>
+                        <span className="premium-nav-logo-text">Exam<span>Spot</span></span>
                     </a>
-                </div>
 
-                <button className="ap-mobile-toggle" onClick={() => setMenuOpen(!menuOpen)}>
-                    {menuOpen ? (
-                        <svg width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                    ) : (
-                        <svg width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-                        </svg>
-                    )}
-                </button>
+                    <div className="premium-nav-links">
+                        {navLinks.map(({ label, path }) => (
+                            <a key={label} href={path} className="premium-nav-link">
+                                {label}
+                            </a>
+                        ))}
+                    </div>
+
+                    <div className="premium-nav-actions">
+                        <a href="/login" className="premium-btn-signin">Sign In</a>
+                        <a href="/register" className="premium-btn-cta">
+                            Get Started
+                            <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                            </svg>
+                        </a>
+                    </div>
+
+                    <button className="premium-mobile-toggle" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle menu">
+                        {menuOpen ? (
+                            <svg width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        ) : (
+                            <svg width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                            </svg>
+                        )}
+                    </button>
+                </div>
             </nav>
 
-            <div className={`ap-mobile-menu ${menuOpen ? 'open' : ''}`}>
+            <div className={`premium-mobile-menu ${menuOpen ? 'open' : ''}`}>
                 {navLinks.map(({ label, path }) => (
                     <a key={label} href={path} onClick={() => setMenuOpen(false)}>
                         {label}
                     </a>
                 ))}
-                <div className="ap-mobile-actions">
-                    <a href="/login" className="ap-btn-signin" onClick={() => setMenuOpen(false)}>Sign In</a>
-                    <a href="/register" className="ap-btn-cta" onClick={() => setMenuOpen(false)}>
+                <div className="premium-mobile-actions">
+                    <a href="/login" className="premium-btn-signin" onClick={() => setMenuOpen(false)}>Sign In</a>
+                    <a href="/register" className="premium-btn-cta" onClick={() => setMenuOpen(false)}>
                         Get Started
                         <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />

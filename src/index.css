@@ -13,8 +13,8 @@
 
 @layer components {
   .btn-gradient {
-    @apply bg-gradient-to-r from-primary-500 to-blue-500 text-white;
-    @apply hover:from-primary-600 hover:to-blue-600;
+    @apply bg-gradient-to-r from-primary-500 to-pink-500 text-white;
+    @apply hover:from-primary-600 hover:to-pink-600;
     @apply shadow-md hover:shadow-lg;
     @apply transition-all duration-200;
   }
@@ -22,11 +22,11 @@
   .card-gradient-border {
     @apply relative overflow-hidden;
     @apply before:absolute before:top-0 before:left-0 before:right-0 before:h-1;
-    @apply before:bg-gradient-to-r before:from-primary-500 before:to-blue-500;
+    @apply before:bg-gradient-to-r before:from-primary-500 before:to-pink-500;
   }
   
   .gradient-text {
-    @apply bg-gradient-to-r from-primary-500 to-blue-500 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-primary-500 to-pink-500 bg-clip-text text-transparent;
   }
   
   .glass-effect {

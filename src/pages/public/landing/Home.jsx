@@ -657,6 +657,7 @@ export default function Home() {
           .hero-photo-fade { background: linear-gradient(90deg, #150828 0%, #150828 20%, rgba(21,8,40,0.8) 38%, rgba(21,8,40,0.25) 60%, transparent 80%); }
           .slider-item { width: 300px; }
           .cta-section { padding: 60px 40px; }
+          .stats-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 20px !important; }
         }
         @media (max-width: 768px) {
           .container { padding: 0 16px; }
@@ -671,6 +672,7 @@ export default function Home() {
           .hero-photo-fade { background: rgba(21,8,40,0.7); }
           .hero-headline { font-size: clamp(38px, 10vw, 56px); max-width: 100%; }
           .hero-sub { max-width: 100%; }
+          .stats-grid { grid-template-columns: 1fr !important; }
         }
       `}</style>
 
@@ -889,18 +891,57 @@ export default function Home() {
 
         {/* ─── STATS ─── */}
         <AnimatedSection>
+          <style>{`
+            .stats-grid { display: grid; grid-template-columns: repeat(4, minmax(220px, 1fr)); gap: 32px; width: 100%; max-width: 1100px; }
+          `}</style>
           <section style={{ padding: '80px 0', background: 'linear-gradient(180deg, #090E1A 0%, rgba(15, 23, 42, 0.5) 100%)' }}>
-            <div className="container">
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 24 }}>
+            <div className="container" style={{ display: 'flex', justifyContent: 'center' }}>
+              <div className="stats-grid">
+                <style>{`
+                  @keyframes floatUp {
+                    0% { opacity: 0; transform: translateY(30px); }
+                    100% { opacity: 1; transform: translateY(0); }
+                  }
+                  .stat-card-animated {
+                    opacity: 0;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                    background: rgba(255,255,255,0.02);
+                    border: 1px solid rgba(255,255,255,0.06);
+                    border-radius: 20px;
+                    padding: 40px 20px;
+                    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                    animation: floatUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+                    position: relative;
+                    overflow: hidden;
+                  }
+                  .stat-card-animated::before {
+                    content: '';
+                    position: absolute;
+                    top: 0; left: 0; width: 100%; height: 100%;
+                    background: radial-gradient(circle at 50% 0%, rgba(249, 115, 22, 0.15), transparent 70%);
+                    opacity: 0;
+                    transition: opacity 0.4s ease;
+                  }
+                  .stat-card-animated:hover {
+                    background: rgba(255,255,255,0.04);
+                    border-color: rgba(249, 115, 22, 0.3);
+                    transform: translateY(-8px);
+                    box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 40px rgba(249, 115, 22, 0.15);
+                  }
+                  .stat-card-animated:hover::before { opacity: 1; }
+                `}</style>
                 {[
-                  { value: '500+', label: 'Institutions' },
-                  { value: '2000+', label: 'Exams Conducted' },
-                  { value: '99%', label: 'Uptime SLA' },
-                  { value: '10000+', label: 'Students Served' },
+                  { value: '500+', label: 'Institutions', color: '#F97316', delay: '0s' },
+                  { value: '2000+', label: 'Exams Conducted', color: '#A78BFA', delay: '0.1s' },
+                  { value: '99%', label: 'Uptime SLA', color: '#38BDF8', delay: '0.2s' },
+                  { value: '10000+', label: 'Students Served', color: '#22C55E', delay: '0.3s' },
                 ].map((stat, i) => (
-                  <div key={i} className="stat-card">
-                    <div className="counter-number"><Counter target={stat.value} /></div>
-                    <div style={{ fontSize: 16, color: '#94A3B8', fontWeight: 500, marginTop: 8 }}>{stat.label}</div>
+                  <div key={i} className="stat-card-animated" style={{ animationDelay: stat.delay }}>
+                    <div className="counter-number" style={{ color: stat.color, textShadow: `0 0 20px ${stat.color}50` }}><Counter target={stat.value} /></div>
+                    <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)', fontWeight: 700, marginTop: 12, textTransform: 'uppercase', letterSpacing: '0.15em', position: 'relative', zIndex: 2 }}>{stat.label}</div>
                   </div>
                 ))}
               </div>
@@ -910,25 +951,75 @@ export default function Home() {
 
         <div className="divider" />
 
-        {/* ─── FEATURES ─── */}
+        {/* ─── FEATURES (VR Slide Layout: Title Left, Grid Right) ─── */}
         <AnimatedSection>
-          <section style={{ padding: '100px 0', background: 'rgba(15, 23, 42, 0.3)' }}>
+          <style>{`
+            .features-split { display: grid; grid-template-columns: 1fr; gap: 64px; align-items: start; }
+            .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+            .feature-box { 
+              background: linear-gradient(145deg, rgba(21, 8, 40, 0.6) 0%, rgba(15, 23, 42, 0.4) 100%); 
+              backdrop-filter: blur(12px);
+              -webkit-backdrop-filter: blur(12px);
+              border: 1px solid rgba(249, 115, 22, 0.15); 
+              padding: 24px; 
+              border-radius: 16px; 
+              transition: all 0.3s ease; 
+              display: flex; 
+              flex-direction: column; 
+              align-items: center; 
+              text-align: center; 
+              position: relative;
+              overflow: hidden;
+            }
+            .feature-box::before {
+              content: '';
+              position: absolute;
+              top: -50px; left: -50px;
+              width: 100px; height: 100px;
+              background: radial-gradient(circle, rgba(249, 115, 22, 0.15) 0%, transparent 70%);
+              pointer-events: none;
+            }
+            .feature-box:hover { 
+              background: linear-gradient(145deg, rgba(21, 8, 40, 0.8) 0%, rgba(249, 115, 22, 0.05) 100%); 
+              border-color: rgba(249, 115, 22, 0.4); 
+              transform: translateY(-4px); 
+              box-shadow: 0 10px 30px rgba(249, 115, 22, 0.08);
+            }
+            @media (min-width: 1024px) {
+              .features-split { grid-template-columns: 35% 1fr; gap: 80px; align-items: center; }
+            }
+            @media (max-width: 768px) {
+              .features-grid { grid-template-columns: repeat(2, 1fr); }
+            }
+            @media (max-width: 480px) {
+              .features-grid { grid-template-columns: 1fr; }
+            }
+          `}</style>
+          <section style={{ padding: '120px 0', background: 'rgba(15, 23, 42, 0.3)' }}>
             <div className="container">
-              <div style={{ textAlign: 'center', marginBottom: 64 }}>
-                <h2 className="section-title">Everything You Need</h2>
-                <p className="section-subtitle" style={{ margin: '0 auto' }}>From secure proctoring to instant results — a complete examination ecosystem.</p>
-              </div>
+              <div className="features-split">
+                {/* Left Text */}
+                <div style={{ textAlign: 'left' }}>
+                  <h2 style={{ fontSize: 'clamp(32px, 4vw, 42px)', fontWeight: 800, color: '#fff', lineHeight: 1.1, marginBottom: 20 }}>
+                    Everything <span style={{ color: '#F97316' }}>You Need</span>
+                  </h2>
+                  <p style={{ fontSize: 16, color: '#94A3B8', lineHeight: 1.7 }}>
+                    From secure proctoring to instant results — a complete examination ecosystem built for scale and reliability without the clunky interfaces.
+                  </p>
+                </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: 24 }}>
-                {features.map((f, i) => (
-                  <div key={i} className="glass-card feature-card">
-                    <div className="icon-box">
-                      <svg width="28" height="28" fill="none" stroke="#F97316" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d={f.icon} /></svg>
+                {/* Right Grid */}
+                <div className="features-grid">
+                  {features.map((f, i) => (
+                    <div key={i} className="feature-box">
+                      <div className="icon-box" style={{ marginBottom: 16 }}>
+                        <svg width="24" height="24" fill="none" stroke="#F97316" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d={f.icon} /></svg>
+                      </div>
+                      <h3 style={{ fontSize: 13, fontWeight: 700, color: '#FFFFFF', marginBottom: 8 }}>{f.title}</h3>
+                      <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', lineHeight: 1.5 }}>{f.description}</p>
                     </div>
-                    <h3 style={{ fontSize: 20, fontWeight: 700, color: '#FFFFFF', marginBottom: 12 }}>{f.title}</h3>
-                    <p style={{ fontSize: 15, color: '#94A3B8', lineHeight: 1.7 }}>{f.description}</p>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
             </div>
           </section>
@@ -938,28 +1029,77 @@ export default function Home() {
 
         {/* ─── TRUSTED INSTITUTIONS ─── */}
         <AnimatedSection>
+          <style>{`
+            .marquee-container {
+              display: flex;
+              overflow: hidden;
+              width: 100%;
+              mask-image: linear-gradient(90deg, transparent, #000 15%, #000 85%, transparent);
+              -webkit-mask-image: linear-gradient(90deg, transparent, #000 15%, #000 85%, transparent);
+              padding: 20px 0;
+            }
+            .marquee-track {
+              display: flex;
+              gap: 40px;
+              animation: scrollMarquee 35s linear infinite;
+              min-width: max-content;
+            }
+            .marquee-track:hover { animation-play-state: paused; }
+            @keyframes scrollMarquee {
+              0% { transform: translateX(0); }
+              100% { transform: translateX(calc(-50% - 20px)); }
+            }
+            .inst-pill {
+              display: flex;
+              align-items: center;
+              gap: 16px;
+              padding: 16px 32px;
+              background: rgba(255,255,255,0.03);
+              border: 1px solid rgba(255,255,255,0.08);
+              border-radius: 100px;
+              cursor: pointer;
+              transition: all 0.3s ease;
+            }
+            .inst-pill:hover {
+              background: rgba(249,115,22,0.08);
+              border-color: rgba(249,115,22,0.3);
+              transform: translateY(-2px);
+            }
+            .inst-logo-badge {
+              font-size: 16px;
+              font-weight: 800;
+              color: #F97316;
+              background: rgba(249,115,22,0.15);
+              padding: 6px 12px;
+              border-radius: 8px;
+            }
+            .inst-name {
+              font-size: 15px;
+              font-weight: 600;
+              color: rgba(255,255,255,0.85);
+            }
+          `}</style>
           <section style={{ padding: '100px 0', background: 'linear-gradient(180deg, rgba(15, 23, 42, 0.3) 0%, rgba(15, 23, 42, 0.5) 100%)' }}>
-            <div className="container">
-              <div style={{ textAlign: 'center', marginBottom: 64 }}>
+            <div className="container" style={{ padding: '0 24px' }}>
+              <div style={{ textAlign: 'center', marginBottom: 54 }}>
                 <h2 className="section-title">Trusted by Leading Institutions</h2>
                 <p className="section-subtitle" style={{ margin: '0 auto' }}>Universities and colleges across India rely on ExamSpot.</p>
               </div>
 
-              <div style={{ overflowX: 'auto', paddingBottom: 16 }}>
-                <div className="slider-track" style={{ justifyContent: 'center', minWidth: 'max-content' }}>
-                  {trustedInstitutions.map((inst, i) => (
-                    <div key={i} className="institution-card">
-                      <div
-                        className="institution-logo"
-                        onClick={() => openModal(inst)}
-                        onKeyDown={(e) => e.key === 'Enter' && openModal(inst)}
-                        role="button"
-                        tabIndex={0}
-                        aria-label={`View details about ${inst.name}`}
-                      >
-                        {inst.logo}
-                      </div>
-                      <div style={{ fontSize: 14, color: '#94A3B8', fontWeight: 500 }}>{inst.name}</div>
+              <div className="marquee-container">
+                <div className="marquee-track">
+                  {/* Duplicate array for seamless infinite scroll */}
+                  {[...trustedInstitutions, ...trustedInstitutions].map((inst, i) => (
+                    <div
+                      key={i}
+                      className="inst-pill"
+                      onClick={() => openModal(inst)}
+                      onKeyDown={(e) => e.key === 'Enter' && openModal(inst)}
+                      role="button"
+                      tabIndex={0}
+                    >
+                      <div className="inst-logo-badge">{inst.logo}</div>
+                      <div className="inst-name">{inst.name}</div>
                     </div>
                   ))}
                 </div>
@@ -1039,44 +1179,52 @@ export default function Home() {
         <AnimatedSection>
           <section style={{ padding: '100px 0' }}>
             <div className="container">
-              <div className="cta-section">
-                <div style={{ position: 'relative', zIndex: 1, textAlign: 'center' }}>
-                  <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '10px 24px', borderRadius: 100, background: 'rgba(255,255,255,0.2)', marginBottom: 32 }}>
-                    <svg width="18" height="18" fill="none" stroke="#ffffff" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
-                    <span style={{ fontSize: 14, fontWeight: 700, color: '#ffffff' }}>Get Started Today</span>
+              <div className="cta-section" style={{ background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(9, 14, 26, 0.98))', border: '1px solid rgba(249, 115, 22, 0.4)', boxShadow: 'inset 0 0 40px rgba(249, 115, 22, 0.05), 0 20px 40px rgba(0, 0, 0, 0.4)', padding: '54px 64px', borderRadius: '24px' }}>
+                <style>{`
+                  .cta-banner { display: flex; align-items: center; justify-content: space-between; gap: 48px; position: relative; z-index: 2; }
+                  @media (max-width: 900px) {
+                    .cta-banner { flex-direction: column; text-align: center; }
+                    .cta-buttons { justify-content: center; }
+                  }
+                `}</style>
+                <div className="cta-banner">
+                  <div style={{ flex: 1 }}>
+                    <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '8px 20px', borderRadius: 100, background: 'rgba(249, 115, 22, 0.1)', border: '1px solid rgba(249, 115, 22, 0.2)', marginBottom: 24 }}>
+                      <svg width="16" height="16" fill="none" stroke="#F97316" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                      <span style={{ fontSize: 13, fontWeight: 700, color: '#F97316', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Get Started Today</span>
+                    </div>
+
+                    <h2 style={{ fontSize: 'clamp(32px, 4vw, 42px)', fontWeight: 800, color: '#ffffff', letterSpacing: '-0.02em', marginBottom: 16, lineHeight: 1.1 }}>
+                      Ready to Transform Your Examinations?
+                    </h2>
+
+                    <p style={{ fontSize: 17, color: 'rgba(255,255,255,0.6)', lineHeight: 1.6, maxWidth: 540 }}>
+                      Join 500+ educational institutions processing millions of exams securely. Start your free pilot today — no credit card required.
+                    </p>
                   </div>
 
-                  <h2 style={{ fontSize: 'clamp(32px, 5vw, 48px)', fontWeight: 800, color: '#ffffff', letterSpacing: '-0.02em', marginBottom: 20, lineHeight: 1.2 }}>
-                    Ready to Transform<br />Your Examinations?
-                  </h2>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 20, minWidth: 320 }}>
+                    <div className="cta-buttons" style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
+                      <a href="/register" style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 10, padding: '18px 36px', background: 'linear-gradient(135deg, #F97316, #EA580C)', color: '#ffffff', fontWeight: 700, fontSize: 16, borderRadius: 16, textDecoration: 'none', boxShadow: '0 8px 30px rgba(249,115,22,0.3)', flex: 1 }}>
+                        Start Free
+                        <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
+                      </a>
+                      <a href="/about" style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 10, padding: '18px 32px', background: 'rgba(255,255,255,0.05)', color: '#ffffff', fontWeight: 600, fontSize: 16, borderRadius: 16, border: '1px solid rgba(255,255,255,0.1)', textDecoration: 'none' }}>
+                        Learn More
+                      </a>
+                    </div>
 
-                  <p style={{ fontSize: 18, color: 'rgba(255,255,255,0.9)', marginBottom: 48, maxWidth: 500, margin: '0 auto 48px' }}>
-                    Join 500+ educational institutions. Start free — no credit card required.
-                  </p>
-
-                  <div style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap', marginBottom: 48 }}>
-                    <a href="/register" style={{ display: 'inline-flex', alignItems: 'center', gap: 10, padding: '18px 40px', background: '#ffffff', color: '#F97316', fontWeight: 700, fontSize: 16, borderRadius: 16, textDecoration: 'none', boxShadow: '0 8px 30px rgba(0,0,0,0.2)' }}>
-                      Get Started Free
-                      <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-                    </a>
-                    <a href="/about" style={{ display: 'inline-flex', alignItems: 'center', gap: 10, padding: '18px 40px', background: 'transparent', color: '#ffffff', fontWeight: 600, fontSize: 16, borderRadius: 16, border: '2px solid rgba(255,255,255,0.3)', textDecoration: 'none' }}>
-                      Learn More
-                    </a>
-                  </div>
-
-                  <div style={{ display: 'flex', gap: 40, justifyContent: 'center', flexWrap: 'wrap' }}>
-                    {[
-                      { icon: 'M5 13l4 4L19 7', text: 'No credit card required' },
-                      { icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z', text: '14-day free trial' },
-                      { icon: 'M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z', text: '24/7 Support' },
-                    ].map((item, i) => (
-                      <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                        <div style={{ width: 40, height: 40, borderRadius: 12, background: 'rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                          <svg width="18" height="18" fill="none" stroke="#ffffff" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d={item.icon} /></svg>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 24, flexWrap: 'wrap', marginTop: 8 }}>
+                      {[
+                        { icon: 'M5 13l4 4L19 7', text: 'No credit card' },
+                        { icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z', text: '14-day trial' },
+                      ].map((item, i) => (
+                        <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                          <svg width="18" height="18" fill="none" stroke="#94A3B8" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d={item.icon} /></svg>
+                          <span style={{ fontSize: 13, fontWeight: 600, color: '#94A3B8' }}>{item.text}</span>
                         </div>
-                        <span style={{ fontSize: 14, fontWeight: 600, color: 'rgba(255,255,255,0.95)' }}>{item.text}</span>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>

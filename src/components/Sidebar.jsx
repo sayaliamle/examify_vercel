@@ -90,8 +90,8 @@ const getSupportMenuItems = (tier) => {
   return items
 }
 
-export function Sidebar() {
-  const { collapsed, toggle } = useSidebar()
+export function Sidebar({ mobile = false }) {
+  const { collapsed, toggle, mobileOpen, toggleMobile } = useSidebar()
   const { user, logout } = useAuth()
   const location = useLocation()
   
@@ -101,15 +101,28 @@ export function Sidebar() {
     items = getSupportMenuItems(user.support_tier)
   }
 
+  const sidebarWidth = collapsed ? 'w-16' : 'w-64'
+  const mobileWidth = 'w-72'
+  
+  const handleNavClick = () => {
+    if (mobile) {
+      toggleMobile()
+    }
+  }
+
   return (
     <aside className={clsx(
-      'fixed left-0 top-0 h-screen bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 transition-all duration-300 z-40',
-      collapsed ? 'w-16' : 'w-64'
+      'h-full bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 transition-all duration-300 z-50',
+      mobile ? mobileWidth : sidebarWidth
     )}>
       <div className="flex items-center justify-between h-16 px-4 border-b border-gray-200 dark:border-gray-700">
-        {!collapsed && <span className="text-xl font-bold text-primary-600">Examify</span>}
-        <button onClick={toggle} className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
-          {collapsed ? <Menu size={20} /> : <X size={20} />}
+        {!collapsed ? (
+          <span className="text-xl font-bold text-primary-600">Examify</span>
+        ) : (
+          <span className="text-xl font-bold text-primary-600 mx-auto">E</span>
+        )}
+        <button onClick={mobile ? toggleMobile : toggle} className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
+          {mobile ? <X size={20} /> : collapsed ? <Menu size={20} /> : <X size={20} />}
         </button>
       </div>
       
@@ -125,20 +138,24 @@ export function Sidebar() {
         </div>
       )}
       
-      <nav className="p-2 space-y-1">
+      <nav className="p-2 space-y-1 overflow-y-auto max-h-[calc(100vh-8rem)]">
         {items.map(item => {
           const isActive = location.pathname.startsWith(item.path.split('?')[0])
           return (
-            <Link key={item.path} to={item.path}
+            <Link 
+              key={item.path} 
+              to={item.path}
+              onClick={handleNavClick}
               className={clsx(
-                'flex items-center gap-3 px-3 py-2 rounded-lg transition-colors',
+                'flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors',
                 isActive 
                   ? 'bg-primary-50 text-primary-600 dark:bg-primary-900/20' 
-                  : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
+                  : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700',
+                collapsed ? 'justify-center' : ''
               )}>
               <item.icon size={20} />
               {!collapsed && (
-                <span className="font-medium flex-1">{item.label}</span>
+                <span className="font-medium flex-1 truncate">{item.label}</span>
               )}
             </Link>
           )
@@ -146,7 +163,10 @@ export function Sidebar() {
       </nav>
       <div className="absolute bottom-0 left-0 right-0 p-2 border-t border-gray-200 dark:border-gray-700">
         <button onClick={logout}
-          className="flex items-center gap-3 w-full px-3 py-2 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700">
+          className={clsx(
+            'flex items-center gap-3 w-full px-3 py-2.5 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700',
+            collapsed ? 'justify-center' : ''
+          )}>
           <LogOut size={20} />
           {!collapsed && <span className="font-medium">Logout</span>}
         </button>

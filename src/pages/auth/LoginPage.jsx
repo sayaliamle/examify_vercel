@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import { toast } from 'react-hot-toast'
@@ -34,6 +34,34 @@ export function LoginPage() {
   const [showDemoPanel, setShowDemoPanel] = useState(false)
   const { login, loginAsRole } = useAuth()
   const navigate = useNavigate()
+
+  const sectionRefs = useRef([])
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = '1'
+            entry.target.style.transform = 'translateY(0)'
+          }
+        })
+      },
+      { threshold: 0.1 }
+    )
+
+    sectionRefs.current.forEach((ref) => {
+      if (ref) observer.observe(ref)
+    })
+
+    return () => observer.disconnect()
+  }, [])
+
+  const addToRefs = (el) => {
+    if (el && !sectionRefs.current.includes(el)) {
+      sectionRefs.current.push(el)
+    }
+  }
 
   const handleRealLogin = async (e) => {
     e.preventDefault()
@@ -86,69 +114,87 @@ export function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex" style={{ background: '#081120' }}>
+    <div className="min-h-screen flex" style={{ background: '#081120', fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+        *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+        .animate-on-scroll{opacity:0;transform:translateY(40px);transition:opacity 0.8s cubic-bezier(0.16,1,0.3,1),transform 0.8s cubic-bezier(0.16,1,0.3,1);}
+        .animate-on-scroll-left{opacity:0;transform:translateX(-50px) scale(0.95);transition:opacity 0.8s cubic-bezier(0.16,1,0.3,1),transform 0.8s cubic-bezier(0.16,1,0.3,1);}
+        .animate-on-scroll-right{opacity:0;transform:translateX(50px) scale(0.95);transition:opacity 0.8s cubic-bezier(0.16,1,0.3,1),transform 0.8s cubic-bezier(0.16,1,0.3,1);}
+        .floating-glow{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none;animation:pulse-glow 4s ease-in-out infinite;}
+        @keyframes pulse-glow{0%,100%{opacity:0.6;transform:scale(1);}50%{opacity:1;transform:scale(1.1);}}
+        .feature-card{transition:all 0.4s cubic-bezier(0.16,1,0.3,1);}
+        .feature-card:hover{transform:translateY(-8px) scale(1.02);box-shadow:0 20px 50px rgba(0,196,180,0.2);}
+        .feature-icon{transition:all 0.4s cubic-bezier(0.16,1,0.3,1);}
+        .feature-card:hover .feature-icon{transform:scale(1.1) rotate(5deg);}
+        .btn-submit{transition:all 0.3s cubic-bezier(0.16,1,0.3,1);position:relative;overflow:hidden;}
+        .btn-submit:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(0,196,180,0.4);}
+        .btn-submit:active{transform:translateY(0);}
+        input::placeholder{opacity:0.5;transition:opacity 0.3s;}
+        input:focus{outline:none;border-color:rgba(0,196,180,0.5)!important;box-shadow:0 0 0 4px rgba(0,196,180,0.15);}
+      `}</style>
+      
       {/* Left Panel - Branding */}
       <div 
-        className="hidden lg:flex lg:w-1/2 flex-col justify-center p-12 relative overflow-hidden"
+        className="hidden lg:flex lg:w-1/2 flex-col justify-center items-center p-16 relative overflow-hidden"
         style={{ background: 'linear-gradient(135deg, #081120 0%, #0d1e36 100%)' }}
       >
-        {/* Decorative glows */}
         <div 
-          className="absolute -top-20 -left-20 w-64 h-64 rounded-full"
-          style={{ background: 'radial-gradient(circle, rgba(0,196,180,0.15) 0%, transparent 70%)' }}
+          className="floating-glow -top-20 -left-20 w-96 h-96"
+          style={{ background: 'radial-gradient(circle, rgba(0,196,180,0.12) 0%, transparent 70%)' }}
         />
         <div 
-          className="absolute -bottom-16 -right-16 w-48 h-48 rounded-full"
-          style={{ background: 'radial-gradient(circle, rgba(255,184,0,0.1) 0%, transparent 70%)' }}
+          className="floating-glow -bottom-16 -right-16 w-72 h-72"
+          style={{ background: 'radial-gradient(circle, rgba(255,184,0,0.08) 0%, transparent 70%)' }}
         />
         
-        <div className="relative z-10">
-          <h1 className="text-4xl font-bold mb-3" style={{ color: '#00C4B4' }}>ExamSaaS</h1>
-          <p className="text-2xl mb-2" style={{ color: '#F0F6FF' }}>The modern examination platform</p>
-          <p className="text-sm mb-10" style={{ color: '#888' }}>Trusted by 500+ institutions worldwide</p>
+        <div ref={addToRefs} className="animate-on-scroll-left relative z-10 max-w-xl">
+          <h1 className="text-5xl font-extrabold mb-4" style={{ color: '#00C4B4', letterSpacing: '-1px' }}>ExamSaaS</h1>
+          <p className="text-3xl font-semibold mb-3" style={{ color: '#F0F6FF' }}>The modern examination platform</p>
+          <p className="text-base mb-12" style={{ color: '#888' }}>Trusted by 500+ institutions worldwide</p>
           
           <div className="space-y-5">
-            <div className="flex items-center gap-4">
+            <div className="feature-card flex items-center gap-5 p-5 rounded-xl" style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)' }}>
               <div 
-                className="w-11 h-11 rounded-xl flex items-center justify-center text-lg"
+                className="w-14 h-14 rounded-xl flex items-center justify-center flex-shrink-0"
                 style={{ background: 'rgba(0,196,180,0.15)', color: '#00C4B4' }}
               >
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="22" height="22">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.6} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="26" height="26">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                 </svg>
               </div>
-              <div>
-                <p className="font-medium" style={{ color: '#F0F6FF' }}>AI-Powered Proctoring</p>
+              <div className="flex-1">
+                <p className="font-semibold text-lg mb-1" style={{ color: '#F0F6FF' }}>AI-Powered Proctoring</p>
                 <p className="text-sm" style={{ color: '#666' }}>Ensure exam integrity automatically</p>
               </div>
             </div>
             
-            <div className="flex items-center gap-4">
+            <div className="feature-card flex items-center gap-5 p-5 rounded-xl" style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)' }}>
               <div 
-                className="w-11 h-11 rounded-xl flex items-center justify-center text-lg"
+                className="w-14 h-14 rounded-xl flex items-center justify-center flex-shrink-0"
                 style={{ background: 'rgba(255,184,0,0.15)', color: '#FFB800' }}
               >
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="22" height="22">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.6} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="26" height="26">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
               </div>
-              <div>
-                <p className="font-medium" style={{ color: '#F0F6FF' }}>Instant Results</p>
+              <div className="flex-1">
+                <p className="font-semibold text-lg mb-1" style={{ color: '#F0F6FF' }}>Instant Results</p>
                 <p className="text-sm" style={{ color: '#666' }}>Real-time grading and feedback</p>
               </div>
             </div>
             
-            <div className="flex items-center gap-4">
+            <div className="feature-card flex items-center gap-5 p-5 rounded-xl" style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)' }}>
               <div 
-                className="w-11 h-11 rounded-xl flex items-center justify-center text-lg"
+                className="w-14 h-14 rounded-xl flex items-center justify-center flex-shrink-0"
                 style={{ background: 'rgba(255,87,51,0.15)', color: '#FF5733' }}
               >
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="22" height="22">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.6} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="26" height="26">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                 </svg>
               </div>
-              <div>
-                <p className="font-medium" style={{ color: '#F0F6FF' }}>Deep Analytics</p>
+              <div className="flex-1">
+                <p className="font-semibold text-lg mb-1" style={{ color: '#F0F6FF' }}>Deep Analytics</p>
                 <p className="text-sm" style={{ color: '#666' }}>Insights that drive improvement</p>
               </div>
             </div>
@@ -158,19 +204,17 @@ export function LoginPage() {
 
       {/* Right Panel - Form */}
       <div 
-        className="w-full lg:w-1/2 flex flex-col justify-center items-center p-6 lg:p-12 relative overflow-hidden"
+        className="w-full lg:w-1/2 flex flex-col justify-center items-center p-8 lg:p-16 relative overflow-hidden"
         style={{ background: 'linear-gradient(180deg, #0a1628 0%, #081120 100%)' }}
       >
-        {/* Decorative element */}
         <div 
-          className="absolute -top-10 -right-10 w-32 h-32 rounded-full"
-          style={{ background: 'radial-gradient(circle, rgba(0,229,255,0.1) 0%, transparent 70%)' }}
+          className="floating-glow -top-10 -right-10 w-48 h-48"
+          style={{ background: 'radial-gradient(circle, rgba(0,229,255,0.08) 0%, transparent 70%)' }}
         />
         
-        {/* Back to Home */}
         <Link 
           to="/" 
-          className="absolute top-6 left-6 flex items-center gap-2 text-sm transition-colors hover:opacity-80"
+          className="absolute top-6 left-6 lg:left-12 flex items-center gap-2 text-sm transition-all hover:opacity-80"
           style={{ color: '#00C4B4' }}
         >
           <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="16" height="16">
@@ -179,93 +223,84 @@ export function LoginPage() {
           Back to Home
         </Link>
         
-        <div className="w-full max-w-md relative z-10">
-          {/* Mobile logo */}
-          <div className="lg:hidden text-center mb-6">
-            <h1 className="text-3xl font-bold" style={{ color: '#00C4B4' }}>ExamSaaS</h1>
+        <div ref={addToRefs} className="animate-on-scroll-right w-full max-w-md relative z-10">
+          <div className="lg:hidden text-center mb-8">
+            <h1 className="text-4xl font-extrabold" style={{ color: '#00C4B4', letterSpacing: '-1px' }}>ExamSaaS</h1>
           </div>
           
           <div className="text-center mb-8">
-            <h2 className="text-2xl font-semibold mb-2" style={{ color: '#F0F6FF' }}>Welcome back</h2>
+            <h2 className="text-3xl font-bold mb-3" style={{ color: '#F0F6FF' }}>Welcome back</h2>
             <p className="text-sm" style={{ color: '#888' }}>Sign in to continue to your dashboard</p>
           </div>
           
-          {/* Glassmorphism Card */}
           <div 
             className="rounded-2xl p-8"
             style={{ 
               background: 'rgba(255,255,255,0.03)',
-              backdropFilter: 'blur(10px)',
+              backdropFilter: 'blur(12px)',
               border: '1px solid rgba(0,229,255,0.15)',
               boxShadow: '0 8px 32px rgba(0,0,0,0.3)'
             }}
           >
             <form onSubmit={handleRealLogin} className="space-y-5">
-              {/* Email */}
               <div>
-                <label className="block text-xs mb-2" style={{ color: '#888' }}>Email</label>
+                <label className="block text-sm mb-2 font-medium" style={{ color: '#F0F6FF' }}>Email</label>
                 <input
                   type="email"
                   value={email}
                   onChange={e => setEmail(e.target.value)}
                   placeholder="john@example.com"
-                  className="w-full px-4 py-3.5 rounded-xl text-sm outline-none transition-all focus:ring-2"
+                  className="w-full px-4 py-3.5 rounded-xl text-sm transition-all"
                   style={{ 
                     background: 'rgba(255,255,255,0.06)',
                     border: '1px solid rgba(255,255,255,0.1)',
-                    color: '#F0F6FF',
-                    '--tw-ring-color': 'rgba(0,196,180,0.5)'
+                    color: '#F0F6FF'
                   }}
                 />
               </div>
               
-              {/* Password */}
               <div>
-                <label className="block text-xs mb-2" style={{ color: '#888' }}>Password</label>
+                <label className="block text-sm mb-2 font-medium" style={{ color: '#F0F6FF' }}>Password</label>
                 <input
                   type="password"
                   value={password}
                   onChange={e => setPassword(e.target.value)}
-                  placeholder="••••••••"
-                  className="w-full px-4 py-3.5 rounded-xl text-sm outline-none transition-all focus:ring-2"
+                  placeholder="Enter your password"
+                  className="w-full px-4 py-3.5 rounded-xl text-sm transition-all"
                   style={{ 
                     background: 'rgba(255,255,255,0.06)',
                     border: '1px solid rgba(255,255,255,0.1)',
-                    color: '#F0F6FF',
-                    '--tw-ring-color': 'rgba(0,196,180,0.5)'
+                    color: '#F0F6FF'
                   }}
                 />
               </div>
               
-              {/* Forgot password */}
-              <div className="text-right">
-                <button type="button" className="text-xs hover:underline" style={{ color: '#00C4B4' }}>
+              <div className="text-right -mt-2">
+                <button type="button" className="text-sm hover:underline transition-all" style={{ color: '#00C4B4' }}>
                   Forgot password?
                 </button>
               </div>
               
-              {/* Sign In Button */}
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full py-3.5 rounded-xl font-semibold text-sm transition-all hover:opacity-90 disabled:opacity-50"
+                className="w-full py-3.5 rounded-xl font-bold text-sm transition-all hover:opacity-90 hover:-translate-y-0.5 disabled:opacity-50 mt-2"
                 style={{ 
                   background: 'linear-gradient(135deg, #00C4B4 0%, #00E5FF 100%)',
-                  color: '#081120'
+                  color: '#081120',
+                  boxShadow: '0 4px 16px rgba(0,196,180,0.3)'
                 }}
               >
                 {isLoading ? 'Signing in...' : 'Sign In'}
               </button>
             </form>
             
-            {/* Divider */}
             <div className="flex items-center gap-3 my-6">
               <div className="flex-1 h-px" style={{ background: 'rgba(255,255,255,0.1)' }} />
-              <span className="text-xs" style={{ color: '#555' }}>or continue with</span>
+              <span className="text-xs" style={{ color: '#666' }}>or continue with</span>
               <div className="flex-1 h-px" style={{ background: 'rgba(255,255,255,0.1)' }} />
             </div>
             
-            {/* Google Button */}
             <button
               type="button"
               onClick={handleGoogleLogin}
@@ -277,40 +312,38 @@ export function LoginPage() {
             </button>
           </div>
           
-          {/* Register link */}
           <p className="text-center mt-6 text-sm" style={{ color: '#888' }}>
             Don't have an account?{' '}
-            <Link to="/register" className="hover:underline" style={{ color: '#00E5FF' }}>
+            <Link to="/register" className="hover:underline transition-all font-medium" style={{ color: '#00E5FF' }}>
               Create one
             </Link>
           </p>
           
-          {/* Demo Login Toggle */}
           <div className="mt-8">
             <button
               type="button"
               onClick={() => setShowDemoPanel(!showDemoPanel)}
-              className="w-full text-center text-xs py-2 rounded-lg transition-all"
-              style={{ color: '#666', background: 'rgba(255,255,255,0.03)' }}
+              className="w-full text-center text-sm py-3 rounded-lg transition-all"
+              style={{ color: '#888', background: 'rgba(255,255,255,0.03)' }}
             >
               {showDemoPanel ? 'Hide Demo Accounts' : 'Show Demo Accounts'} ▾
             </button>
             
             {showDemoPanel && (
               <div 
-                className="mt-4 p-4 rounded-xl"
+                className="mt-4 p-5 rounded-xl"
                 style={{ 
                   background: 'rgba(255,255,255,0.03)',
                   border: '1px solid rgba(255,255,255,0.08)'
                 }}
               >
-                <p className="text-xs text-center mb-3" style={{ color: '#888' }}>Click to login as any role</p>
-                <div className="grid grid-cols-2 gap-2">
+                <p className="text-xs text-center mb-4" style={{ color: '#666' }}>Click to login as any role</p>
+                <div className="grid grid-cols-2 gap-3">
                   {DEMO_ROLES.map(r => (
                     <button
                       key={r.role}
                       onClick={() => handleDemoLogin(r.role, r.path)}
-                      className="px-3 py-2.5 rounded-lg text-xs font-medium text-left transition-all hover:scale-[1.02]"
+                      className="px-3 py-3 rounded-lg text-sm font-medium text-left transition-all hover:scale-[1.02]"
                       style={{ 
                         background: 'rgba(255,255,255,0.05)',
                         border: `1px solid ${r.color}30`,

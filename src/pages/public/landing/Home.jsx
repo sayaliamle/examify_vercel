@@ -82,7 +82,7 @@ function AnimatedSection({ children, className = '', delay = 0 }) {
     return () => observer.disconnect();
   }, [delay]);
   return (
-    <div ref={ref} className={className} style={{ opacity: 0, transform: 'translateY(30px)', transition: 'opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1)' }}>
+    <div ref={ref} className={className} style={{ opacity: 0, transform: 'translateY(30px)', transition: 'opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1), transform 0.7s cubic-bezier(0.4, 0, 0.2, 1)' }}>
       {children}
     </div>
   );
@@ -160,6 +160,9 @@ export default function Home() {
         @keyframes fadeInRight { from { opacity: 0; transform: translateX(60px); } to { opacity: 1; transform: translateX(0); } }
         @keyframes scrollBounce { 0%, 100% { transform: rotate(45deg) translate(-2px,-2px); } 50% { transform: rotate(45deg) translate(2px,2px); } }
         @keyframes screenGlow { 0%,100% { box-shadow: 0 0 40px rgba(99,102,241,0.45), 0 30px 80px rgba(0,0,0,0.6); } 50% { box-shadow: 0 0 70px rgba(99,102,241,0.7), 0 30px 80px rgba(0,0,0,0.6); } }
+        
+        .slide-up { animation: slideUp 0.7s ease forwards; }
+        .fade-in { animation: fadeIn 0.7s ease forwards; }
         
         .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
         
@@ -247,7 +250,7 @@ export default function Home() {
           font-size: 15px;
           border-radius: 14px;
           text-decoration: none;
-          transition: all 0.3s ease;
+          transition: all 0.7s ease;
           box-shadow: 0 4px 20px rgba(249, 115, 22, 0.3);
         }
         .btn-primary:hover {
@@ -267,7 +270,7 @@ export default function Home() {
           border-radius: 14px;
           border: 2px solid rgba(255, 255, 255, 0.15);
           text-decoration: none;
-          transition: all 0.3s ease;
+          transition: all 0.7s ease;
         }
         .btn-secondary:hover {
           border-color: var(--primary);
@@ -429,7 +432,7 @@ export default function Home() {
           max-width: 480px;
           width: 100%;
           position: relative;
-          animation: scaleIn 0.3s ease;
+          animation: scaleIn 0.7s ease;
         }
         .modal-logo {
           width: 100px;
@@ -565,7 +568,7 @@ export default function Home() {
           text-transform: uppercase;
           color: #F97316;
           margin-bottom: 18px;
-          animation: fadeInLeft 0.8s 0.1s both;
+          animation: fadeInLeft 0.7s 0.1s both;
         }
         .hero-headline {
           font-size: clamp(44px, 5.5vw, 76px);
@@ -575,7 +578,7 @@ export default function Home() {
           letter-spacing: -0.02em;
           margin-bottom: 22px;
           max-width: 520px;
-          animation: fadeInLeft 0.8s 0.2s both;
+          animation: fadeInLeft 0.7s 0.2s both;
         }
         .hero-headline-dot { color: #F97316; }
         .hero-sub {
@@ -585,7 +588,7 @@ export default function Home() {
           max-width: 360px;
           margin-bottom: 40px;
           font-weight: 400;
-          animation: fadeInLeft 0.8s 0.35s both;
+          animation: fadeInLeft 0.7s 0.4s both;
         }
         .hero-cta {
           display: flex;
@@ -593,7 +596,7 @@ export default function Home() {
           gap: 16px;
           flex-wrap: wrap;
           margin-bottom: 48px;
-          animation: fadeInLeft 0.8s 0.45s both;
+          animation: fadeInLeft 0.7s 0.5s both;
         }
         .hero-btn-primary {
           display: inline-flex;
@@ -606,7 +609,7 @@ export default function Home() {
           font-size: 14px;
           border-radius: 50px;
           text-decoration: none;
-          transition: all 0.3s ease;
+          transition: all 0.7s ease;
           box-shadow: 0 6px 24px rgba(249,115,22,0.45);
         }
         .hero-btn-primary:hover { background: #EA580C; transform: translateY(-2px); box-shadow: 0 10px 32px rgba(249,115,22,0.6); }
@@ -622,7 +625,7 @@ export default function Home() {
           border-radius: 50px;
           text-decoration: none;
           border: 1.5px solid rgba(255,255,255,0.25);
-          transition: all 0.3s ease;
+          transition: all 0.7s ease;
         }
         .hero-btn-outline:hover { border-color: rgba(255,255,255,0.6); color: #fff; background: rgba(255,255,255,0.06); }
         .hero-scroll-icon {
@@ -630,7 +633,7 @@ export default function Home() {
           flex-direction: column;
           align-items: center;
           gap: 4px;
-          animation: fadeInLeft 0.8s 0.6s both;
+          animation: fadeInLeft 0.7s 0.6s both;
           cursor: default;
         }
         .hero-scroll-icon span {
@@ -686,7 +689,7 @@ export default function Home() {
           <div style={{
             position: 'absolute', inset: 0,
             opacity: heroSlide === 0 ? 1 : 0,
-            transition: 'opacity 0.6s ease',
+            transition: 'opacity 0.7s ease',
             pointerEvents: heroSlide === 0 ? 'auto' : 'none'
           }}>
             <div style={{ position: 'absolute', inset: 0, background: '#150828' }} />
@@ -720,7 +723,7 @@ export default function Home() {
           <div style={{
             position: 'absolute', inset: 0,
             opacity: heroSlide === 1 ? 1 : 0,
-            transition: 'opacity 0.6s ease',
+            transition: 'opacity 0.7s ease',
             pointerEvents: heroSlide === 1 ? 'auto' : 'none',
             background: '#060914',
             display: 'flex', alignItems: 'center', justifyContent: 'center'
@@ -750,10 +753,10 @@ export default function Home() {
                 One go-to platform<br />
                 <span style={{ background: 'linear-gradient(135deg, #A78BFA, #7C3AED)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>that orchestrates and delivers</span>
               </h1>
-              <p style={{ fontSize: 16, color: 'rgba(255,255,255,0.52)', lineHeight: 1.75, maxWidth: 520, margin: '0 auto 40px', animation: 'slideUp 0.7s 0.35s both' }}>
+              <p style={{ fontSize: 16, color: 'rgba(255,255,255,0.52)', lineHeight: 1.75, maxWidth: 520, margin: '0 auto 40px', animation: 'slideUp 0.7s 0.4s both' }}>
                 Everything lines up running great exams. We anticipate and resolve everything you need before you even know to ask. We provide strategic guidance of product direction and personal experience.
               </p>
-              <div style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap', animation: 'slideUp 0.7s 0.45s both' }}>
+              <div style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap', animation: 'slideUp 0.7s 0.5s both' }}>
                 <a href="/register" className="hero-btn-primary">Start Free Trial</a>
                 <a href="/about" className="hero-btn-outline">Watch Demo</a>
               </div>
@@ -764,7 +767,7 @@ export default function Home() {
           <div style={{
             position: 'absolute', inset: 0,
             opacity: heroSlide === 2 ? 1 : 0,
-            transition: 'opacity 0.6s ease',
+            transition: 'opacity 0.7s ease',
             pointerEvents: heroSlide === 2 ? 'auto' : 'none',
             background: '#0a0618',
             display: 'grid', gridTemplateColumns: '1fr 1fr', alignItems: 'center'
@@ -776,10 +779,10 @@ export default function Home() {
                 A collaborative and intuitive<br />
                 <span style={{ background: 'linear-gradient(135deg, #F97316, #FB923C)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>partner you can count on</span>
               </h1>
-              <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.52)', lineHeight: 1.75, maxWidth: 400, marginBottom: 36, animation: heroSlide===2?'fadeInLeft 0.7s 0.35s both':'none' }}>
+              <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.52)', lineHeight: 1.75, maxWidth: 400, marginBottom: 36, animation: heroSlide===2?'fadeInLeft 0.7s 0.4s both':'none' }}>
                 Our interviewers already align and translate the every product you choose. We actively align, collaborate and advise exactly what you need, whenever and however you'll need it.
               </p>
-              <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap', animation: heroSlide===2?'fadeInLeft 0.7s 0.45s both':'none' }}>
+              <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap', animation: heroSlide===2?'fadeInLeft 0.7s 0.5s both':'none' }}>
                 <a href="/register" className="hero-btn-primary">Get started today</a>
                 <a href="/about" className="hero-btn-outline">See how it works</a>
               </div>
@@ -820,7 +823,7 @@ export default function Home() {
           <div style={{
             position: 'absolute', inset: 0,
             opacity: heroSlide === 3 ? 1 : 0,
-            transition: 'opacity 0.6s ease',
+            transition: 'opacity 0.7s ease',
             pointerEvents: heroSlide === 3 ? 'auto' : 'none',
             background: 'linear-gradient(160deg, #1a0a35 0%, #0d0622 40%, #090E1A 100%)',
             display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
@@ -882,7 +885,7 @@ export default function Home() {
           {/* Dot indicators */}
           <div style={{ position:'absolute', bottom:32, left:'50%', transform:'translateX(-50%)', zIndex:20, display:'flex', gap:10, alignItems:'center' }}>
             {[0,1,2,3].map(i=>(
-              <button key={i} onClick={()=>setHeroSlide(i)} style={{ width: heroSlide===i ? 28 : 8, height:8, borderRadius:4, background: heroSlide===i ? '#F97316' : 'rgba(255,255,255,0.3)', border:'none', cursor:'pointer', padding:0, transition:'all 0.35s ease' }} />
+              <button key={i} onClick={()=>setHeroSlide(i)} style={{ width: heroSlide===i ? 28 : 8, height:8, borderRadius:4, background: heroSlide===i ? '#F97316' : 'rgba(255,255,255,0.3)', border:'none', cursor:'pointer', padding:0, transition:'all 0.4s ease' }} />
             ))}
           </div>
         </section>
@@ -913,7 +916,7 @@ export default function Home() {
                     border-radius: 20px;
                     padding: 40px 20px;
                     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-                    animation: floatUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+                    animation: floatUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
                     position: relative;
                     overflow: hidden;
                   }
@@ -923,7 +926,7 @@ export default function Home() {
                     top: 0; left: 0; width: 100%; height: 100%;
                     background: radial-gradient(circle at 50% 0%, rgba(249, 115, 22, 0.15), transparent 70%);
                     opacity: 0;
-                    transition: opacity 0.4s ease;
+                    transition: opacity 0.7s ease;
                   }
                   .stat-card-animated:hover {
                     background: rgba(255,255,255,0.04);
@@ -937,7 +940,7 @@ export default function Home() {
                   { value: '500+', label: 'Institutions', color: '#F97316', delay: '0s' },
                   { value: '2000+', label: 'Exams Conducted', color: '#A78BFA', delay: '0.1s' },
                   { value: '99%', label: 'Uptime SLA', color: '#38BDF8', delay: '0.2s' },
-                  { value: '10000+', label: 'Students Served', color: '#22C55E', delay: '0.3s' },
+                  { value: '10000+', label: 'Students Served', color: '#22C55E', delay: '0.7s' },
                 ].map((stat, i) => (
                   <div key={i} className="stat-card-animated" style={{ animationDelay: stat.delay }}>
                     <div className="counter-number" style={{ color: stat.color, textShadow: `0 0 20px ${stat.color}50` }}><Counter target={stat.value} /></div>
@@ -963,7 +966,7 @@ export default function Home() {
               border: 1px solid rgba(249, 115, 22, 0.15); 
               padding: 24px; 
               border-radius: 16px; 
-              transition: all 0.3s ease; 
+              transition: all 0.4s ease; 
               display: flex; 
               flex-direction: column; 
               align-items: center; 
@@ -1058,7 +1061,7 @@ export default function Home() {
               border: 1px solid rgba(255,255,255,0.08);
               border-radius: 100px;
               cursor: pointer;
-              transition: all 0.3s ease;
+              transition: all 0.7s ease;
             }
             .inst-pill:hover {
               background: rgba(249,115,22,0.08);

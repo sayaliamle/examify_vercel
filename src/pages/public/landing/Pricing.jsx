@@ -1,11 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Header from './Header';
 import Footer from './Footer';
-
-// ─── Asian Paints T20 World Cup Pre-Match Palette ─────────────────────────────
-// Deep Navy #081120 · Vivid Teal #00C4B4 · Electric Cyan #00E5FF
-// Coral Burst #FF5733 · Amber Gold #FFB800 · Soft White #F0F6FF
-// ─────────────────────────────────────────────────────────────────────────────
 
 const plans = [
   {
@@ -16,7 +11,7 @@ const plans = [
     features: ['Up to 50 students', '10 exams per month', 'Basic question bank', 'Email support', 'Standard reports'],
     cta: 'Get Started',
     href: '/register',
-    accent: '#00C4B4',
+    accent: '#F97316',
     popular: false,
   },
   {
@@ -27,7 +22,7 @@ const plans = [
     features: ['Up to 2,000 students', 'Unlimited exams', 'AI question generation', 'AI proctoring', 'Advanced analytics', 'Priority support', 'Custom certificates', 'Payment integration'],
     cta: 'Start Free Trial',
     href: '/register',
-    accent: '#FFB800',
+    accent: '#FB923C',
     popular: true,
   },
   {
@@ -38,7 +33,7 @@ const plans = [
     features: ['Unlimited everything', 'SSO & SAML', 'Custom integrations', 'Dedicated account manager', 'SLA guarantee', 'On-premise option', 'Custom development', 'Training & onboarding'],
     cta: 'Contact Sales',
     href: 'mailto:hello@examsaas.com',
-    accent: '#FF5733',
+    accent: '#FDBA74',
     popular: false,
   },
 ];
@@ -65,18 +60,27 @@ const comparison = [
   { feature: 'Support', starter: 'Email', pro: 'Priority', enterprise: '24/7 Dedicated' },
 ];
 
-function Check({ color }) {
+function AnimatedSection({ children, className = '', delay = 0 }) {
+  const ref = useRef(null);
+  useEffect(() => {
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          if (ref.current) {
+            ref.current.style.opacity = '1';
+            ref.current.style.transform = 'translateY(0)';
+          }
+        }, delay);
+        observer.unobserve(entry.target);
+      }
+    }, { threshold: 0.1 });
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, [delay]);
   return (
-    <svg width="16" height="16" fill="none" stroke={color || '#00C4B4'} strokeWidth="2.5" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-    </svg>
-  );
-}
-function Cross() {
-  return (
-    <svg width="14" height="14" fill="none" stroke="rgba(240,246,255,0.2)" strokeWidth="2" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-    </svg>
+    <div ref={ref} className={className} style={{ opacity: 0, transform: 'translateY(30px)', transition: 'opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1), transform 0.7s cubic-bezier(0.4, 0, 0.2, 1)' }}>
+      {children}
+    </div>
   );
 }
 
@@ -85,225 +89,250 @@ export default function Pricing() {
   const [billing, setBilling] = useState('monthly');
 
   return (
-    <div style={{ fontFamily: "'Sora','DM Sans',sans-serif", background: 'transparent', minHeight: '100vh', color: '#F0F6FF' }}>
+    <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", background: '#090E1A', minHeight: '100vh' }}>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800;900&family=DM+Sans:wght@300;400;500;600&display=swap');
-        *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-        @keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
-        .shimmer-text{background:linear-gradient(90deg,#00C4B4,#00E5FF,#FFB800,#FF5733,#00C4B4);background-size:300% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:shimmer 5s linear infinite;}
-        .orb{position:absolute;border-radius:50%;filter:blur(90px);pointer-events:none;}
-        .sdivider{height:1px;background:linear-gradient(90deg,transparent,rgba(0,196,180,0.22),rgba(255,184,0,0.18),transparent);}
-        .badge{display:inline-block;padding:4px 14px;border-radius:20px;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;}
-        .badge-teal{background:rgba(0,196,180,0.12);color:#00C4B4;border:1px solid rgba(0,196,180,0.25);}
-        .badge-gold{background:rgba(255,184,0,0.12);color:#FFB800;border:1px solid rgba(255,184,0,0.25);}
-        .badge-coral{background:rgba(255,87,51,0.12);color:#FF5733;border:1px solid rgba(255,87,51,0.25);}
-        .badge-cyan{background:rgba(0,229,255,0.12);color:#00E5FF;border:1px solid rgba(0,229,255,0.25);}
-        .btn-p{background:linear-gradient(135deg,#00C4B4,#00E5FF);color:#081120;font-weight:700;border:none;cursor:pointer;transition:all 0.3s;text-decoration:none;display:inline-flex;align-items:center;gap:8px;font-family:inherit;}
-        .btn-p:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(0,196,180,0.45);}
-        .btn-o{background:transparent;color:#F0F6FF;font-weight:600;border:1.5px solid rgba(255,255,255,0.2);cursor:pointer;transition:all 0.3s;text-decoration:none;display:inline-flex;align-items:center;gap:8px;font-family:inherit;}
-        .btn-o:hover{border-color:#00C4B4;background:rgba(0,196,180,0.09);color:#00C4B4;}
-        .plan-card{border-radius:24px;padding:32px;transition:all 0.3s;}
-        .plan-card:hover{transform:translateY(-4px);}
-        .faq-btn{width:100%;display:flex;justify-content:space-between;align-items:center;padding:18px 22px;background:transparent;border:none;cursor:pointer;color:#F0F6FF;font-family:inherit;text-align:left;transition:background 0.2s;}
-        .faq-btn:hover{background:rgba(255,255,255,0.03);}
-        .comp-table{width:100%;border-collapse:collapse;}
-        .comp-table th,.comp-table td{padding:13px 18px;text-align:center;font-size:13.5px;border-bottom:1px solid rgba(255,255,255,0.05);}
-        .comp-table th{font-weight:700;font-size:13px;letter-spacing:0.3px;}
-        .comp-table td:first-child,.comp-table th:first-child{text-align:left;color:rgba(240,246,255,0.55);}
-        .comp-table tr:last-child td{border-bottom:none;}
-        .billing-toggle{display:inline-flex;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:4px;gap:4px;}
-        .billing-btn{padding:7px 20px;border-radius:9px;border:none;cursor:pointer;font-family:inherit;font-weight:600;font-size:13px;transition:all 0.25s;}
-        .billing-btn.active{background:rgba(0,196,180,0.18);color:#00C4B4;border:1px solid rgba(0,196,180,0.3);}
-        .billing-btn.inactive{background:transparent;color:rgba(240,246,255,0.45);}
-        .grid-bg{position:absolute;inset:0;opacity:0.028;background-image:linear-gradient(rgba(0,196,180,1) 1px,transparent 1px),linear-gradient(90deg,rgba(0,196,180,1) 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse at center,black 20%,transparent 75%);}
-        .section-header { text-align: center; margin-bottom: 56px; }
-        .section-title { font-size: clamp(32px, 4vw, 48px); font-weight: 800; letter-spacing: -1px; margin-bottom: 16px; color: #F0F6FF; }
-        .section-subtitle { font-size: 18px; color: rgba(240,246,255,0.6); line-height: 1.7; max-width: 600px; margin: 0 auto; text-align: center; }
-        .text-orange-shadow { color: #f97316; text-shadow: 2px 2px 8px rgba(239,68,68,0.5), 0 0 20px rgba(239,68,68,0.3); }
-        .grid-3col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-        .grid-auto { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
-        @media(max-width: 1024px) {
-          .grid-3col { grid-template-columns: 1fr; }
-          .grid-auto { grid-template-columns: repeat(2, 1fr); }
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+        
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-20px); } }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+        
+        .glass-card {
+          background: linear-gradient(135deg, rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.4));
+          backdrop-filter: blur(20px);
+          -webkit-backdrop-filter: blur(20px);
+          border: 1px solid rgba(255,255,255,0.08);
+          border-radius: 24px;
+          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        @media(max-width: 768px) {
+        
+        .section-title { font-size: clamp(32px, 5vw, 48px); font-weight: 800; letter-spacing: -0.02em; color: #FFFFFF; margin-bottom: 16px; }
+        .section-subtitle { font-size: 18px; color: #94A3B8; line-height: 1.7; max-width: 600px; }
+        
+        .btn-primary {
+          display: inline-flex;
+          align-items: center;
+          gap: 10px;
+          padding: 16px 32px;
+          background: linear-gradient(135deg, #F97316, #EA580C);
+          color: #ffffff;
+          font-weight: 700;
+          font-size: 15px;
+          border-radius: 14px;
+          text-decoration: none;
+          transition: all 0.3s ease;
+          box-shadow: 0 4px 20px rgba(249, 115, 22, 0.3);
+        }
+        .btn-primary:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 8px 30px rgba(249, 115, 22, 0.5);
+        }
+        
+        .divider { height: 1px; background: linear-gradient(90deg, transparent, rgba(249, 115, 22, 0.3), transparent); max-width: 50%; margin: 0 auto; }
+        
+        .cta-section {
+          background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(9, 14, 26, 0.98));
+          border: 1px solid rgba(249, 115, 22, 0.4);
+          box-shadow: inset 0 0 40px rgba(249, 115, 22, 0.05), 0 20px 40px rgba(0, 0, 0, 0.4);
+          border-radius: 24px;
+        }
+        
+        .billing-toggle { display: inline-flex; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; padding: 4px; gap: 4px; }
+        .billing-btn { padding: 8px 20px; border-radius: 9px; border: none; cursor: pointer; font-weight: 600; font-size: 13px; transition: all 0.25s; }
+        .billing-btn.active { background: rgba(249, 115, 22, 0.18); color: #F97316; border: 1px solid rgba(249, 115, 22, 0.3); }
+        .billing-btn.inactive { background: transparent; color: rgba(255, 255, 255, 0.45); }
+        
+        .plan-card {
+          padding: 32px;
+          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .faq-btn { width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 18px 22px; background: transparent; border: none; cursor: pointer; color: #FFFFFF; font-family: inherit; text-align: left; transition: background 0.2s; }
+        .faq-btn:hover { background: rgba(255, 255, 255, 0.03); }
+        
+        @media (max-width: 768px) {
+          .container { padding: 0 16px; }
           .section-title { font-size: 28px; }
           .section-subtitle { font-size: 16px; }
-          .section-header { margin-bottom: 36px; }
-          .grid-3col, .grid-auto { grid-template-columns: 1fr !important; }
         }
       `}</style>
 
       <Header />
 
-      {/* ─── HERO ─── */}
-      <section style={{ position: 'relative', overflow: 'hidden', padding: '140px 24px 80px', textAlign: 'center' }}>
-        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundImage: 'url(https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1920&q=80)', backgroundSize: 'cover', backgroundPosition: 'center', zIndex: -1 }} />
-        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'linear-gradient(135deg, rgba(8,17,32,0.92) 0%, rgba(15,23,42,0.88) 50%, rgba(8,17,32,0.85) 100%)', zIndex: -1 }} />
-        <div className="orb" style={{ width: 700, height: 450, top: -150, left: '50%', transform: 'translateX(-50%)', background: 'radial-gradient(circle,rgba(255,184,0,0.1) 0%,transparent 70%)' }} />
-        <div className="orb" style={{ width: 400, height: 400, bottom: -80, right: -60, background: 'radial-gradient(circle,rgba(0,196,180,0.08) 0%,transparent 70%)' }} />
-        <div className="grid-bg" />
-        <div style={{ maxWidth: 680, margin: '0 auto', position: 'relative' }}>
-          <span className="badge badge-gold" style={{ marginBottom: 20 }}>Pricing</span>
-          <h1 style={{ fontSize: 'clamp(36px,6.5vw,70px)', fontWeight: 900, letterSpacing: '-2px', lineHeight: 1.07, marginBottom: 22 }}>
-            Simple, <span className="shimmer-text">Transparent</span><br />Pricing
-          </h1>
-          <p style={{ color: 'rgba(240,246,255,0.55)', fontSize: 17, lineHeight: 1.75, maxWidth: 460, margin: '0 auto 32px' }}>
-            Start free, scale as you grow. No hidden fees, no surprises. Choose the plan that fits your institution.
-          </p>
+      <main style={{ flex: 1 }}>
+        {/* ─── HERO ─── */}
+        <section style={{ position: 'relative', minHeight: '70vh', display: 'flex', alignItems: 'center', overflow: 'hidden', paddingTop: '80px' }}>
+          <div style={{ position: 'absolute', inset: 0, background: 'url(https://images.unsplash.com/photo-1554224155-6726b3bff858f?w=1920&q=80)', backgroundSize: 'cover', backgroundPosition: 'center', filter: 'brightness(0.15) saturate(0.8)' }} />
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(9, 14, 26, 0.85) 0%, rgba(9, 14, 26, 0.7) 50%, rgba(9, 14, 26, 0.95) 100%)' }} />
+          <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 80% 50% at 50% -20%, rgba(249, 115, 22, 0.12), transparent)' }} />
+          <div style={{ position: 'absolute', top: '15%', left: '10%', width: '400px', height: '400px', background: 'radial-gradient(circle, rgba(249, 115, 22, 0.15) 0%, transparent 70%)', filter: 'blur(60px)', animation: 'float 8s ease-in-out infinite' }} />
+          <div style={{ position: 'absolute', bottom: '20%', right: '10%', width: '300px', height: '300px', background: 'radial-gradient(circle, rgba(251, 146, 60, 0.1) 0%, transparent 70%)', filter: 'blur(60px)', animation: 'float 10s ease-in-out infinite reverse' }} />
 
-          {/* Billing toggle */}
-          <div className="billing-toggle">
-            <button className={`billing-btn ${billing === 'monthly' ? 'active' : 'inactive'}`} onClick={() => setBilling('monthly')}>Monthly</button>
-            <button className={`billing-btn ${billing === 'annual' ? 'active' : 'inactive'}`} onClick={() => setBilling('annual')}>
-              Annual
-              <span style={{ marginLeft: 6, fontSize: 10, background: 'rgba(0,196,180,0.2)', color: '#00C4B4', padding: '2px 6px', borderRadius: 6, fontWeight: 700 }}>-20%</span>
-            </button>
-          </div>
-        </div>
-      </section>
-
-      {/* ─── PLANS ─── */}
-      <section style={{ padding: '20px 24px 80px' }}>
-        <div style={{ maxWidth: 1160, margin: '0 auto' }}>
-          <div className="section-header">
-            <h2 className="section-title">Choose Your Plan</h2>
-            <p className="section-subtitle">Start free, scale as you grow. No hidden fees.</p>
-          </div>
-          <div className="grid-auto">
-            {plans.map(plan => {
-              const annualPrice = plan.price === '₹999' ? '₹799' : plan.price;
-              const displayPrice = billing === 'annual' ? annualPrice : plan.price;
-              return (
-                <div key={plan.name} className="plan-card" style={{ position: 'relative', background: plan.popular ? `linear-gradient(145deg,${plan.accent}16,${plan.accent}06)` : 'rgba(255,255,255,0.035)', border: `1px solid ${plan.popular ? plan.accent + '45' : 'rgba(255,255,255,0.08)'}`, boxShadow: plan.popular ? `0 24px 64px ${plan.accent}18` : 'none', transform: plan.popular ? 'scale(1.025)' : undefined }}>
-                  {plan.popular && (
-                    <div style={{ position: 'absolute', top: -14, left: '50%', transform: 'translateX(-50%)', background: plan.accent, color: '#081120', fontSize: 10.5, fontWeight: 800, padding: '4px 16px', borderRadius: 20, letterSpacing: '0.6px', whiteSpace: 'nowrap' }}>
-                      MOST POPULAR
-                    </div>
-                  )}
-
-                  <div style={{ marginBottom: 28 }}>
-                    <div style={{ width: 40, height: 40, borderRadius: 12, background: `${plan.accent}20`, border: `1px solid ${plan.accent}30`, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
-                      <div style={{ width: 12, height: 12, borderRadius: '50%', background: plan.accent, boxShadow: `0 0 12px ${plan.accent}80` }} />
-                    </div>
-                    <h3 style={{ fontSize: 20, fontWeight: 800, marginBottom: 8, color: '#F0F6FF' }}>{plan.name}</h3>
-                    <div style={{ display: 'flex', alignItems: 'baseline', gap: 6, marginBottom: 8 }}>
-                      <span style={{ fontSize: 44, fontWeight: 900, color: plan.accent, letterSpacing: '-2px', lineHeight: 1 }}>{displayPrice}</span>
-                      <span style={{ color: 'rgba(240,246,255,0.38)', fontSize: 13.5 }}>/ {plan.period}</span>
-                    </div>
-                    {billing === 'annual' && plan.price === '₹999' && (
-                      <div style={{ fontSize: 12, color: 'rgba(240,246,255,0.4)', marginBottom: 4 }}>
-                      <span style={{ textDecoration: 'line-through', marginRight: 6 }}>₹999/mo</span>
-                      <span style={{ color: '#00C4B4' }}>Save ₹2,400/year</span>
-                    </div>
-                  )}
-                  <p style={{ color: 'rgba(240,246,255,0.48)', fontSize: 13.5 }}>{plan.description}</p>
+          <div className="container" style={{ position: 'relative', zIndex: 1, padding: '120px 24px', textAlign: 'center' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '80px', alignItems: 'center', maxWidth: 1000, margin: '0 auto' }}>
+              <div style={{ textAlign: 'left' }}>
+                <div style={{ display: 'inline-flex', alignItems: 'center', gap: 12, padding: '10px 24px', background: 'rgba(249, 115, 22, 0.08)', border: '1px solid rgba(249, 115, 22, 0.2)', borderRadius: '100px', marginBottom: 32, animation: 'slideUp 0.7s ease forwards' }}>
+                  <span style={{ width: 10, height: 10, borderRadius: '50%', background: '#F97316', boxShadow: '0 0 16px rgba(249, 115, 22, 0.5)' }} />
+                  <span style={{ fontSize: 14, fontWeight: 600, color: '#F97316' }}>Simple Pricing</span>
                 </div>
 
-                <ul style={{ listStyle: 'none', marginBottom: 32, display: 'flex', flexDirection: 'column', gap: 10 }}>
-                  {plan.features.map(feature => (
-                    <li key={feature} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                      <div style={{ width: 20, height: 20, borderRadius: '50%', flexShrink: 0, background: `${plan.accent}18`, border: `1px solid ${plan.accent}35`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        <Check color={plan.accent} />
-                      </div>
-                      <span style={{ color: 'rgba(240,246,255,0.68)', fontSize: 13.5 }}>{feature}</span>
-                    </li>
-                  ))}
-                </ul>
+                <h2 style={{ fontSize: 'clamp(40px, 5vw, 64px)', fontWeight: 800, color: '#FFFFFF', lineHeight: 1.1, letterSpacing: '-0.02em', marginBottom: 24, animation: 'slideUp 0.7s ease forwards 0.1s', opacity: 0, animationFillMode: 'forwards' }}>
+                  Simple, <span style={{ background: 'linear-gradient(135deg, #F97316, #FB923C)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Transparent</span><br />
+                  Pricing
+                </h2>
 
-                <a href={plan.href} style={{ display: 'block', textAlign: 'center', padding: '14px', borderRadius: 14, fontWeight: 700, fontSize: 15, fontFamily: 'inherit', textDecoration: 'none', transition: 'all 0.3s', background: plan.popular ? `linear-gradient(135deg,${plan.accent},${plan.accent}cc)` : 'rgba(255,255,255,0.06)', color: plan.popular ? '#081120' : '#F0F6FF', border: plan.popular ? 'none' : `1px solid rgba(255,255,255,0.12)` }}>
-                  {plan.cta}
-                </a>
+                <p style={{ fontSize: 18, color: '#94A3B8', lineHeight: 1.7, marginBottom: 36, maxWidth: '480px', animation: 'slideUp 0.7s ease forwards 0.2s', opacity: 0, animationFillMode: 'forwards' }}>
+                  Start free, scale as you grow. No hidden fees, no surprises. Choose the plan that fits your institution.
+                </p>
+
+                <div style={{ display: 'flex', gap: 14, animation: 'slideUp 0.7s ease forwards 0.3s', opacity: 0, animationFillMode: 'forwards' }}>
+                  <a href="/register" className="btn-primary">
+                    Get Started
+                    <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
+                  </a>
+                </div>
               </div>
-            );
-          })}
-        </div>
-        </div>
-      </section>
 
-      <div className="sdivider" />
-
-      {/* ─── COMPARISON TABLE ─── */}
-      <section style={{ padding: '80px 24px' }}>
-        <div style={{ maxWidth: 900, margin: '0 auto' }}>
-          <div className="section-header">
-            <span className="badge badge-cyan" style={{ marginBottom: 16, display: 'inline-block' }}>Compare Plans</span>
-            <h2 className="section-title">Feature Comparison</h2>
-          </div>
-          <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 20, overflow: 'hidden' }}>
-            <table className="comp-table">
-              <thead>
-                <tr style={{ background: 'rgba(255,255,255,0.04)' }}>
-                  <th style={{ color: 'rgba(240,246,255,0.55)', paddingTop: 20, paddingBottom: 20 }}>Feature</th>
-                  <th style={{ color: '#00C4B4' }}>Starter</th>
-                  <th style={{ color: '#FFB800' }}>Professional</th>
-                  <th style={{ color: '#FF5733' }}>Enterprise</th>
-                </tr>
-              </thead>
-              <tbody>
-                {comparison.map((row, i) => (
-                  <tr key={i} style={{ background: i % 2 === 0 ? 'transparent' : 'rgba(255,255,255,0.015)' }}>
-                    <td style={{ fontWeight: 500 }}>{row.feature}</td>
-                    {['starter', 'pro', 'enterprise'].map(tier => (
-                      <td key={tier} style={{ textAlign: 'center' }}>
-                        {typeof row[tier] === 'boolean'
-                          ? (row[tier] ? <div style={{ display: 'flex', justifyContent: 'center' }}><Check color={tier === 'starter' ? '#00C4B4' : tier === 'pro' ? '#FFB800' : '#FF5733'} /></div> : <div style={{ display: 'flex', justifyContent: 'center' }}><Cross /></div>)
-                          : <span style={{ color: tier === 'starter' ? '#00C4B4' : tier === 'pro' ? '#FFB800' : '#FF5733', fontWeight: 600, fontSize: 13 }}>{row[tier]}</span>
-                        }
-                      </td>
-                    ))}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      <div className="sdivider" />
-
-      {/* ─── FAQ ─── */}
-      <section style={{ padding: '80px 24px', background: 'rgba(255,255,255,0.018)' }}>
-        <div style={{ maxWidth: 720, margin: '0 auto' }}>
-          <div className="section-header">
-            <span className="badge badge-coral" style={{ marginBottom: 16, display: 'inline-block' }}>FAQ</span>
-            <h2 className="section-title">Frequently Asked Questions</h2>
-            <p className="section-subtitle" style={{ fontSize: 16 }}>Everything you need to know about our pricing.</p>
-          </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-            {faqs.map((faq, i) => (
-              <div key={i} style={{ background: 'rgba(255,255,255,0.035)', border: `1px solid ${openFaq === i ? 'rgba(0,196,180,0.28)' : 'rgba(255,255,255,0.07)'}`, borderRadius: 16, overflow: 'hidden', transition: 'border-color 0.3s' }}>
-                <button className="faq-btn" onClick={() => setOpenFaq(openFaq === i ? null : i)}>
-                  <span style={{ fontWeight: 600, fontSize: 14.5, color: '#F0F6FF' }}>{faq.q}</span>
-                  <svg style={{ flexShrink: 0, transition: 'transform 0.3s', transform: openFaq === i ? 'rotate(180deg)' : 'rotate(0)' }} width="18" height="18" fill="none" stroke="rgba(240,246,255,0.4)" strokeWidth="2" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                  </svg>
-                </button>
-                {openFaq === i && (
-                  <div style={{ padding: '0 22px 18px' }}>
-                    <p style={{ color: 'rgba(240,246,255,0.55)', fontSize: 14, lineHeight: 1.75 }}>{faq.a}</p>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 16, animation: 'slideUp 0.7s ease forwards 0.2s', opacity: 0, animationFillMode: 'forwards' }}>
+                {[
+                  { title: '3 Plans', desc: 'Free to Enterprise' },
+                  { title: 'No Hidden Fees', desc: 'Transparent pricing' },
+                  { title: '14-day Trial', desc: 'Full access' },
+                  { title: 'Cancel Anytime', desc: 'No commitments' },
+                ].map((item, i) => (
+                  <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 20, padding: '20px 24px', background: 'rgba(15, 23, 42, 0.6)', backdropFilter: 'blur(20px)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '16px', transition: 'all 0.3s ease', cursor: 'pointer' }}
+                    onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'rgba(249, 115, 22, 0.4)'; e.currentTarget.style.transform = 'translateX(8px)'; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)'; e.currentTarget.style.transform = 'translateX(0)'; }}>
+                    <div style={{ width: 48, height: 48, borderRadius: 14, background: 'linear-gradient(135deg, rgba(249, 115, 22, 0.2), rgba(249, 115, 22, 0.05))', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                      <svg width="22" height="22" fill="none" stroke="#F97316" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+                    </div>
+                    <div>
+                      <div style={{ fontSize: 15, fontWeight: 600, color: '#FFFFFF', marginBottom: 2 }}>{item.title}</div>
+                      <div style={{ fontSize: 13, color: '#94A3B8' }}>{item.desc}</div>
+                    </div>
                   </div>
-                )}
+                ))}
               </div>
-            ))}
+            </div>
           </div>
-        </div>
-      </section>
 
-      {/* ─── CTA ─── */}
-      <section style={{ padding: '88px 24px', position: 'relative', overflow: 'hidden' }}>
-        <div className="orb" style={{ width: 600, height: 350, top: '50%', left: '50%', transform: 'translate(-50%,-50%)', background: 'radial-gradient(circle,rgba(0,196,180,0.1) 0%,transparent 70%)' }} />
-        <div style={{ maxWidth: 560, margin: '0 auto', position: 'relative' }}>
-          <div className="section-header">
-            <h2 className="section-title">Still Have Questions?</h2>
-            <p className="section-subtitle">Our team is here to help. We'll get back to you within 24 hours.</p>
-          </div>
-          <div style={{ display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap' }}>
-            <a href="/register" className="btn-p" style={{ padding: '14px 32px', borderRadius: 14, fontSize: 16 }}>Start Free Trial</a>
-            <a href="mailto:hello@examsaas.com" className="btn-o" style={{ padding: '14px 32px', borderRadius: 14, fontSize: 16 }}>Talk to Sales</a>
-          </div>
-        </div>
-      </section>
+          <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '200px', background: 'linear-gradient(to top, #090E1A, transparent)' }} />
+        </section>
+
+        <div className="divider" />
+
+        {/* ─── BILLING TOGGLE ─── */}
+        <AnimatedSection>
+          <section style={{ padding: '60px 0 20px' }}>
+            <div className="container" style={{ textAlign: 'center' }}>
+              <div className="billing-toggle">
+                <button className={`billing-btn ${billing === 'monthly' ? 'active' : 'inactive'}`} onClick={() => setBilling('monthly')}>Monthly</button>
+                <button className={`billing-btn ${billing === 'annual' ? 'active' : 'inactive'}`} onClick={() => setBilling('annual')}>
+                  Annual
+                  <span style={{ marginLeft: 6, fontSize: 10, background: 'rgba(249, 115, 22, 0.2)', color: '#F97316', padding: '2px 8px', borderRadius: 6, fontWeight: 700 }}>-20%</span>
+                </button>
+              </div>
+            </div>
+          </section>
+        </AnimatedSection>
+
+        {/* ─── PLANS ─── */}
+        <AnimatedSection>
+          <section style={{ padding: '60px 0 100px' }}>
+            <div className="container">
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24 }}>
+                {plans.map(plan => {
+                  const annualPrice = plan.price === '₹999' ? '₹799' : plan.price;
+                  const displayPrice = billing === 'annual' ? annualPrice : plan.price;
+                  return (
+                    <div key={plan.name} className="glass-card" style={{ position: 'relative', transform: plan.popular ? 'scale(1.02)' : undefined }}>
+                      {plan.popular && (
+                        <div style={{ position: 'absolute', top: -14, left: '50%', transform: 'translateX(-50%)', background: '#F97316', color: '#ffffff', fontSize: 11, fontWeight: 800, padding: '4px 16px', borderRadius: 20, letterSpacing: '0.5px', whiteSpace: 'nowrap', boxShadow: '0 4px 20px rgba(249, 115, 22, 0.4)' }}>
+                          MOST POPULAR
+                        </div>
+                      )}
+
+                      <div style={{ marginBottom: 24 }}>
+                        <div style={{ width: 48, height: 48, borderRadius: 14, background: `${plan.accent}18`, border: `1px solid ${plan.accent}30`, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
+                          <div style={{ width: 12, height: 12, borderRadius: '50%', background: plan.accent, boxShadow: `0 0 12px ${plan.accent}80` }} />
+                        </div>
+                        <h3 style={{ fontSize: 20, fontWeight: 700, marginBottom: 8, color: '#FFFFFF' }}>{plan.name}</h3>
+                        <div style={{ display: 'flex', alignItems: 'baseline', gap: 6, marginBottom: 8 }}>
+                          <span style={{ fontSize: 44, fontWeight: 800, color: plan.accent, letterSpacing: '-2px', lineHeight: 1 }}>{displayPrice}</span>
+                          <span style={{ color: '#64748B', fontSize: 13 }}>/ {plan.period}</span>
+                        </div>
+                        {billing === 'annual' && plan.price === '₹999' && (
+                          <div style={{ fontSize: 12, color: '#64748B', marginBottom: 4 }}>
+                            <span style={{ textDecoration: 'line-through', marginRight: 6 }}>₹999/mo</span>
+                            <span style={{ color: '#F97316', fontWeight: 600 }}>Save ₹2,400/year</span>
+                          </div>
+                        )}
+                        <p style={{ color: '#94A3B8', fontSize: 14 }}>{plan.description}</p>
+                      </div>
+
+                      <ul style={{ listStyle: 'none', marginBottom: 32, display: 'flex', flexDirection: 'column', gap: 12 }}>
+                        {plan.features.map(feature => (
+                          <li key={feature} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                            <div style={{ width: 20, height: 20, borderRadius: '50%', flexShrink: 0, background: `${plan.accent}18`, border: `1px solid ${plan.accent}35`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                              <svg width="12" height="12" fill="none" stroke={plan.accent} strokeWidth="3" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+                            </div>
+                            <span style={{ color: '#94A3B8', fontSize: 13 }}>{feature}</span>
+                          </li>
+                        ))}
+                      </ul>
+
+                      <a href={plan.href} style={{ display: 'block', textAlign: 'center', padding: '14px', borderRadius: 14, fontWeight: 700, fontSize: 15, textDecoration: 'none', transition: 'all 0.3s', background: plan.popular ? `linear-gradient(135deg, ${plan.accent}, ${plan.accent}cc)` : 'rgba(255, 255, 255, 0.06)', color: '#ffffff', boxShadow: plan.popular ? `0 8px 30px rgba(249, 115, 22, 0.3)` : 'none' }}>
+                        {plan.cta}
+                      </a>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </section>
+        </AnimatedSection>
+
+        <div className="divider" />
+
+        {/* ─── CTA ─── */}
+        <AnimatedSection>
+          <section style={{ padding: '100px 0' }}>
+            <div className="container">
+              <div className="cta-section" style={{ padding: '54px 64px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 48, flexWrap: 'wrap' }}>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '8px 20px', borderRadius: 100, background: 'rgba(249, 115, 22, 0.1)', border: '1px solid rgba(249, 115, 22, 0.2)', marginBottom: 24 }}>
+                      <svg width="16" height="16" fill="none" stroke="#F97316" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                      <span style={{ fontSize: 13, fontWeight: 700, color: '#F97316' }}>Get Started Today</span>
+                    </div>
+                    <h2 style={{ fontSize: 'clamp(28px, 4vw, 38px)', fontWeight: 800, color: '#ffffff', letterSpacing: '-0.02em', marginBottom: 16, lineHeight: 1.2 }}>
+                      Still Have Questions?
+                    </h2>
+                    <p style={{ fontSize: 16, color: 'rgba(255,255,255,0.6)', lineHeight: 1.6, maxWidth: 500 }}>
+                      Our team is here to help. We'll get back to you within 24 hours.
+                    </p>
+                  </div>
+                  <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
+                    <a href="/register" className="btn-primary">
+                      Start Free Trial
+                      <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
+                    </a>
+                    <a href="mailto:hello@examsaas.com" style={{ display: 'inline-flex', alignItems: 'center', gap: 10, padding: '16px 32px', background: 'rgba(255,255,255,0.05)', color: '#ffffff', fontWeight: 600, fontSize: 15, borderRadius: 14, textDecoration: 'none', border: '1px solid rgba(255,255,255,0.1)' }}>
+                      Talk to Sales
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </AnimatedSection>
+
+        <div className="divider" />
+      </main>
 
       <Footer />
     </div>

@@ -3,11 +3,6 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import { toast } from 'react-hot-toast'
 
-// ─── Asian Paints T20 World Cup Pre-Match Palette ─────────────────────────────
-// Deep Navy #081120 · Vivid Teal #00C4B4 · Electric Cyan #00E5FF
-// Coral Burst #FF5733 · Amber Gold #FFB800 · Soft White #F0F6FF
-// ─────────────────────────────────────────────────────────────────────────────
-
 const GoogleIcon = () => (
   <svg width="18" height="18" viewBox="0 0 24 24">
     <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -64,7 +59,6 @@ export function RegisterPage() {
         toast.success('Registration successful! Please check your email to verify.')
         navigate('/login')
       } else {
-        // Fallback for demo
         toast.success('Registration successful! Please verify your email.')
         navigate('/login')
       }
@@ -80,95 +74,99 @@ export function RegisterPage() {
   }
 
   return (
-    <div className="min-h-screen flex" style={{ background: '#081120' }}>
+    <div className="min-h-screen flex" style={{ background: '#090E1A', fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+        *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+      `}</style>
+      
       {/* Left Panel - Branding */}
       <div 
         className="hidden lg:flex lg:w-1/2 flex-col justify-center p-12 relative overflow-hidden"
-        style={{ background: 'linear-gradient(135deg, #081120 0%, #0d1e36 100%)' }}
+        style={{ background: 'linear-gradient(135deg, #090E1A 0%, #111827 100%)' }}
       >
-        {/* Decorative glows */}
         <div 
-          className="absolute -top-20 -left-20 w-64 h-64 rounded-full"
-          style={{ background: 'radial-gradient(circle, rgba(0,229,255,0.15) 0%, transparent 70%)' }}
+          className="absolute -top-20 -left-20 w-96 h-96 rounded-full"
+          style={{ background: 'radial-gradient(circle, rgba(249,115,22,0.12) 0%, transparent 70%)' }}
         />
         <div 
-          className="absolute -bottom-16 -right-16 w-48 h-48 rounded-full"
-          style={{ background: 'radial-gradient(circle, rgba(255,87,51,0.1) 0%, transparent 70%)' }}
+          className="absolute -bottom-16 -right-16 w-64 h-64 rounded-full"
+          style={{ background: 'radial-gradient(circle, rgba(249,115,22,0.08) 0%, transparent 70%)' }}
         />
         
         <div className="relative z-10">
-          <h1 className="text-4xl font-bold mb-3" style={{ color: '#00C4B4' }}>ExamSaaS</h1>
-          <p className="text-2xl mb-2" style={{ color: '#F0F6FF' }}>Start your journey today</p>
-          <p className="text-sm mb-10" style={{ color: '#888' }}>Join 50,000+ students and educators</p>
+          <h1 className="text-5xl font-extrabold mb-4" style={{ color: '#F97316' }}>ExamSaaS</h1>
+          <p className="text-2xl font-semibold mb-3" style={{ color: '#fff' }}>Start your journey today</p>
+          <p className="text-base mb-12" style={{ color: 'rgba(255,255,255,0.5)' }}>Join 50,000+ students and educators</p>
           
-          <div className="space-y-5">
-            <div className="flex items-center gap-4">
+          <div className="space-y-6">
+            <div className="flex items-center gap-5">
               <div 
-                className="w-11 h-11 rounded-xl flex items-center justify-center text-lg"
-                style={{ background: 'rgba(0,229,255,0.15)', color: '#00E5FF' }}
+                className="w-14 h-14 rounded-xl flex items-center justify-center"
+                style={{ background: 'rgba(249,115,22,0.15)', color: '#F97316' }}
               >
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="22" height="22">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.6} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="26" height="26">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                 </svg>
               </div>
               <div>
-                <p className="font-medium" style={{ color: '#F0F6FF' }}>Access All Exams</p>
-                <p className="text-sm" style={{ color: '#666' }}>Practice with thousands of questions</p>
+                <p className="font-semibold text-lg" style={{ color: '#fff' }}>Access All Exams</p>
+                <p className="text-sm" style={{ color: 'rgba(255,255,255,0.5)' }}>Practice with thousands of questions</p>
               </div>
             </div>
             
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-5">
               <div 
-                className="w-11 h-11 rounded-xl flex items-center justify-center text-lg"
-                style={{ background: 'rgba(0,196,180,0.15)', color: '#00C4B4' }}
+                className="w-14 h-14 rounded-xl flex items-center justify-center"
+                style={{ background: 'rgba(249,115,22,0.15)', color: '#F97316' }}
               >
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="22" height="22">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.6} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="26" height="26">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
                 </svg>
               </div>
               <div>
-                <p className="font-medium" style={{ color: '#F0F6FF' }}>AI Study Coach</p>
-                <p className="text-sm" style={{ color: '#666' }}>Personalized learning assistance</p>
+                <p className="font-semibold text-lg" style={{ color: '#fff' }}>AI Study Coach</p>
+                <p className="text-sm" style={{ color: 'rgba(255,255,255,0.5)' }}>Personalized learning assistance</p>
               </div>
             </div>
             
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-5">
               <div 
-                className="w-11 h-11 rounded-xl flex items-center justify-center text-lg"
-                style={{ background: 'rgba(255,184,0,0.15)', color: '#FFB800' }}
+                className="w-14 h-14 rounded-xl flex items-center justify-center"
+                style={{ background: 'rgba(249,115,22,0.15)', color: '#F97316' }}
               >
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="22" height="22">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.6} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="26" height="26">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
                 </svg>
               </div>
               <div>
-                <p className="font-medium" style={{ color: '#F0F6FF' }}>Earn Certificates</p>
-                <p className="text-sm" style={{ color: '#666' }}>Verified credentials for your profile</p>
+                <p className="font-semibold text-lg" style={{ color: '#fff' }}>Earn Certificates</p>
+                <p className="text-sm" style={{ color: 'rgba(255,255,255,0.5)' }}>Verified credentials for your profile</p>
               </div>
             </div>
           </div>
           
           {/* Testimonial */}
           <div 
-            className="mt-12 p-5 rounded-xl"
+            className="mt-12 p-6 rounded-xl"
             style={{ 
               background: 'rgba(255,255,255,0.03)',
-              border: '1px solid rgba(255,255,255,0.08)'
+              border: '1px solid rgba(249,115,22,0.15)'
             }}
           >
-            <p className="text-sm italic mb-3" style={{ color: '#aaa' }}>
+            <p className="text-sm italic mb-4" style={{ color: 'rgba(255,255,255,0.7)' }}>
               "ExamSaaS helped me crack my competitive exams. The AI coach is like having a personal tutor!"
             </p>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-4">
               <div 
-                className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold"
-                style={{ background: 'linear-gradient(135deg, #00C4B4, #00E5FF)', color: '#081120' }}
+                className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold"
+                style={{ background: 'linear-gradient(135deg, #F97316, #FB923C)', color: '#fff' }}
               >
                 RK
               </div>
               <div>
-                <p className="text-sm font-medium" style={{ color: '#F0F6FF' }}>Rahul K.</p>
-                <p className="text-xs" style={{ color: '#666' }}>Engineering Student</p>
+                <p className="text-sm font-semibold" style={{ color: '#fff' }}>Rahul K.</p>
+                <p className="text-xs" style={{ color: 'rgba(255,255,255,0.5)' }}>Engineering Student</p>
               </div>
             </div>
           </div>
@@ -178,19 +176,18 @@ export function RegisterPage() {
       {/* Right Panel - Form */}
       <div 
         className="w-full lg:w-1/2 flex flex-col justify-center items-center p-6 lg:p-12 relative overflow-hidden"
-        style={{ background: 'linear-gradient(180deg, #0a1628 0%, #081120 100%)' }}
+        style={{ background: 'linear-gradient(180deg, #090E1A 0%, #090E1A 100%)' }}
       >
-        {/* Decorative element */}
         <div 
-          className="absolute -top-10 -right-10 w-32 h-32 rounded-full"
-          style={{ background: 'radial-gradient(circle, rgba(0,196,180,0.1) 0%, transparent 70%)' }}
+          className="absolute -top-10 -right-10 w-48 h-48 rounded-full"
+          style={{ background: 'radial-gradient(circle, rgba(249,115,22,0.1) 0%, transparent 70%)' }}
         />
         
         {/* Back to Home */}
         <Link 
           to="/" 
-          className="absolute top-6 left-6 flex items-center gap-2 text-sm transition-colors hover:opacity-80"
-          style={{ color: '#00C4B4' }}
+          className="absolute top-6 left-6 flex items-center gap-2 text-sm transition-all hover:opacity-80"
+          style={{ color: '#F97316' }}
         >
           <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="16" height="16">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -200,117 +197,106 @@ export function RegisterPage() {
         
         <div className="w-full max-w-md relative z-10">
           {/* Mobile logo */}
-          <div className="lg:hidden text-center mb-6">
-            <h1 className="text-3xl font-bold" style={{ color: '#00C4B4' }}>ExamSaaS</h1>
+          <div className="lg:hidden text-center mb-8">
+            <h1 className="text-4xl font-extrabold" style={{ color: '#F97316' }}>ExamSaaS</h1>
           </div>
           
-          <div className="text-center mb-6">
-            <h2 className="text-2xl font-semibold mb-2" style={{ color: '#F0F6FF' }}>Create your account</h2>
-            <p className="text-sm" style={{ color: '#888' }}>Start learning and achieving your goals</p>
+          <div className="text-center mb-8">
+            <h2 className="text-3xl font-bold mb-3" style={{ color: '#fff' }}>Create your account</h2>
+            <p className="text-sm" style={{ color: 'rgba(255,255,255,0.5)' }}>Start learning and achieving your goals</p>
           </div>
           
           {/* Glassmorphism Card */}
           <div 
-            className="rounded-2xl p-6 lg:p-8"
+            className="rounded-2xl p-8"
             style={{ 
               background: 'rgba(255,255,255,0.03)',
-              backdropFilter: 'blur(10px)',
-              border: '1px solid rgba(0,229,255,0.15)',
+              backdropFilter: 'blur(12px)',
+              border: '1px solid rgba(249,115,22,0.15)',
               boxShadow: '0 8px 32px rgba(0,0,0,0.3)'
             }}
           >
             <form onSubmit={handleSubmit} className="space-y-4">
-              {/* Full Name */}
               <div>
-                <label className="block text-xs mb-2" style={{ color: '#888' }}>Full Name *</label>
+                <label className="block text-xs mb-2" style={{ color: 'rgba(255,255,255,0.6)' }}>Full Name *</label>
                 <input
                   type="text"
                   value={formData.name}
                   onChange={handleChange('name')}
                   placeholder="John Doe"
-                  className="w-full px-4 py-3 rounded-xl text-sm outline-none transition-all focus:ring-2"
+                  className="w-full px-4 py-3 rounded-xl text-sm outline-none transition-all"
                   style={{ 
                     background: 'rgba(255,255,255,0.06)',
                     border: '1px solid rgba(255,255,255,0.1)',
-                    color: '#F0F6FF',
-                    '--tw-ring-color': 'rgba(0,196,180,0.5)'
+                    color: '#fff'
                   }}
                 />
               </div>
               
-              {/* Email */}
               <div>
-                <label className="block text-xs mb-2" style={{ color: '#888' }}>Email *</label>
+                <label className="block text-xs mb-2" style={{ color: 'rgba(255,255,255,0.6)' }}>Email *</label>
                 <input
                   type="email"
                   value={formData.email}
                   onChange={handleChange('email')}
                   placeholder="john@example.com"
-                  className="w-full px-4 py-3 rounded-xl text-sm outline-none transition-all focus:ring-2"
+                  className="w-full px-4 py-3 rounded-xl text-sm outline-none transition-all"
                   style={{ 
                     background: 'rgba(255,255,255,0.06)',
                     border: '1px solid rgba(255,255,255,0.1)',
-                    color: '#F0F6FF',
-                    '--tw-ring-color': 'rgba(0,196,180,0.5)'
+                    color: '#fff'
                   }}
                 />
               </div>
               
-              {/* Phone */}
               <div>
-                <label className="block text-xs mb-2" style={{ color: '#888' }}>Phone (Optional)</label>
+                <label className="block text-xs mb-2" style={{ color: 'rgba(255,255,255,0.6)' }}>Phone (Optional)</label>
                 <input
                   type="tel"
                   value={formData.phone}
                   onChange={handleChange('phone')}
                   placeholder="+91 98765 43210"
-                  className="w-full px-4 py-3 rounded-xl text-sm outline-none transition-all focus:ring-2"
+                  className="w-full px-4 py-3 rounded-xl text-sm outline-none transition-all"
                   style={{ 
                     background: 'rgba(255,255,255,0.06)',
                     border: '1px solid rgba(255,255,255,0.1)',
-                    color: '#F0F6FF',
-                    '--tw-ring-color': 'rgba(0,196,180,0.5)'
+                    color: '#fff'
                   }}
                 />
               </div>
               
-              {/* Password */}
               <div>
-                <label className="block text-xs mb-2" style={{ color: '#888' }}>Password *</label>
+                <label className="block text-xs mb-2" style={{ color: 'rgba(255,255,255,0.6)' }}>Password *</label>
                 <input
                   type="password"
                   value={formData.password}
                   onChange={handleChange('password')}
                   placeholder="Min 8 characters"
-                  className="w-full px-4 py-3 rounded-xl text-sm outline-none transition-all focus:ring-2"
+                  className="w-full px-4 py-3 rounded-xl text-sm outline-none transition-all"
                   style={{ 
                     background: 'rgba(255,255,255,0.06)',
                     border: '1px solid rgba(255,255,255,0.1)',
-                    color: '#F0F6FF',
-                    '--tw-ring-color': 'rgba(0,196,180,0.5)'
+                    color: '#fff'
                   }}
                 />
               </div>
               
-              {/* Confirm Password */}
               <div>
-                <label className="block text-xs mb-2" style={{ color: '#888' }}>Confirm Password *</label>
+                <label className="block text-xs mb-2" style={{ color: 'rgba(255,255,255,0.6)' }}>Confirm Password *</label>
                 <input
                   type="password"
                   value={formData.confirmPassword}
                   onChange={handleChange('confirmPassword')}
                   placeholder="Re-enter password"
-                  className="w-full px-4 py-3 rounded-xl text-sm outline-none transition-all focus:ring-2"
+                  className="w-full px-4 py-3 rounded-xl text-sm outline-none transition-all"
                   style={{ 
                     background: 'rgba(255,255,255,0.06)',
                     border: '1px solid rgba(255,255,255,0.1)',
-                    color: '#F0F6FF',
-                    '--tw-ring-color': 'rgba(0,196,180,0.5)'
+                    color: '#fff'
                   }}
                 />
               </div>
               
-              {/* Terms checkbox */}
               <div className="flex items-start gap-3">
                 <input
                   type="checkbox"
@@ -318,38 +304,36 @@ export function RegisterPage() {
                   checked={agreeToTerms}
                   onChange={(e) => setAgreeToTerms(e.target.checked)}
                   className="mt-1 w-4 h-4 rounded"
-                  style={{ accentColor: '#00C4B4' }}
+                  style={{ accentColor: '#F97316' }}
                 />
-                <label htmlFor="terms" className="text-xs" style={{ color: '#888' }}>
+                <label htmlFor="terms" className="text-xs" style={{ color: 'rgba(255,255,255,0.5)' }}>
                   I agree to the{' '}
-                  <Link to="/terms" className="hover:underline" style={{ color: '#00C4B4' }}>Terms of Service</Link>
+                  <Link to="/terms" className="hover:underline transition-all" style={{ color: '#F97316' }}>Terms of Service</Link>
                   {' '}and{' '}
-                  <Link to="/privacy" className="hover:underline" style={{ color: '#00C4B4' }}>Privacy Policy</Link>
+                  <Link to="/privacy" className="hover:underline transition-all" style={{ color: '#F97316' }}>Privacy Policy</Link>
                 </label>
               </div>
               
-              {/* Create Account Button */}
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full py-3.5 rounded-xl font-semibold text-sm transition-all hover:opacity-90 disabled:opacity-50"
+                className="w-full py-3.5 rounded-xl font-bold text-sm transition-all hover:opacity-90 hover:-translate-y-0.5 disabled:opacity-50"
                 style={{ 
-                  background: 'linear-gradient(135deg, #00C4B4 0%, #00E5FF 100%)',
-                  color: '#081120'
+                  background: 'linear-gradient(135deg, #F97316 0%, #FB923C 100%)',
+                  color: '#fff',
+                  boxShadow: '0 4px 16px rgba(249,115,22,0.3)'
                 }}
               >
                 {isLoading ? 'Creating account...' : 'Create Account'}
               </button>
             </form>
             
-            {/* Divider */}
-            <div className="flex items-center gap-3 my-5">
+            <div className="flex items-center gap-3 my-6">
               <div className="flex-1 h-px" style={{ background: 'rgba(255,255,255,0.1)' }} />
-              <span className="text-xs" style={{ color: '#555' }}>or sign up with</span>
+              <span className="text-xs" style={{ color: 'rgba(255,255,255,0.4)' }}>or sign up with</span>
               <div className="flex-1 h-px" style={{ background: 'rgba(255,255,255,0.1)' }} />
             </div>
             
-            {/* Google Button */}
             <button
               type="button"
               onClick={handleGoogleSignup}
@@ -361,10 +345,9 @@ export function RegisterPage() {
             </button>
           </div>
           
-          {/* Login link */}
-          <p className="text-center mt-6 text-sm" style={{ color: '#888' }}>
+          <p className="text-center mt-6 text-sm" style={{ color: 'rgba(255,255,255,0.5)' }}>
             Already have an account?{' '}
-            <Link to="/login" className="hover:underline" style={{ color: '#00E5FF' }}>
+            <Link to="/login" className="hover:underline transition-all" style={{ color: '#F97316' }}>
               Sign in
             </Link>
           </p>

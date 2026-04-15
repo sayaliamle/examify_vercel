@@ -28,7 +28,7 @@ import {
   LandingGDPR
 } from './pages/public/LandingPage'
 
-import { AuthPage } from './pages/auth/AuthPage'
+import { LoginPage } from './pages/auth/LoginPage'
 
 import { SuperDashboard } from './pages/super_admin/SuperDashboard'
 import { CollegeDashboard } from './pages/college_admin/CollegeDashboard'
@@ -156,8 +156,8 @@ function App() {
         <Route path="/cookies" element={<LandingCookies />} />
         <Route path="/gdpr" element={<LandingGDPR />} />
 
-        <Route path="/login" element={<AuthPage />} />
-        <Route path="/register" element={<AuthPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<LoginPage />} />
 
         <Route element={<ProtectedRoute allowedRoles={['super_admin']}><DashboardLayout /></ProtectedRoute>}>
           <Route path="/super/dashboard" element={<SuperDashboard />} />
